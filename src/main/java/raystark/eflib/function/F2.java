@@ -18,6 +18,11 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     }
 
     @NotNull
+    default F2<T2, T1, R> swap2() {
+        return (t2, t1) -> apply(t1, t2);
+    }
+
+    @NotNull
     default S<R> asS(T1 t1, T2 t2) {
         return () -> apply(t1, t2);
     }

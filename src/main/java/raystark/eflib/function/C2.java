@@ -20,6 +20,11 @@ public interface C2<T1, T2> {
     }
 
     @NotNull
+    default C2<T2, T1> swap2() {
+        return (t2, t1) -> accept(t1, t2);
+    }
+
+    @NotNull
     default Action asAction(T1 t1, T2 t2) {
         return () -> accept(t1, t2);
     }

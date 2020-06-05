@@ -20,9 +20,15 @@ public interface P2<T1, T2> {
     default P2<T1, T2> or(@NotNull P2<? super T1, ? super T2> other) {
         return (t1, t2) -> test(t1, t2) || other.test(t1, t2);
     }
+
     @NotNull
     default P2<T1, T2> not() {
         return (t1, t2) -> !test(t1, t2);
+    }
+
+    @NotNull
+    default P2<T2, T1> swap2() {
+        return (t2, t1) -> test(t1, t2);
     }
 
     @NotNull
