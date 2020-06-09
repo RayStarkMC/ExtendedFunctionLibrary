@@ -9,7 +9,7 @@ import java.util.function.Predicate;
  *
  * <p>このインターフェースは{@link P1#test}を関数メソッドに持つ関数型インターフェースです。
  *
- * <p>オーバーライドされたF1のメソッドの内、関数を返すものは対応する述語を返します。
+ * <p>オーバーライドされた{@link F1}のメソッドの内、関数を返すものは対応する述語を返します。
  *
  * <p>このインターフェースは{@link Predicate}に対応します。{@link Predicate}に変換する場合次のイディオムが使えます。
  *
@@ -22,6 +22,7 @@ import java.util.function.Predicate;
  * ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
  *
  * @param <T1> 第一引数の型
+ * @see F1
  */
 @FunctionalInterface
 public interface P1<T1> extends F1<T1, Boolean> {

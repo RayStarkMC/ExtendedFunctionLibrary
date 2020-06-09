@@ -9,7 +9,7 @@ import java.util.function.BiPredicate;
  *
  * <p>このインターフェースは{@link P2#test}を関数メソッドに持つ関数型インターフェースです。
  *
- * <p>オーバーライドされたF2のメソッドの内、関数を返すものは対応する述語を返します。
+ * <p>オーバーライドされた{@link F2}のメソッドの内、関数を返すものは対応する述語を返します。
  *
  * <p>このインターフェースは{@link BiPredicate}に対応します。{@link BiPredicate}に変換する場合次のイディオムが使えます。
  *
@@ -23,6 +23,7 @@ import java.util.function.BiPredicate;
  *
  * @param <T1> 第一引数の型
  * @param <T2> 第二引数の型
+ * @see F2
  */
 @FunctionalInterface
 public interface P2<T1, T2> extends F2<T1, T2, Boolean> {

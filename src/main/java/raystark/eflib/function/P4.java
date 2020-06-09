@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * <p>このインターフェースは{@link P4#test}を関数メソッドに持つ関数型インターフェースです。
  *
- * <p>オーバーライドされたF4のメソッドの内、関数を返すものは対応する述語を返します。
+ * <p>オーバーライドされた{@link F4}のメソッドの内、関数を返すものは対応する述語を返します。
  *
  * <p>この述語には合成述語を作成するメソッド、型を変換するメソッド、
  * ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * @param <T2> 第二引数の型
  * @param <T3> 第三引数の型
  * @param <T4> 第四引数の型
+ * @see F4
  */
 @FunctionalInterface
 public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
