@@ -10,7 +10,10 @@ java {
     targetCompatibility JavaVersion.VERSION_1_8
 }
 
-javadoc.options.encoding 'UTF-8'
+javadoc.options {
+    encoding = 'UTF-8'
+    charSet = 'UTF-8'
+}
 tasks.withType(JavaCompile) {
     options.encoding 'UTF-8'
 }
