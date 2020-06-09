@@ -34,6 +34,11 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
     }
 
     @NotNull
+    default C3<T1, T2, T3> asC3(@NotNull C1<? super R> after) {
+        return (t1, t2, t3) -> after.accept(apply(t1, t2, t3));
+    }
+
+    @NotNull
     static <T1, T2, T3, R> F3<T1, T2, T3, R> of(@NotNull F3<T1, T2, T3, R> f3) {
         return f3;
     }

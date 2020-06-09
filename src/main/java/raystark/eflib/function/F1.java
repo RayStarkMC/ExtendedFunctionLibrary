@@ -17,6 +17,11 @@ public interface F1<T1, R> {
     }
 
     @NotNull
+    default C1<T1> asC1(@NotNull C1<? super R> after) {
+        return t1 -> after.accept(apply(t1));
+    }
+
+    @NotNull
     static <T1, R> F1<T1, R> of(@NotNull F1<T1, R> f1) {
         return f1;
     }

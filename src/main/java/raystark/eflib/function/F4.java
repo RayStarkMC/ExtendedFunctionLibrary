@@ -40,6 +40,11 @@ public interface F4<T1, T2, T3, T4, R> extends F3<T1, T2, T3, F1<T4, R>> {
     }
 
     @NotNull
+    default C4<T1, T2, T3, T4> asC4(@NotNull C1<? super R> after) {
+        return (t1, t2, t3, t4) -> after.accept(apply(t1, t2, t3, t4));
+    }
+
+    @NotNull
     static <T1, T2, T3, T4, R> F4<T1, T2, T3, T4, R> of(@NotNull F4<T1, T2, T3, T4, R> f4) {
         return f4;
     }
