@@ -9,6 +9,8 @@ import java.util.function.Predicate;
  *
  * <p>このインターフェースは{@link P1#test}を関数メソッドに持つ関数型インターフェースです。
  *
+ * <p>オーバーライドされたF1のメソッドの内、関数を返すものは対応する述語を返します。
+ *
  * <p>このインターフェースは{@link Predicate}に対応します。{@link Predicate}に変換する場合次のイディオムが使えます。
  *
  * <pre>{@code
@@ -36,7 +38,7 @@ public interface P1<T1> extends F1<T1, Boolean> {
      * <p>このメソッドは{@link P1#test}の結果をBoolean型にラップします。
      *
      * @param t1 第一引数
-     * @return Boolean型にラップされた{@link P1#test}の結果
+     * @return Boolean型にラップされた述語の結果
      */
     @Override
     @NotNull
