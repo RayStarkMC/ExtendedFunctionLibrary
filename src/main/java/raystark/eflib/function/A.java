@@ -3,16 +3,16 @@ package raystark.eflib.function;
 import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
-public interface Action {
+public interface A {
     void done();
 
     @NotNull
-    default Action next(@NotNull Action after) {
+    default A next(@NotNull A after) {
         return () -> {done(); after.done();};
     }
 
     @NotNull
-    static Action of(@NotNull Action action) {
-        return action;
+    static A of(@NotNull A a) {
+        return a;
     }
 }

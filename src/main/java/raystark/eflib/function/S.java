@@ -12,7 +12,7 @@ public interface S<R> {
     }
 
     @NotNull
-    default Action asAction(@NotNull C1<? super R> c1) {
+    default A asAction(@NotNull C1<? super R> c1) {
         return () -> c1.accept(get());
     }
 
