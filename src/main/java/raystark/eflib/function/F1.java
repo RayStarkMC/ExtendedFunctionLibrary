@@ -23,7 +23,7 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface F1<T1, R> {
     /**
-     * 引数をこの関数に適用します。
+     * 一変数関数として、引数をこの関数に適用します。
      *
      * @param t1 第一引数
      * @return 適用結果
@@ -87,14 +87,14 @@ public interface F1<T1, R> {
     /**
      * ラムダやメソッド参照から関数オブジェクトを生成するファクトリメソッドです。
      *
-     * <p>このメソッドは引数をそのまま返します。バウンド参照以外でこのメソッドを使う場合は次のようにラムダの引数等で明示的に型を指定してください。
+     * <p>このメソッドは引数をそのまま返します。オーバーロードされているメソッドを参照する場合は次のようにラムダの引数等で明示的に型を指定してください。
      *
      * <pre>{@code
      *  F1<String, Integer> f1 = F1.of((String s) -> Integer.parseInt(s)).then1(num -> num*2);
      *  F1<String, Integer> f2 = F1.<String, Integer>of(Integer::parseInt).then1(num -> num*2);
      * }</pre>
      *
-     * @param f1 関数
+     * @param f1 ラムダやメソッド参照で記述された関数
      * @param <T1> 第一引数の型
      * @param <R> 戻り値の型
      * @return 引数に渡された関数
