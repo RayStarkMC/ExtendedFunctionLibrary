@@ -22,6 +22,11 @@ public interface P1<T1> {
     }
 
     @NotNull
+    default <V1> P1<V1> compose1(@NotNull F1<? super V1, ? extends T1> before) {
+        return v1 -> test(before.apply(v1));
+    }
+
+    @NotNull
     static <T1> P1<T1> of(@NotNull P1<T1> p1) {
         return p1;
     }

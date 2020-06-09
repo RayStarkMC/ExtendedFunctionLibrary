@@ -15,6 +15,11 @@ public interface C1<T1> {
     }
 
     @NotNull
+    default <V1> C1<V1> compose1(@NotNull F1<? super V1, ? extends T1> before) {
+        return v1 -> accept(before.apply(v1));
+    }
+
+    @NotNull
     default A asA(T1 t1) {
         return () -> accept(t1);
     }

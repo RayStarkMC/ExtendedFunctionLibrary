@@ -36,6 +36,26 @@ public interface P4<T1, T2, T3, T4> {
     }
 
     @NotNull
+    default <V1> P4<V1, T2, T3, T4> compose1(@NotNull F1<? super V1, ? extends T1> before) {
+        return (v1, t2, t3, t4) -> test(before.apply(v1), t2, t3, t4);
+    }
+
+    @NotNull
+    default <V2> P4<T1, V2, T3, T4> compose2(@NotNull F1<? super V2, ? extends T2> before) {
+        return (t1, v2, t3, t4) -> test(t1, before.apply(v2), t3, t4);
+    }
+
+    @NotNull
+    default <V3> P4<T1, T2, V3, T4> compose3(@NotNull F1<? super V3, ? extends T3> before) {
+        return (t1, t2, v3, t4) -> test(t1, t2, before.apply(v3), t4);
+    }
+
+    @NotNull
+    default <V4> P4<T1, T2, T3, V4> compose4(@NotNull F1<? super V4, ? extends T4> before) {
+        return (t1, t2, t3, v4) -> test(t1, t2, t3, before.apply(v4));
+    }
+
+    @NotNull
     default P4<T2, T1, T3, T4> swap2() {
         return (t2, t1, t3, t4) -> test(t1, t2, t3, t4);
     }
