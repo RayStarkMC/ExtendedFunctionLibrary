@@ -15,7 +15,7 @@ public interface C1<T1> {
     }
 
     @NotNull
-    default A asAction(T1 t1) {
+    default A asA(T1 t1) {
         return () -> accept(t1);
     }
 

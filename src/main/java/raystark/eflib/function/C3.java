@@ -35,7 +35,7 @@ public interface C3<T1, T2, T3> {
     }
 
     @NotNull
-    default A asAction(T1 t1, T2 t2, T3 t3) {
+    default A asA(T1 t1, T2 t2, T3 t3) {
         return () -> accept(t1, t2, t3);
     }
 
