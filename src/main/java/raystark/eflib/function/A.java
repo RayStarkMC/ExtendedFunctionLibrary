@@ -4,11 +4,13 @@ import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
 public interface A {
-    void done();
+    void run();
 
     @NotNull
     default A next(@NotNull A after) {
-        return () -> {done(); after.done();};
+        return () -> {
+            run(); after.run();
+        };
     }
 
     @NotNull
