@@ -35,7 +35,7 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     R apply(T1 t1, T2 t2);
 
     /**
-     * 第一引数をこの関数に部分適用します。
+     * 第一引数までをこの関数に部分適用します。
      *
      * @param t1 第一引数
      * @return 引数が部分適用された関数。
@@ -108,7 +108,7 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     }
 
     /**
-     * この関数の結果を関数afterが消費するConsumerを返します。
+     * この関数の二変数関数としての結果を関数afterが消費するConsumerを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *

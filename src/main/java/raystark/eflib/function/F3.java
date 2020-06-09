@@ -28,7 +28,7 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
     R apply(T1 t1, T2 t2, T3 t3);
 
     /**
-     * 第一引数と第二引数をこの関数に部分適用します。
+     * 第二引数までをこの関数に部分適用します。
      *
      * @param t1 第一引数
      * @param t2 第二引数
@@ -77,7 +77,7 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
      *
      * <p>いずれかの関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *
-     * @param before この関数に適用される前に第二引数に適用される関数
+     * @param before この関数に適用される前に第三引数に適用される関数
      * @param <V3> 合成関数の第三引数の型
      * @return 合成関数
      */
@@ -121,7 +121,7 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
     }
 
     /**
-     * この関数の結果を関数afterが消費するConsumerを返します。
+     * この関数の三変数関数としての結果を関数afterが消費するConsumerを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *
