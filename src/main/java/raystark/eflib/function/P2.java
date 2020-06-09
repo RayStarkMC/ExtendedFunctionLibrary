@@ -18,7 +18,8 @@ import java.util.function.BiPredicate;
  *  BiPredicate<T1, T2> p2 = p1::test;
  * }</pre>
  *
- * <p>{@link BiPredicate}と等価なメソッドに加えて合成関数を作成するメソッド、ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
+ * <p>{@link BiPredicate}と等価なメソッドに加えて合成関数を作成するメソッド、型を変換するメソッド、
+ * ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
  *
  * @param <T1> 第一引数の型
  * @param <T2> 第二引数の型
