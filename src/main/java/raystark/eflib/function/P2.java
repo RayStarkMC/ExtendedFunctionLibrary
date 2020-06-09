@@ -132,7 +132,7 @@ public interface P2<T1, T2> extends F2<T1, T2, Boolean> {
      * <p>このメソッドは引数をそのまま返します。オーバーロードされているメソッドを参照する場合は次のようにラムダの引数等で明示的に型を指定してください。
      *
      * <pre>{@code
-     *  P2<T1, T2> p1 = P2.of((T1 t1, T2 t2) -> SomeClass1.someMethod(t1)).and(SomeClass2::someMethod);
+     *  P2<T1, T2> p1 = P2.of((T1 t1, T2 t2) -> SomeClass1.someMethod(t1, t2)).and(SomeClass2::someMethod);
      *  P2<T1, T2> p2 = P2.<T1, T2>of(SomeClass1::someMethod).then1(SomeClass2::someMethod);
      * }</pre>
      *

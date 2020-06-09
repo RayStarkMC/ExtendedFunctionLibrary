@@ -123,7 +123,12 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     /**
      * ラムダやメソッド参照から関数オブジェクトを生成するファクトリメソッドです。
      *
-     * <p>このメソッドは引数をそのまま返します。オーバーロードされているメソッドを参照する場合はラムダの引数等で明示的に型を指定してください。
+     * <p>このメソッドは引数をそのまま返します。オーバーロードされているメソッドを参照する場合は次のようにラムダの引数等で明示的に型を指定してください。
+     *
+     * <pre>{@code
+     *  F2<T1, T2, R> f1 = F2.of((T1 t1, T2 t2) -> SomeClass1.someMethod(t1, t2)).then1(SomeClass2::someMethod);
+     *  F2<T1, T2, R> f2 = F2.<T1, T2, SomeType>of(SomeClass1::someMethod).then1(SomeClass2::someMethod);
+     * }</pre>
      *
      * @param f2 ラムダやメソッド参照で記述された関数
      * @param <T1> 第一引数の型
