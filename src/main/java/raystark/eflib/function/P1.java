@@ -12,8 +12,8 @@ import java.util.function.Predicate;
  * <p>このインターフェースは{@link Predicate}に対応します。{@link Predicate}に変換する場合次のイディオムが使えます。
  *
  * <pre>{@code
- *  P1<String> p = String::isEmpty;
- *  Predicate<String> p2 = f::test;
+ *  P1<T1> p1 = SomeClass1::someMethod;
+ *  Predicate<T1> p2 = p1::test;
  * }</pre>
  *
  * <p>{@link Predicate}と等価なメソッドに加えて合成関数を作成するメソッド、ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
@@ -22,35 +22,93 @@ import java.util.function.Predicate;
  */
 @FunctionalInterface
 public interface P1<T1> extends F1<T1, Boolean> {
+    /**
+     * 指定された引数でこの述語を評価します。
+     *
+     * @param t1 第一引数
+     * @return 引数が述語に一致する場合true, それ以外の場合false
+     */
     boolean test(T1 t1);
 
+    /**
+     * 指定された引数でこの述語を評価します。
+     *
+     * <p>このメソッドは{@link P1#test}の結果をBoolean型にラップします。
+     *
+     * @param t1 第一引数
+     * @return Boolean型にラップされた{@link P1#test}の結果
+     */
     @Override
     @NotNull
     default Boolean apply(T1 t1) {
         return test(t1);
     }
 
+    /**
+     * この述語と述語otherの短絡論理積を表す合成述語を返します。
+     *
+     * <p>この述語がfalseだった場合、otherは評価されません。
+     *
+     * <p>いずれかの述語の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
+     * この述語の評価時に例外がスローされた場合、otherは評価されません。
+     *
+     * @param other この述語と論理積を取る述語
+     * @return 合成述語
+     */
     @NotNull
     default P1<T1> and(@NotNull P1<? super T1> other) {
         return t1 -> test(t1) && other.test(t1);
     }
 
+    /**
+     * この述語と述語otherの短絡論理和を表す合成述語を返します。
+     *
+     * <p>この述語がtrueだった場合、otherは評価されません。
+     *
+     * <p>いずれかの述語の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
+     * この述語の評価時に例外がスローされた場合、otherは評価されません。
+     *
+     * @param other この述語と論理和を取る述語
+     * @return 合成述語
+     */
     @NotNull
     default P1<T1> or(@NotNull P1<? super T1> other) {
         return t1 -> test(t1) && other.test(t1);
     }
 
+    /**
+     * この述語の論理否定を表す述語を返します。
+     *
+     * @return 述語
+     */
     @NotNull
     default P1<T1> not() {
         return t1 -> !test(t1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @NotNull
     default <V1> P1<V1> compose1(@NotNull F1<? super V1, ? extends T1> before) {
         return v1 -> test(before.apply(v1));
     }
 
+    /**
+     * ラムダやメソッド参照から関数オブジェクトを生成するファクトリメソッドです。
+     *
+     * <p>このメソッドは引数をそのまま返します。オーバーロードされているメソッドを参照する場合は次のようにラムダの引数等で明示的に型を指定してください。
+     *
+     * <pre>{@code
+     *  P1<T1> p1 = P1.of((T1 t1) -> SomeClass1.someMethod(t1)).and(SomeClass2::someMethod);
+     *  P1<T1> p2 = P1.<T1>of(SomeClass1::someMethod).then1(SomeClass2::someMethod);
+     * }</pre>
+     *
+     * @param p1 ラムダやメソッド参照で記述された述語
+     * @param <T1> 第一引数の型
+     * @return 引数に渡され述語
+     */
     @NotNull
     static <T1> P1<T1> of(@NotNull P1<T1> p1) {
         return p1;
