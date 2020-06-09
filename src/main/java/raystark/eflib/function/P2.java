@@ -3,9 +3,16 @@ package raystark.eflib.function;
 import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
-public interface P2<T1, T2> {
+public interface P2<T1, T2> extends F2<T1, T2, Boolean> {
     boolean test(T1 t1, T2 t2);
 
+    @Override
+    @NotNull
+    default Boolean apply(T1 t1, T2 t2) {
+        return test(t1, t2);
+    }
+
+    @Override
     @NotNull
     default P1<T2> apply(T1 t1) {
         return t2 -> test(t1, t2);
@@ -26,16 +33,19 @@ public interface P2<T1, T2> {
         return (t1, t2) -> !test(t1, t2);
     }
 
+    @Override
     @NotNull
     default <V1> P2<V1, T2> compose1(@NotNull F1<? super V1, ? extends T1> before) {
         return (v1, t2) -> test(before.apply(v1), t2);
     }
 
+    @Override
     @NotNull
     default <V2> P2<T1, V2> compose2(@NotNull F1<? super V2, ? extends T2> before) {
         return (t1, v2) -> test(t1, before.apply(v2));
     }
 
+    @Override
     @NotNull
     default P2<T2, T1> swap2() {
         return (t2, t1) -> test(t1, t2);

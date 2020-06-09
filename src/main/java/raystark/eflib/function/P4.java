@@ -2,19 +2,29 @@ package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface P4<T1, T2, T3, T4> {
+@FunctionalInterface
+public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
     boolean test(T1 t1, T2 t2, T3 t3, T4 t4);
 
+    @Override
+    @NotNull
+    default Boolean apply(T1 t1, T2 t2, T3 t3, T4 t4) {
+        return test(t1, t2, t3, t4);
+    }
+
+    @Override
     @NotNull
     default P3<T2, T3, T4> apply(T1 t1) {
         return (t2, t3, t4) -> test(t1, t2, t3, t4);
     }
 
+    @Override
     @NotNull
     default P2<T3, T4> apply(T1 t1, T2 t2) {
         return (t3, t4) -> test(t1, t2, t3, t4);
     }
 
+    @Override
     @NotNull
     default P1<T4> apply(T1 t1, T2 t2, T3 t3) {
         return t4 -> test(t1, t2, t3,t4);
@@ -35,36 +45,43 @@ public interface P4<T1, T2, T3, T4> {
         return (t1, t2, t3, t4) -> !test(t1, t2, t3, t4);
     }
 
+    @Override
     @NotNull
     default <V1> P4<V1, T2, T3, T4> compose1(@NotNull F1<? super V1, ? extends T1> before) {
         return (v1, t2, t3, t4) -> test(before.apply(v1), t2, t3, t4);
     }
 
+    @Override
     @NotNull
     default <V2> P4<T1, V2, T3, T4> compose2(@NotNull F1<? super V2, ? extends T2> before) {
         return (t1, v2, t3, t4) -> test(t1, before.apply(v2), t3, t4);
     }
 
+    @Override
     @NotNull
     default <V3> P4<T1, T2, V3, T4> compose3(@NotNull F1<? super V3, ? extends T3> before) {
         return (t1, t2, v3, t4) -> test(t1, t2, before.apply(v3), t4);
     }
 
+    @Override
     @NotNull
     default <V4> P4<T1, T2, T3, V4> compose4(@NotNull F1<? super V4, ? extends T4> before) {
         return (t1, t2, t3, v4) -> test(t1, t2, t3, before.apply(v4));
     }
 
+    @Override
     @NotNull
     default P4<T2, T1, T3, T4> swap2() {
         return (t2, t1, t3, t4) -> test(t1, t2, t3, t4);
     }
 
+    @Override
     @NotNull
     default P4<T3, T2, T1, T4> swap3() {
         return (t3, t2, t1, t4) -> test(t1, t2, t3, t4);
     }
 
+    @Override
     @NotNull
     default P4<T4, T2, T3, T1> swap4() {
         return (t4, t2, t3, t1) -> test(t1, t2, t3, t4);
