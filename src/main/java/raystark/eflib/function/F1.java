@@ -11,8 +11,8 @@ import java.util.function.Function;
  * <p>このインターフェースは{@link Function}に対応します。{@link Function}に変換する場合次のイディオムが使えます。
  *
  * <pre>{@code
- *  F1<String, Integer> f = Integer::parseInt;
- *  Function<String, Integer> f2 = f::apply;
+ *  F1<T1, R> f1 = SomeClass::someMethod;
+ *  Function<T1, R> f2 = f1::apply;
  * }</pre>
  *
  * <p>{@link Function}と等価なメソッドに加えて型を変換するメソッド、ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
@@ -90,8 +90,8 @@ public interface F1<T1, R> {
      * <p>このメソッドは引数をそのまま返します。オーバーロードされているメソッドを参照する場合は次のようにラムダの引数等で明示的に型を指定してください。
      *
      * <pre>{@code
-     *  F1<String, Integer> f1 = F1.of((String s) -> Integer.parseInt(s)).then1(num -> num*2);
-     *  F1<String, Integer> f2 = F1.<String, Integer>of(Integer::parseInt).then1(num -> num*2);
+     *  F1<T1, R> f1 = F1.of((T1 t1) -> SomeClass1.someMethod(t1)).then1(SomeClass2::someMethod);
+     *  F1<T1, R> f2 = F1.<T1, SomeType>of(SomeClass1::someMethod).then1(SomeClass2::someMethod);
      * }</pre>
      *
      * @param f1 ラムダやメソッド参照で記述された関数
