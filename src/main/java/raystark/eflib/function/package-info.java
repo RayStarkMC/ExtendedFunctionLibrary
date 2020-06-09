@@ -26,27 +26,12 @@
  * これにより、合成関数を1行で書くことが出来るようになります。以下は例です。
  *
  * <pre>{@code
- *  F1.<String, Integer>of(Integer::parseInt).then1(num -> num*2).asC1(System.out::println).accept("10");
- *  F1.of((String s) -> Integer.parseInt(s)).then1(num -> num*2).asC1(System.out::println).accept("10");
+ * F1.of(String::length).then1(num -> num*2).asC1(System.out::println).accept("10");
+ * F1.of((String s) -> s.length()).then1(num -> num*2).asC1(System.out::println).accept("10");
  * }</pre>
  *
- * <p>ラムダの引数やジェネリックメソッド呼び出しで明示的に型を指定しているのに注意してください。
- * Javaには変数の利用先の型から変数の型を推論する機能が無いため、ofメソッド呼び出しで型を明示しない場合、それらはObject型と推論されます。
- *
- * <p>特殊な場合として、外部の変数をキャプチャするバウンド参照の場合は型の明示が不要になります。以下に例を示します。
- *
- * <pre>{@code
- *  class Parser {
- *      int parseInt(String str) {
- *          return Integer.parseInt(str);
- *      }
- *
- *      public static void main() {
- *          Parser parser = new Parser();
- *          F1.of(parser::parseInt).then1(num -> num*2).asC1(System.out::println).accept("10");
- *      }
- *  }
- * }</pre>
+ * <p>参照するメソッドがオーバーロードされている場合はofメソッドの型を推論することが出来ません。この場合は
+ * ラムダの引数やジェネリックメソッド呼び出しで明示的に型を指定して、どのメソッドを参照するか明確にしてください。
  *
  * <p>標準APIの関数、または類似の関数を受け取るメソッドに対して本パッケージ下の関数を渡す場合、メソッド参照を用いたイディオムが使えます。
  * 以下にStringからIntegerへの一変数関数F1の例を示します。
