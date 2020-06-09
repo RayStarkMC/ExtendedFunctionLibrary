@@ -3,7 +3,7 @@ package raystark.eflib.function;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 型T1, 型T2, 型T3, 型T4から型Rへの三変数関数です。
+ * 型T1, 型T2, 型T3, 型T4から型Rへの四変数関数です。
  *
  * <p>このインターフェースは{@link F4#apply}を関数メソッドに持つ関数型インターフェースです。
  *
