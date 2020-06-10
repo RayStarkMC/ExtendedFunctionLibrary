@@ -121,7 +121,7 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
     }
 
     /**
-     * この関数の三変数関数としての結果を関数afterが消費するConsumerを返します。
+     * この関数の三変数関数としての結果をConsumer afterが消費するConsumerを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *

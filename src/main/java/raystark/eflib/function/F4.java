@@ -143,7 +143,7 @@ public interface F4<T1, T2, T3, T4, R> extends F3<T1, T2, T3, F1<T4, R>> {
     }
 
     /**
-     * この関数の四変数関数としての結果を関数afterが消費するConsumerを返します。
+     * この関数の四変数関数としての結果をConsumer afterが消費するConsumerを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *

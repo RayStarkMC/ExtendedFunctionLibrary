@@ -108,7 +108,7 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     }
 
     /**
-     * この関数の二変数関数としての結果を関数afterが消費するConsumerを返します。
+     * この関数の二変数関数としての結果をConsumer afterが消費するConsumerを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *
