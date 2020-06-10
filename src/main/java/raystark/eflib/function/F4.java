@@ -127,6 +127,19 @@ public interface F4<T1, T2, T3, T4, R> extends F3<T1, T2, T3, F1<T4, R>> {
     }
 
     /**
+     * 入力をこの関数に適用し、四変数関数としての結果を述語afterに適用する合成述語を返します。
+     *
+     * <p>いずれかの関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
+     *
+     * @param after この関数が適用された後に適用される述語
+     * @return 合成述語
+     */
+    @NotNull
+    default P4<T1, T2, T3, T4> asP4(@NotNull P1<? super R> after) {
+        return (t1, t2, t3, t4) -> after.test(apply(t1, t2, t3, t4));
+    }
+
+    /**
      * 引数をこの関数に適用した結果を返すSupplierを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。

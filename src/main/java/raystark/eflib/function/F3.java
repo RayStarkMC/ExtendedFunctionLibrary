@@ -106,6 +106,19 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
     }
 
     /**
+     * 入力をこの関数に適用し、三変数関数としての結果を述語afterに適用する合成述語を返します。
+     *
+     * <p>いずれかの関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
+     *
+     * @param after この関数が適用された後に適用される述語
+     * @return 合成述語
+     */
+    @NotNull
+    default P3<T1, T2, T3> asP3(@NotNull P1<? super R> after) {
+        return (t1, t2, t3) -> after.test(apply(t1, t2, t3));
+    }
+
+    /**
      * 引数をこの関数に適用した結果を返すSupplierを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。

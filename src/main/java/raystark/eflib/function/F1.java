@@ -49,13 +49,26 @@ public interface F1<T1, R> {
      *
      * <p>いずれかの関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *
-     * @param before この関数に適用される前に第一引数に適用される関数
+     * @param before この関数が適用される前に第一引数に適用される関数
      * @param <V1>　合成関数の第一引数の型
      * @return 合成関数
      */
     @NotNull
     default <V1> F1<V1, R> compose1(@NotNull F1<? super V1, ? extends T1> before) {
         return v1 -> apply(before.apply(v1));
+    }
+
+    /**
+     * 入力をこの関数に適用し、一変数関数としての結果を述語afterに適用する合成述語を返します。
+     *
+     * <p>いずれかの関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
+     *
+     * @param after この関数が適用された後に適用される述語
+     * @return 合成述語
+     */
+    @NotNull
+    default P1<T1> asP1(@NotNull P1<? super R> after) {
+        return t1 -> after.test(apply(t1));
     }
 
     /**

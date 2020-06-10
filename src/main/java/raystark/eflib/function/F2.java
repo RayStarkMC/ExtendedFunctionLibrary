@@ -94,6 +94,19 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     }
 
     /**
+     * 入力をこの関数に適用し、二変数関数としての結果を述語afterに適用する合成述語を返します。
+     *
+     * <p>いずれかの関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
+     *
+     * @param after この関数が適用された後に適用される述語
+     * @return 合成述語
+     */
+    @NotNull
+    default P2<T1, T2> asP2(@NotNull P1<? super R> after) {
+        return (t1, t2) -> after.test(apply(t1, t2));
+    }
+
+    /**
      * 引数をこの関数に適用した結果を返すSupplierを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
