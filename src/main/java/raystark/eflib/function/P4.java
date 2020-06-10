@@ -195,7 +195,7 @@ public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
      * @param <T2> 第二引数の型
      * @param <T3> 第三引数の型
      * @param <T4> 第四引数の型
-     * @return 引数に渡され述語
+     * @return 引数に渡された述語
      */
     @NotNull
     static <T1, T2, T3, T4> P4<T1, T2, T3, T4> of(@NotNull P4<T1, T2, T3, T4> p4) {

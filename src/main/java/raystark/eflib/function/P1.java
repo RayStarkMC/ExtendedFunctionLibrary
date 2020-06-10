@@ -111,7 +111,7 @@ public interface P1<T1> extends F1<T1, Boolean> {
      *
      * @param p1 ラムダやメソッド参照で記述された述語
      * @param <T1> 第一引数の型
-     * @return 引数に渡され述語
+     * @return 引数に渡された述語
      */
     @NotNull
     static <T1> P1<T1> of(@NotNull P1<T1> p1) {

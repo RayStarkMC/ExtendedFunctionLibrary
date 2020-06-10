@@ -164,7 +164,7 @@ public interface P3<T1, T2, T3> extends F3<T1, T2, T3, Boolean> {
      * @param <T1> 第一引数の型
      * @param <T2> 第二引数の型
      * @param <T3> 第三引数の型
-     * @return 引数に渡され述語
+     * @return 引数に渡された述語
      */
     @NotNull
     static <T1, T2, T3> P3<T1, T2, T3> of(@NotNull P3<T1, T2, T3> p3) {
