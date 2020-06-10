@@ -12,8 +12,8 @@ import java.util.function.BiFunction;
  * <p>このインターフェースは{@link BiFunction}に対応します。{@link BiFunction}に変換する場合次のイディオムが使えます。
  *
  * <pre>{@code
- *  F2<String, String, Integer> f = (t1, t2) -> t1.length+t2.length;
- *  BiFunction<String, String, Integer> f2 = f::apply;
+ *  F2<T1, T2, R> f = (t1, t2) -> SomeClass::someMethod;
+ *  BiFunction<T1, T2, R> f2 = f::apply;
  * }</pre>
  *
  * <p>{@link BiFunction}と等価なメソッドに加えて型を変換するメソッド、部分適用を行うメソッド、
