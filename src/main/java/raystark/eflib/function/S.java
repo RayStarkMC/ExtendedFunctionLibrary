@@ -45,7 +45,7 @@ public interface S<T> {
     }
 
     /**
-     * このサプライヤの出力をConsumer afterが消費するActionを返します。
+     * このサプライヤの出力をConsumer afterが消費する合成Actionを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *
