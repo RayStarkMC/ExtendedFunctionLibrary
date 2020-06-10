@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Supplier;
 
 /**
- * 型Tの値の供給元です。
+ * 型Tの値のSupplierです。
  *
  * <p>実行のたびに新たな結果が返される必要がありません。
  *
@@ -31,13 +31,13 @@ public interface S<T> {
     T get();
 
     /**
-     * このサプライヤの出力を関数afterに適用する合成サプライヤを返します。
+     * このSupplierの出力を関数afterに適用する合成Supplierを返します。
      *
      * <p>いずれかの関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *
-     * @param after このサプライヤの出力が適用される関数
-     * @param <R> 合成サプライヤの出力の型
-     * @return 合成サプライヤ
+     * @param after このSupplierの出力が適用される関数
+     * @param <R> 合成Supplierの出力の型
+     * @return 合成Supplier
      */
     @NotNull
     default <R> S<R> then(@NotNull F1<? super T, ? extends R> after) {
@@ -45,12 +45,12 @@ public interface S<T> {
     }
 
     /**
-     * このサプライヤの出力をConsumer afterが消費する合成Actionを返します。
+     * このSupplierの出力をConsumer afterが消費する合成Actionを返します。
      *
      * <p>この関数の評価時に例外がスローされた場合、その例外は呼び出し元に中継されます。
      *
-     * @param after このサプライヤの出力が適用されるConsumer
-     * @return Action
+     * @param after このSupplierの出力が適用されるConsumer
+     * @return 合成Action
      */
     @NotNull
     default A asA(@NotNull C1<? super T> after) {
