@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -32,6 +33,7 @@ public interface S<T> {
      *
      * @return 値
      */
+    @Nullable
     T get();
 
     /**

@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 型T1, 型T2, 型T3から型Rへの三変数関数です。
@@ -25,7 +26,8 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
      * @param t3 第三引数
      * @return 適用結果
      */
-    R apply(T1 t1, T2 t2, T3 t3);
+    @Nullable
+    R apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3);
 
     /**
      * 第二引数までをこの関数に部分適用します。
@@ -36,7 +38,7 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
      */
     @NotNull
     @Override
-    default F1<T3, R> apply(T1 t1, T2 t2) {
+    default F1<T3, R> apply(@Nullable T1 t1, @Nullable T2 t2) {
         return t3 -> apply(t1, t2, t3);
     }
 
@@ -129,7 +131,7 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
      * @return Supplier
      */
     @NotNull
-    default S<R> asS(T1 t1, T2 t2, T3 t3) {
+    default S<R> asS(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3) {
         return () -> apply(t1, t2, t3);
     }
 

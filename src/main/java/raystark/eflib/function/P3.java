@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 型T1, 型T2, 型T3の述語です。またBoolean型を返す関数です。
@@ -41,7 +42,7 @@ public interface P3<T1, T2, T3> extends F3<T1, T2, T3, Boolean> {
      */
     @Override
     @NotNull
-    default Boolean apply(T1 t1, T2 t2, T3 t3) {
+    default Boolean apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3) {
         return test(t1, t2, t3);
     }
 
@@ -50,7 +51,7 @@ public interface P3<T1, T2, T3> extends F3<T1, T2, T3, Boolean> {
      */
     @Override
     @NotNull
-    default P2<T2, T3> apply(T1 t1) {
+    default P2<T2, T3> apply(@Nullable T1 t1) {
         return (t2, t3) -> test(t1, t2, t3);
     }
 
@@ -59,7 +60,7 @@ public interface P3<T1, T2, T3> extends F3<T1, T2, T3, Boolean> {
      */
     @Override
     @NotNull
-    default P1<T3> apply(T1 t1, T2 t2) {
+    default P1<T3> apply(@Nullable T1 t1, @Nullable T2 t2) {
         return t3 -> test(t1, t2, t3);
     }
 

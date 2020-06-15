@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 
@@ -31,7 +32,7 @@ public interface C2<T1, T2> {
      * @param t1 第一引数
      * @param t2 第二引数
      */
-    void accept(T1 t1, T2 t2);
+    void accept(@Nullable T1 t1, @Nullable T2 t2);
 
     /**
      * 第一引数までをこのConsumerに部分適用します。
@@ -40,7 +41,7 @@ public interface C2<T1, T2> {
      * @return 引数が部分適用されたConsumer
      */
     @NotNull
-    default C1<T2> apply(T1 t1) {
+    default C1<T2> apply(@Nullable T1 t1) {
         return t2 -> accept(t1, t2);
     }
 
@@ -156,7 +157,7 @@ public interface C2<T1, T2> {
      * @return Action
      */
     @NotNull
-    default A asA(T1 t1, T2 t2) {
+    default A asA(@Nullable T1 t1, @Nullable T2 t2) {
         return () -> accept(t1, t2);
     }
 

@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 型T1の値を受け取り値を返さない手続きです。
@@ -26,7 +27,7 @@ public interface C4<T1, T2, T3, T4> {
      * @param t3 第三引数
      * @param t4 第四引数
      */
-    void accept(T1 t1, T2 t2, T3 t3, T4 t4);
+    void accept(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @Nullable T4 t4);
 
     /**
      * 第一引数までをこのConsumerに部分適用します。
@@ -35,7 +36,7 @@ public interface C4<T1, T2, T3, T4> {
      * @return 引数が部分適用されたConsumer
      */
     @NotNull
-    default C3<T2, T3, T4> apply(T1 t1) {
+    default C3<T2, T3, T4> apply(@Nullable T1 t1) {
         return (t2, t3, t4) -> accept(t1, t2, t3, t4);
     }
 
@@ -47,7 +48,7 @@ public interface C4<T1, T2, T3, T4> {
      * @return 引数が部分適用されたConsumer
      */
     @NotNull
-    default C2<T3, T4> apply(T1 t1, T2 t2) {
+    default C2<T3, T4> apply(@Nullable T1 t1, @Nullable T2 t2) {
         return (t3, t4) -> accept(t1, t2, t3, t4);
     }
 
@@ -60,7 +61,7 @@ public interface C4<T1, T2, T3, T4> {
      * @return 引数が部分適用されたConsumer
      */
     @NotNull
-    default C1<T4> apply(T1 t1, T2 t2, T3 t3) {
+    default C1<T4> apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3) {
         return t4 -> accept(t1, t2, t3, t4);
     }
 
@@ -226,7 +227,7 @@ public interface C4<T1, T2, T3, T4> {
      * @return Action
      */
     @NotNull
-    default A asA(T1 t1, T2 t2, T3 t3, T4 t4) {
+    default A asA(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @Nullable T4 t4) {
         return () -> accept(t1, t2, t3, t4);
     }
 
