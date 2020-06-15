@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
  * <p>このインターフェースは{@link BiFunction}に対応します。{@link BiFunction}に変換する場合次のイディオムが使えます。
  *
  * <pre>{@code
- *  F2<T1, T2, R> f = (t1, t2) -> SomeClass::someMethod;
+ *  F2<T1, T2, R> f2 = (t1, t2) -> SomeClass::someMethod;
  *  BiFunction<T1, T2, R> f2 = f::apply;
  * }</pre>
  *
