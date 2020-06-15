@@ -26,7 +26,7 @@ public interface A {
     /**
      * このActionを実行した後にAction afterを実行する合成Actionを返します。
      *
-     * <p>いずれかのActionの実行時にスローされた例外は呼び出し元に中継されます。
+     * <p>いずれかの関数の実行時にスローされた例外は呼び出し元に中継されます。
      *
      * @param after このActionの後に実行されるAction
      * @return 合成Action
@@ -41,7 +41,7 @@ public interface A {
     /**
      * このActionを実行する前にAction beforeを実行する合成Actionを返します。
      *
-     * <p>いずれかのActionの実行時にスローされた例外は呼び出し元に中継されます。
+     * <p>いずれかの関数の実行時にスローされた例外は呼び出し元に中継されます。
      *
      * @param before このActionの前に実行されるAction
      * @return 合成Action
