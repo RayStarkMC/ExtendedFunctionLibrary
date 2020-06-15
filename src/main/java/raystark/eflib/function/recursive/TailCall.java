@@ -7,6 +7,11 @@ import java.util.stream.Stream;
 
 import static raystark.eflib.function.recursive.TailCallUtil.VOID_COMPLETED;
 
+/**
+ * 末尾再帰関数を最適化するためのユーティリティインターフェースです。
+ *
+ * @param <T>
+ */
 @FunctionalInterface
 public interface TailCall<T> {
     @NotNull
