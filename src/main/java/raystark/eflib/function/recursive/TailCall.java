@@ -5,6 +5,8 @@ import raystark.eflib.function.notnull.NNS;
 
 import java.util.stream.Stream;
 
+import static raystark.eflib.function.recursive.TailCallUtil.VOID_COMPLETED;
+
 @FunctionalInterface
 public interface TailCall<T> {
     @NotNull
@@ -43,5 +45,10 @@ public interface TailCall<T> {
     @NotNull
     static <T> Completed<T> complete(T value) {
         return () -> value;
+    }
+
+    @NotNull
+    static Completed<Void> complete() {
+        return VOID_COMPLETED;
     }
 }
