@@ -158,6 +158,8 @@ public interface P3<T1, T2, T3> extends F3<T1, T2, T3, Boolean> {
      *  P3<T1, T2, T3> p2 = P3.<T1, T2, T3>of(SomeClass1::someMethod).then1(SomeClass2::someMethod);
      * }</pre>
      *
+     * <p>このメソッドの呼び出しに対して様々なメソッドをチェインできます。
+     *
      * @param p3 ラムダやメソッド参照で記述された述語
      * @param <T1> 第一引数の型
      * @param <T2> 第二引数の型

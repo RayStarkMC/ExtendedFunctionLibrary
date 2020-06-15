@@ -62,6 +62,8 @@ public interface S<T> {
      *
      * <p>このメソッドは引数をそのまま返します。
      *
+     * <p>このメソッドの呼び出しに対して様々なメソッドをチェインできます。
+     *
      * @param s ラムダやメソッド参照で記述されたSupplier
      * @param <T> Supplierが供給する値の型
      * @return 引数に渡されたSupplier

@@ -107,6 +107,8 @@ public interface P1<T1> extends F1<T1, Boolean> {
      *  P1<T1> p2 = P1.<T1>of(SomeClass1::someMethod).then1(SomeClass2::someMethod);
      * }</pre>
      *
+     * <p>このメソッドの呼び出しに対して様々なメソッドをチェインできます。
+     *
      * @param p1 ラムダやメソッド参照で記述された述語
      * @param <T1> 第一引数の型
      * @return 引数に渡された述語

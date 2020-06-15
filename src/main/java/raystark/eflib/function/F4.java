@@ -178,6 +178,8 @@ public interface F4<T1, T2, T3, T4, R> extends F3<T1, T2, T3, F1<T4, R>> {
      *  F2<T1, T2, T3, T4, R> f2 = F4.<T1, T2, T3, T3, SomeType>of(SomeClass1::someMethod).then1(SomeClass2::someMethod);
      * }</pre>
      *
+     * <p>このメソッドの呼び出しに対して様々なメソッドをチェインできます。
+     *
      * @param f4 ラムダやメソッド参照で記述された関数
      * @param <T1> 第一引数の型
      * @param <T2> 第二引数の型
