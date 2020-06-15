@@ -38,7 +38,7 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
      * 第一引数までをこの関数に部分適用します。
      *
      * @param t1 第一引数
-     * @return 引数が部分適用された関数。
+     * @return 引数が部分適用された関数
      */
     @NotNull
     @Override
