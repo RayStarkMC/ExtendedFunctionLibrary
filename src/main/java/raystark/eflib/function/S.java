@@ -17,6 +17,10 @@ import java.util.function.Supplier;
  *  S<T> s1 = SomeClass1::someMethod;
  *  Supplier<T> s2 = s1::get;
  * }</pre>
+ *
+ * <p>このSupplierには合成Supplierを作成するメソッド、自身の型を変換するメソッド、
+ * ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
+ *
  * @param <T> 供給する値の型
  */
 @FunctionalInterface

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  *  Runnable runnable = a::run;
  * }</pre>
  *
- * このActionには合成Actionを作成するメソッド、ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
+ * <p>このActionには合成Actionを作成するメソッド、ラムダやメソッド参照からインスタンスを作成するメソッドが定義されています。
  */
 @FunctionalInterface
 public interface A {
