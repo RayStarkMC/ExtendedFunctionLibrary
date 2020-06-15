@@ -1,6 +1,7 @@
 package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.notnull.NNS;
 
 import java.util.stream.Stream;
@@ -17,6 +18,7 @@ public interface TailCall<T> {
     @NotNull
     TailCall<T> next();
 
+    @Nullable
     default T get() {
         return Stream.iterate(this, TailCall::next)
                 .filter(TailCall::isCompleted)
@@ -35,6 +37,7 @@ public interface TailCall<T> {
         }
 
         @Override
+        @Nullable
         T get();
     }
 
@@ -48,7 +51,7 @@ public interface TailCall<T> {
     }
 
     @NotNull
-    static <T> Completed<T> complete(T value) {
+    static <T> Completed<T> complete(@Nullable T value) {
         return () -> value;
     }
 

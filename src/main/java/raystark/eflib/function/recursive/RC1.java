@@ -1,15 +1,16 @@
 package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.C1;
 
 @FunctionalInterface
 public interface RC1<T1> {
     @NotNull
-    TailCall<Void> apply(T1 t1, RC1<T1> self);
+    TailCall<Void> apply(@Nullable T1 t1, @NotNull RC1<T1> self);
 
     @NotNull
-    default TailCall<Void> apply(T1 t1) {
+    default TailCall<Void> apply(@Nullable T1 t1) {
         return apply(t1, this);
     }
 
