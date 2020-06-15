@@ -9,8 +9,32 @@ public interface C1<T1> {
     @NotNull
     default C1<T1> next(@NotNull C1<? super T1> after) {
         return t1 -> {
-            accept(t1);
+            this.accept(t1);
             after.accept(t1);
+        };
+    }
+
+    @NotNull
+    default C1<T1> next(@NotNull A after) {
+        return t1 -> {
+            this.accept(t1);
+            after.run();
+        };
+    }
+
+    @NotNull
+    default C1<T1> prev(@NotNull C1<? super T1> before) {
+        return t1 -> {
+            before.accept(t1);
+            this.accept(t1);
+        };
+    }
+
+    @NotNull
+    default C1<T1> prev(@NotNull A before) {
+        return t1 -> {
+            before.run();
+            this.accept(t1);
         };
     }
 

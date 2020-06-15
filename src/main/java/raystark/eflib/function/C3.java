@@ -25,6 +25,30 @@ public interface C3<T1, T2, T3> {
     }
 
     @NotNull
+    default C3<T1, T2, T3> next(@NotNull A after) {
+        return (t1, t2, t3) -> {
+            this.accept(t1, t2, t3);
+            after.run();
+        };
+    }
+
+    @NotNull
+    default C3<T1, T2, T3> prev(@NotNull C3<? super T1, ? super T2, ? super T3> before) {
+        return (t1, t2, t3) -> {
+            before.accept(t1, t2, t3);
+            this.accept(t1, t2, t3);
+        };
+    }
+
+    @NotNull
+    default C3<T1, T2, T3> prev(@NotNull A before) {
+        return (t1, t2, t3) -> {
+            before.run();
+            this.accept(t1, t2, t3);
+        };
+    }
+
+    @NotNull
     default <V1> C3<V1, T2, T3> compose1(@NotNull F1<? super V1, ? extends T1> before) {
         return (v1, t2, t3) -> accept(before.apply(v1), t2, t3);
     }

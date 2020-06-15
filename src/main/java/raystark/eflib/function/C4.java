@@ -30,6 +30,30 @@ public interface C4<T1, T2, T3, T4> {
     }
 
     @NotNull
+    default C4<T1, T2, T3, T4> next(@NotNull A after) {
+        return (t1, t2, t3, t4) -> {
+            this.accept(t1, t2, t3, t4);
+            after.run();
+        };
+    }
+
+    @NotNull
+    default C4<T1, T2, T3, T4> prev(@NotNull C4<? super T1, ? super T2, ? super T3, ? super T4> before) {
+        return (t1, t2, t3, t4) -> {
+            before.accept(t1, t2, t3, t4);
+            this.accept(t1, t2, t3, t4);
+        };
+    }
+
+    @NotNull
+    default C4<T1, T2, T3, T4> prev(@NotNull A before) {
+        return (t1, t2, t3, t4) -> {
+            before.run();
+            this.accept(t1, t2, t3, t4);
+        };
+    }
+
+    @NotNull
     default <V1> C4<V1, T2, T3, T4> compose1(@NotNull F1<? super V1, ? extends T1> before) {
         return (v1, t2, t3, t4) -> accept(before.apply(v1), t2, t3, t4);
     }

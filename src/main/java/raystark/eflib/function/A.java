@@ -9,7 +9,14 @@ public interface A {
     @NotNull
     default A next(@NotNull A after) {
         return () -> {
-            run(); after.run();
+            this.run(); after.run();
+        };
+    }
+
+    @NotNull
+    default A prev(@NotNull A before) {
+        return () -> {
+            before.run(); this.run();
         };
     }
 
