@@ -20,8 +20,8 @@ public interface RF1<T1, R> {
     }
 
     @NotNull
-    static <T1, R> F1<T1, R> of(@NotNull TailCallF1<T1, R> f1) {
-        return t1 -> f1.apply(t1).evaluate();
+    static <T1, R> F1<T1, R> of(@NotNull TailCallF1<T1, R> rf1) {
+        return t1 -> rf1.apply(t1).evaluate();
     }
 
     @FunctionalInterface
