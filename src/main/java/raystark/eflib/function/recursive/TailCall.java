@@ -2,7 +2,6 @@ package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import raystark.eflib.function.recursive.RS.TailCallS;
 
 import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
 
@@ -113,5 +112,11 @@ public interface TailCall<T> {
     @NotNull
     static <T> TailCall<T> complete(@Nullable T value) {
         return TailCallHelper.complete(value);
+    }
+
+    @FunctionalInterface
+    interface TailCallS<T> {
+        @NotNull
+        TailCall<T> get();
     }
 }

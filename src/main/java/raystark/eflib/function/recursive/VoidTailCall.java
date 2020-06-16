@@ -1,7 +1,6 @@
 package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
-import raystark.eflib.function.recursive.RA.TailCallA;
 
 import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
 
@@ -38,14 +37,14 @@ public interface VoidTailCall {
     /**
      * 再帰的にメソッドを呼び出すVoidTailCallを実装します。
      *
-     * <p>引数のactionの中で関数を再帰的に呼び出してください。
+     * <p>引数のsupplierの中で関数を再帰的に呼び出してください。
      *
-     * @param action 次に呼び出されるVoidTailCallのAction
+     * @param supplier 次に呼び出されるVoidTailCallのSupplier
      * @return このVoidTailCallの次に呼び出されるVoidTailCall
      */
     @NotNull
-    static VoidTailCall call(@NotNull TailCallA action) {
-        return action::run;
+    static VoidTailCall call(@NotNull VoidTailCallS supplier) {
+        return supplier::get;
     }
 
     /**
@@ -56,5 +55,11 @@ public interface VoidTailCall {
     @NotNull
     static VoidTailCall complete() {
         return TailCallHelper.complete();
+    }
+
+    @FunctionalInterface
+    interface VoidTailCallS {
+        @NotNull
+        VoidTailCall get();
     }
 }
