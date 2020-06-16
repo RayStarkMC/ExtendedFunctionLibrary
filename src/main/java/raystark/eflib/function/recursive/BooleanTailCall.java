@@ -55,8 +55,17 @@ public interface BooleanTailCall {
         return value ? TRUE_COMPLETED : FALSE_COMPLETED;
     }
 
+    /**
+     * callメソッドの引数に渡すラムダ、又はメソッド参照のターゲットとなる型です。
+     */
     @FunctionalInterface
     interface BooleanTailCallS {
+
+        /**
+         * callメソッドの呼び出し元の次に評価されるTailCallを取得します。
+         *
+         * @return TailCall
+         */
         @NotNull
         BooleanTailCall get();
     }

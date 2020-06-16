@@ -58,7 +58,7 @@ import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
  *
  * <p>末尾再帰関数の実行は{@link TailCall#evaluate}の実行まで遅延されます。
  *
- * @param <T> 末尾再帰関数の戻り値の型
+ * @param <T> 末尾再帰関数の評価値の型
  */
 @FunctionalInterface
 public interface TailCall<T> {
@@ -79,7 +79,7 @@ public interface TailCall<T> {
      *
      * <p>いずれかの関数の評価時にスローされた例外は呼び出し元に中継されます。
      *
-     * @return 末尾再帰関数の戻り値
+     * @return 末尾再帰関数の評価値
      */
     @Nullable
     default T evaluate() {
@@ -93,7 +93,7 @@ public interface TailCall<T> {
      * <p>引数のsupplierの中で関数を再帰的に呼び出してください。
      *
      * @param supplier 次に呼び出されるTailCallのSupplier
-     * @param <T> TailCallの戻り値の型
+     * @param <T> TailCallの評価値の型
      * @return このTailCallの次に呼び出されるTailCall
      */
     @NotNull
@@ -106,8 +106,8 @@ public interface TailCall<T> {
      *
      * <p>引数には末尾再帰関数の戻り値を渡してください。
      *
-     * @param value 末尾再帰関数の戻り値
-     * @param <T> 末尾再帰関数の戻り値の型
+     * @param value 末尾再帰関数の評価値
+     * @param <T> 末尾再帰関数の評価値の型
      * @return 再帰が完了したTailCall
      */
     @NotNull
@@ -115,8 +115,19 @@ public interface TailCall<T> {
         return (Completed<T>)() -> value;
     }
 
+    /**
+     * callメソッドの引数に渡すラムダ、又はメソッド参照のターゲットとなる型です。
+     *
+     * @param <T> 末尾再帰の評価値の型
+     */
     @FunctionalInterface
     interface TailCallS<T> {
+
+        /**
+         * callメソッドの呼び出し元の次に評価されるTailCallを取得します。
+         *
+         * @return TailCall
+         */
         @NotNull
         TailCall<T> get();
     }

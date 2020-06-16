@@ -58,8 +58,17 @@ public interface VoidTailCall {
         return VOID_COMPLETED;
     }
 
+    /**
+     * callメソッドの引数に渡すラムダ、又はメソッド参照のターゲットとなる型です。
+     */
     @FunctionalInterface
     interface VoidTailCallS {
+
+        /**
+         * callメソッドの呼び出し元の次に評価されるTailCallを取得します。
+         *
+         * @return TailCall
+         */
         @NotNull
         VoidTailCall get();
     }
