@@ -9,6 +9,7 @@ public interface RF1<T1, R> {
     @NotNull
     TailCall<R> apply(@Nullable T1 t1, @NotNull RF1<T1, R> self);
 
+    @NotNull
     default TailCall<R> apply(@Nullable T1 t1) {
         return apply(t1, this);
     }
