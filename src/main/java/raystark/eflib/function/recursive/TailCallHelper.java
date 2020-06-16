@@ -3,8 +3,28 @@ package raystark.eflib.function.recursive;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-class TailCallHelper {
-    private static final VoidCompleted VOID_COMPLETED = () -> {};
+/**
+ * TailCall及びVoidTailCallのHelperクラスです。
+ */
+final class TailCallHelper {
+    private TailCallHelper() {
+        throw new AssertionError();
+    }
+
+    /**
+     * 再帰が完了したことを表すVoidTailCallです。
+     *
+     * <p>このインスタンスのnextメソッドは自身を返し、executeメソッドは何も行いません。
+     */
+    private static final VoidTailCall VOID_COMPLETED = new VoidTailCall() {
+        @Override
+        public @NotNull VoidTailCall next() {
+            return this;
+        }
+
+        @Override
+        public void execute() {}
+    };
 
     /**
      * 与えられたTailCallが終了している場合trueを返します。
@@ -26,13 +46,25 @@ class TailCallHelper {
         return tailCall == VOID_COMPLETED;
     }
 
+    /**
+     * 末尾再帰関数の評価値を返すTailCallを実装します。
+     *
+     * @param value 末尾再帰関数の戻り値
+     * @param <T> 末尾再帰関数の戻り値の型
+     * @return 再帰が完了したTailCall
+     */
     @NotNull
     static <T> Completed<T> complete(@Nullable T value) {
         return () -> value;
     }
 
+    /**
+     * 末尾再帰関数が終了したことを表すVoidTailCallを返します。
+     *
+     * @return 再帰が完了したVoidTailCall
+     */
     @NotNull
-    static VoidCompleted complete() {
+    static VoidTailCall complete() {
         return VOID_COMPLETED;
     }
 
@@ -67,33 +99,5 @@ class TailCallHelper {
         @Override
         @Nullable
         T evaluate();
-    }
-
-    /**
-     * 再帰呼び出しが修了したTailCallを表すインターフェースです。
-     *
-     * <p>{@link Completed#next}メソッドは自分自身を返し、{@link Completed#evaluate}メソッドは値を返します。
-     */
-    @FunctionalInterface
-    interface VoidCompleted extends VoidTailCall {
-
-        /**
-         * このTailCallの次に評価されるTailCallを返します。
-         *
-         * <p>再帰が完了し、次に呼び出すべきTailCallが存在しないため、このメソッドは自身の参照を返します。
-         *
-         * @return 自身の参照
-         */
-        @Override
-        @NotNull
-        default VoidTailCall next() {
-            return this;
-        }
-
-        /**
-         * このTailCallの値を取得します。
-         */
-        @Override
-        void evaluate();
     }
 }
