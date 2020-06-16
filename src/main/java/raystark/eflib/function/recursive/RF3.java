@@ -16,12 +16,12 @@ public interface RF3<T1, T2, T3, R> {
 
     @NotNull
     static <T1, T2, T3, R> F3<T1, T2, T3, R> of(@NotNull RF3<T1, T2, T3, R> rf3) {
-        return (t1, t2, t3) -> rf3.apply(t1, t2, t3).get();
+        return (t1, t2, t3) -> rf3.apply(t1, t2, t3).evaluate();
     }
 
     @NotNull
     static <T1, T2, T3, R> F3<T1, T2, T3, R> of(@NotNull TailCallF3<T1, T2, T3, R> rf3) {
-        return (t1, t2, t3) -> rf3.apply(t1, t2, t3).get();
+        return (t1, t2, t3) -> rf3.apply(t1, t2, t3).evaluate();
     }
 
     @FunctionalInterface

@@ -15,12 +15,12 @@ public interface RS<T> {
 
     @NotNull
     static <T> S<T> of(@NotNull RS<T> rs) {
-        return () -> rs.get().get();
+        return () -> rs.get().evaluate();
     }
 
     @NotNull
     static <T> S<T> of(@NotNull TailCallS<T> rs) {
-        return () -> rs.get().get();
+        return () -> rs.get().evaluate();
     }
 
     @FunctionalInterface

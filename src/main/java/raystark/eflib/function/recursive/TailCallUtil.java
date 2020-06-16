@@ -1,5 +1,5 @@
 package raystark.eflib.function.recursive;
 
 class TailCallUtil {
-    static final TailCall.Completed<Void> VOID_COMPLETED = () -> null;
+    static final TailCall.Completed<?> VOID_COMPLETED = () -> null;
 }

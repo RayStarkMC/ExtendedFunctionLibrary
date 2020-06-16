@@ -7,26 +7,26 @@ import raystark.eflib.function.C1;
 @FunctionalInterface
 public interface RC1<T1> {
     @NotNull
-    TailCall<Void> apply(@Nullable T1 t1, @NotNull RC1<T1> self);
+    TailCall<?> apply(@Nullable T1 t1, @NotNull RC1<T1> self);
 
     @NotNull
-    default TailCall<Void> apply(@Nullable T1 t1) {
+    default TailCall<?> apply(@Nullable T1 t1) {
         return apply(t1, this);
     }
 
     @NotNull
     static <T1> C1<T1> of(@NotNull RC1<T1> rc1) {
-        return t1 -> rc1.apply(t1).get();
+        return t1 -> rc1.apply(t1).evaluate();
     }
 
     @NotNull
     static <T1> C1<T1> of(@NotNull TailCallC1<T1> rc1) {
-        return t1 -> rc1.apply(t1).get();
+        return t1 -> rc1.apply(t1).evaluate();
     }
 
     @FunctionalInterface
     interface TailCallC1<T1> {
         @NotNull
-        TailCall<Void> apply(@Nullable T1 t1);
+        TailCall<?> apply(@Nullable T1 t1);
     }
 }
