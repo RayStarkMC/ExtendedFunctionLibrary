@@ -18,4 +18,15 @@ public interface RC1<T1> {
     static <T1> C1<T1> of(@NotNull RC1<T1> rc1) {
         return t1 -> rc1.apply(t1).get();
     }
+
+    @NotNull
+    static <T1> C1<T1> of(@NotNull TailCallC1<T1> rc1) {
+        return t1 -> rc1.apply(t1).get();
+    }
+
+    @FunctionalInterface
+    interface TailCallC1<T1> {
+        @NotNull
+        TailCall<Void> apply(@Nullable T1 t1);
+    }
 }

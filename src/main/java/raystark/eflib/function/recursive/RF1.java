@@ -17,4 +17,15 @@ public interface RF1<T1, R> {
     static <T1, R> F1<T1, R> of(@NotNull RF1<T1, R> rf1) {
         return t1 -> rf1.apply(t1).get();
     }
+
+    @NotNull
+    static <T1, R> F1<T1, R> of(@NotNull TailCallF1<T1, R> f1) {
+        return t1 -> f1.apply(t1).get();
+    }
+
+    @FunctionalInterface
+    interface TailCallF1<T1, R> {
+        @NotNull
+        TailCall<R> apply(@Nullable T1 t1);
+    }
 }
