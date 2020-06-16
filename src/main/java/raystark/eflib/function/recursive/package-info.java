@@ -3,7 +3,7 @@
  *
  * <p>本パッケージは以下の2種類の型で構成されています。
  * <ul>
- *     <li>TailCallインターフェース、及びそのプリミティブ特殊型からなる末尾再帰関数を最適化するインターフェース。</li>
+ *     <li>{@link raystark.eflib.function.recursive.TailCall}インターフェース、及びそのプリミティブ特殊型からなる末尾再帰関数を最適化するインターフェース。</li>
  *     <li>{@link raystark.eflib.function}パッケージ下の関数を末尾再帰関数として、ラムダやメソッド参照で記述するための関数型インターフェース。</li>
  * </ul>
  *
@@ -18,7 +18,7 @@
  *
  * <p>Java言語では末尾再帰関数を通常通り定義した場合コンパイラによる最適化は行われず、呼び出しごとにコールスタックを消費します。
  * しかし、末尾再帰関数のループ展開を手動で行うことでコンパイラに依存せず最適化することができます。
- * TailCallインターフェース、及びその特殊型は末尾再帰呼び出しをラップするためのメソッドを提供します。
+ * {@link raystark.eflib.function.recursive.TailCall}インターフェース、及びその特殊型は末尾再帰呼び出しをラップするためのメソッドを提供します。
  * これらを使って記述された末尾再帰関数は自動で最適化されます。
  * 末尾再帰関数の正しい実装方法は{@link raystark.eflib.function.recursive.TailCall}を参照してください。
  *
@@ -43,8 +43,8 @@
  *              F1<BigInteger, BigInteger> lambdaFact = factBase1.apply(ONE);
  *              F1<BigInteger, BigInteger> methodFact = RF2.of(SomeClass::fact).apply(ONE);
  *
- *              System.out.println(lambdaFact.apply(valueOf(5))); // print 120
- *              System.out.println(methodFact.apply(valueOf(5))); // print 120
+ *              System.out.println(lambdaFact.apply(valueOf(30000)));
+ *              System.out.println(methodFact.apply(valueOf(30000)));
  *          }
  *
  *          public static TailCall<BigInteger> fact(BigInteger t0, BigInteger n) {
