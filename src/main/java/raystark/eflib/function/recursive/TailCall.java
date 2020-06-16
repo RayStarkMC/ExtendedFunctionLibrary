@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.recursive.RS.TailCallS;
 
-import static raystark.eflib.function.recursive.TailCallUtil.VOID_COMPLETED;
 import static raystark.eflib.function.recursive.TailCallUtil.isCompleted;
 
 /**
@@ -30,6 +29,7 @@ import static raystark.eflib.function.recursive.TailCallUtil.isCompleted;
  *
  * <p>以下に従うことで最適化された末尾再帰関数を定義できます。
  * <ol>
+ *     <li>通常の末尾再帰関数を定義します。</li>
  *     <li>関数の戻り値の型をTailCallでラップします。</li>
  *     <li>終了条件を満たす場合の戻り値を{@link TailCall#complete}メソッドでラップします。</li>
  *     <li>再帰条件を満たす場合のメソッド呼び出しを{@link TailCall#call}メソッドでラップします。</li>
@@ -121,18 +121,31 @@ public interface TailCall<T> {
         T evaluate();
     }
 
+    /**
+     * 再帰的にメソッドを呼び出すTailCallを実装します。
+     *
+     * <p>引数のsupplierの中で関数を再帰的に呼び出してください。
+     *
+     * @param supplier 次に呼び出されるTailCallのSupplier
+     * @param <T> TailCallの戻り値の型
+     * @return このTailCallの次に呼び出されるTailCall
+     */
     @NotNull
-    static <T> TailCall<T> call(@NotNull TailCallS<T> tailCall) {
-        return tailCall::get;
+    static <T> TailCall<T> call(@NotNull TailCallS<T> supplier) {
+        return supplier::get;
     }
 
+    /**
+     * 末尾再帰関数の評価値を返すCompletedを実装します。
+     *
+     * <p>引数には末尾再帰関数の戻り値を渡してください。
+     *
+     * @param value 末尾再帰関数の戻り値
+     * @param <T> 末尾再帰関数の戻り値の型
+     * @return 再帰が完了したTailCall
+     */
     @NotNull
     static <T> Completed<T> complete(@Nullable T value) {
         return () -> value;
-    }
-
-    @NotNull
-    static Completed<?> complete() {
-        return VOID_COMPLETED;
     }
 }
