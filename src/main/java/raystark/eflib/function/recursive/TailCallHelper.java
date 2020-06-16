@@ -16,15 +16,10 @@ final class TailCallHelper {
      *
      * <p>このインスタンスのnextメソッドは自身を返し、executeメソッドは何も行いません。
      */
-    private static final VoidTailCall VOID_COMPLETED = new VoidTailCall() {
-        @Override
-        public @NotNull VoidTailCall next() {
-            return this;
-        }
+    private static final VoidCompleted VOID_COMPLETED = () -> {};
 
-        @Override
-        public void execute() {}
-    };
+    private static final BooleanCompleted TRUE_COMPLETED = () -> true;
+    private static final BooleanCompleted FALSE_COMPLETED = () -> false;
 
     /**
      * 与えられたTailCallが終了している場合trueを返します。
@@ -43,7 +38,17 @@ final class TailCallHelper {
      * @return TailCallが終了している場合true
      */
     static boolean isCompleted(@NotNull VoidTailCall tailCall) {
-        return tailCall == VOID_COMPLETED;
+        return tailCall instanceof VoidCompleted;
+    }
+
+    /**
+     * 与えられたTailCallが修了している場合trueを返します。
+     *
+     * @param tailCall 修了しているか検証するTailCall
+     * @return TailCallが終了している場合true
+     */
+    static boolean isCompleted(@NotNull BooleanTailCall tailCall) {
+        return tailCall instanceof BooleanCompleted;
     }
 
     /**
@@ -66,6 +71,11 @@ final class TailCallHelper {
     @NotNull
     static VoidTailCall complete() {
         return VOID_COMPLETED;
+    }
+
+    @NotNull
+    static BooleanTailCall complete(boolean value) {
+        return value ? TRUE_COMPLETED : FALSE_COMPLETED;
     }
 
     /**
@@ -99,5 +109,29 @@ final class TailCallHelper {
         @Override
         @Nullable
         T evaluate();
+    }
+
+    @FunctionalInterface
+    interface VoidCompleted extends VoidTailCall {
+        @Override
+        @NotNull
+        default VoidTailCall next() {
+            return this;
+        }
+
+        @Override
+        void execute();
+    }
+
+    @FunctionalInterface
+    interface BooleanCompleted extends BooleanTailCall {
+        @Override
+        @NotNull
+        default BooleanTailCall next() {
+            return this;
+        }
+
+        @Override
+        boolean evaluate();
     }
 }
