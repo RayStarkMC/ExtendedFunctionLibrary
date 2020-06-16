@@ -2,7 +2,7 @@ package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
 
-import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
+import static raystark.eflib.function.recursive.TailCallHelper.*;
 
 public interface BooleanTailCall {
 
@@ -52,7 +52,7 @@ public interface BooleanTailCall {
      */
     @NotNull
     static BooleanTailCall complete(boolean value) {
-        return TailCallHelper.complete(value);
+        return value ? TRUE_COMPLETED : FALSE_COMPLETED;
     }
 
     @FunctionalInterface

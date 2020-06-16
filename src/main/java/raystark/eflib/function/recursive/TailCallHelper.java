@@ -13,13 +13,18 @@ final class TailCallHelper {
 
     /**
      * 再帰が完了したことを表すVoidTailCallです。
-     *
-     * <p>このインスタンスのnextメソッドは自身を返し、executeメソッドは何も行いません。
      */
-    private static final VoidCompleted VOID_COMPLETED = () -> {};
+    static final VoidCompleted VOID_COMPLETED = new VoidCompleted();
 
-    private static final BooleanCompleted TRUE_COMPLETED = () -> true;
-    private static final BooleanCompleted FALSE_COMPLETED = () -> false;
+    /**
+     * 評価値trueで再帰が完了したことを表すBooleanTailCallです。
+     */
+    static final BooleanCompleted TRUE_COMPLETED = () -> true;
+
+    /**
+     * 評価値falseで再帰が完了したことを表すBooleanTailCallです。
+     */
+    static final BooleanCompleted FALSE_COMPLETED = () -> false;
 
     /**
      * 与えられたTailCallが終了している場合trueを返します。
@@ -52,34 +57,7 @@ final class TailCallHelper {
     }
 
     /**
-     * 末尾再帰関数の評価値を返すTailCallを実装します。
-     *
-     * @param value 末尾再帰関数の戻り値
-     * @param <T> 末尾再帰関数の戻り値の型
-     * @return 再帰が完了したTailCall
-     */
-    @NotNull
-    static <T> Completed<T> complete(@Nullable T value) {
-        return () -> value;
-    }
-
-    /**
-     * 末尾再帰関数が終了したことを表すVoidTailCallを返します。
-     *
-     * @return 再帰が完了したVoidTailCall
-     */
-    @NotNull
-    static VoidTailCall complete() {
-        return VOID_COMPLETED;
-    }
-
-    @NotNull
-    static BooleanTailCall complete(boolean value) {
-        return value ? TRUE_COMPLETED : FALSE_COMPLETED;
-    }
-
-    /**
-     * 再帰呼び出しが修了したTailCallを表すインターフェースです。
+     * 再帰呼び出しが完了したTailCallを表すインターフェースです。
      *
      * <p>{@link Completed#next}メソッドは自分自身を返し、{@link Completed#evaluate}メソッドは値を返します。
      *
@@ -102,35 +80,70 @@ final class TailCallHelper {
         }
 
         /**
-         * このTailCallの値を取得します。
+         * このTailCallの評価値を取得します。
          *
-         * @return 末尾再帰関数の戻り値
+         * @return 末尾再帰関数の評価値
          */
         @Override
         @Nullable
         T evaluate();
     }
 
-    @FunctionalInterface
-    interface VoidCompleted extends VoidTailCall {
+    /**
+     * 再帰呼び出しが完了したVoidTailCallを表すインターフェースです。
+     *
+     * <p>{@link VoidCompleted#next}メソッドは自分自身を返し、{@link VoidCompleted#execute}メソッドは何も行いません。
+     */
+    static final class VoidCompleted implements VoidTailCall {
+
+        /**
+         * このTailCallの次に評価されるTailCallを返します。
+         *
+         * <p>再帰が完了し、次に呼び出すべきTailCallが存在しないため、このメソッドは自身の参照を返します。
+         *
+         * @return 自身の参照
+         */
         @Override
         @NotNull
-        default VoidTailCall next() {
+        public VoidTailCall next() {
             return this;
         }
 
+        /**
+         * このTailCallを実行します。
+         *
+         * <p>再帰が完了しているため、このメソッドは何も行いません。
+         */
         @Override
-        void execute();
+        public void execute() {}
     }
 
+    /**
+     * 再帰呼び出しが完了したBooleanTailCallを表すインターフェースです。
+     *
+     * <p>{@link BooleanCompleted#next}メソッドは自分自身を返し、{@link BooleanCompleted#evaluate()}メソッドは評価値を返します。
+     */
     @FunctionalInterface
     interface BooleanCompleted extends BooleanTailCall {
+
+        /**
+         * このTailCallの次に評価されるTailCallを返します。
+         *
+         * <p>再帰が完了し、次に呼び出すべきTailCallが存在しないため、このメソッドは自身の参照を返します。
+         *
+         * @return 自身の参照
+         */
         @Override
         @NotNull
         default BooleanTailCall next() {
             return this;
         }
 
+        /**
+         * このTailCallの評価値を取得します。
+         *
+         * @return 末尾再帰関数の評価値
+         */
         @Override
         boolean evaluate();
     }
