@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.recursive.RS.TailCallS;
 
 import static raystark.eflib.function.recursive.TailCallUtil.VOID_COMPLETED;
+import static raystark.eflib.function.recursive.TailCallUtil.isCompleted;
 
 /**
  * 末尾再帰呼び出しを表すインターフェースです。
@@ -118,16 +119,6 @@ public interface TailCall<T> {
         @Override
         @Nullable
         T evaluate();
-    }
-
-    /**
-     * 与えられたTailCallが終了している場合trueを返します。
-     *
-     * @param tailCall 修了しているか検証するTailCall
-     * @return TailCallが終了している場合true
-     */
-    static boolean isCompleted(@NotNull TailCall<?> tailCall) {
-        return tailCall instanceof Completed;
     }
 
     @NotNull
