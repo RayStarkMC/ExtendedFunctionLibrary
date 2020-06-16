@@ -5,6 +5,13 @@ import raystark.eflib.function.recursive.RA.TailCallA;
 
 import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
 
+/**
+ * 引数を返さない末尾再帰呼び出しを表すインターフェースです。
+ *
+ * <p>TailCallと同様に{@link VoidTailCall#call}と{@link VoidTailCall#complete}を使うことで末尾再帰関数を最適化出来ます。
+ *
+ * @see TailCall
+ */
 @FunctionalInterface
 public interface VoidTailCall {
     /**
