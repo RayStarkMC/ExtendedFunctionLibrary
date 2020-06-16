@@ -3,7 +3,7 @@ package raystark.eflib.function.recursive;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-class TailCallUtil {
+class TailCallHelper {
     private static final VoidCompleted VOID_COMPLETED = () -> {};
 
     /**

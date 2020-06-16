@@ -2,7 +2,7 @@ package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
 
-import static raystark.eflib.function.recursive.TailCallUtil.isCompleted;
+import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
 
 @FunctionalInterface
 public interface VoidTailCall {
@@ -47,6 +47,6 @@ public interface VoidTailCall {
      */
     @NotNull
     static VoidTailCall complete() {
-        return TailCallUtil.complete();
+        return TailCallHelper.complete();
     }
 }

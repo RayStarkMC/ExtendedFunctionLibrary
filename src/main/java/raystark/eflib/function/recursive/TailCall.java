@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.recursive.RS.TailCallS;
 
-import static raystark.eflib.function.recursive.TailCallUtil.isCompleted;
+import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
 
 /**
  * 末尾再帰呼び出しを表すインターフェースです。
@@ -112,6 +112,6 @@ public interface TailCall<T> {
      */
     @NotNull
     static <T> TailCall<T> complete(@Nullable T value) {
-        return TailCallUtil.complete(value);
+        return TailCallHelper.complete(value);
     }
 }
