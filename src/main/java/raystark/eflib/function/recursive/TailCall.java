@@ -2,7 +2,6 @@ package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import raystark.eflib.function.notnull.NNS;
 
 import static raystark.eflib.function.recursive.TailCallUtil.VOID_COMPLETED;
 
