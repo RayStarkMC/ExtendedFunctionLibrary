@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.P2;
 
+@FunctionalInterface
 public interface RP2<T1, T2> {
     @NotNull
     BooleanTailCall test(@Nullable T1 t1, @Nullable T2 t2, @NotNull RP2<T1, T2> self);
