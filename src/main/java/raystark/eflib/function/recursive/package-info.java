@@ -34,13 +34,13 @@
  * <pre>{@code
  *      public class SomeClass {
  *          public static void main(String[] args) {
- *              F2<BigInteger, BigInteger, BigInteger> factBase1 = RF2.of((t0, n, self) -> {
+ *              F2<BigInteger, BigInteger, BigInteger> factBase = RF2.of((t0, n, self) -> {
  *                  if(n.compareTo(ONE) < 0) return TailCall.complete(t0);
  *
  *                  return TailCall.call(() -> self.apply(t0.multiply(n), n.subtract(ONE)));
  *              });
  *
- *              F1<BigInteger, BigInteger> lambdaFact = factBase1.apply(ONE);
+ *              F1<BigInteger, BigInteger> lambdaFact = factBase.apply(ONE);
  *              F1<BigInteger, BigInteger> methodFact = RF2.of(SomeClass::fact).apply(ONE);
  *
  *              System.out.println(lambdaFact.apply(valueOf(30000)));
