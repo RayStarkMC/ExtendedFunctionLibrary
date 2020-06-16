@@ -16,12 +16,12 @@ public interface RC1<T1> {
 
     @NotNull
     static <T1> C1<T1> of(@NotNull RC1<T1> rc1) {
-        return t1 -> rc1.accept(t1).evaluate();
+        return t1 -> rc1.accept(t1).execute();
     }
 
     @NotNull
     static <T1> C1<T1> of(@NotNull TailCallC1<T1> rc1) {
-        return t1 -> rc1.accept(t1).evaluate();
+        return t1 -> rc1.accept(t1).execute();
     }
 
     @FunctionalInterface

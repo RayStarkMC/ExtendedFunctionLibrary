@@ -8,7 +8,7 @@ import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
 @FunctionalInterface
 public interface VoidTailCall {
     /**
-     * このTailCallの次に実行されるVoidTailCallを返します。
+     * このVoidTailCallの次に実行されるVoidTailCallを返します。
      *
      * @return 次に実行されるVoidTailCall
      */
@@ -16,25 +16,25 @@ public interface VoidTailCall {
     VoidTailCall next();
 
     /**
-     * このTailCallを実行します。
+     * このVoidTailCallを実行します。
      *
      * <p>メソッドの再起呼び出しはループに変換されます。
      * 再帰の終了条件が満たされない場合、このメソッドは無限ループに陥る可能性があります。
      *
      * <p>いずれかの関数の評価時にスローされた例外は呼び出し元に中継されます。
      */
-    default void evaluate() {
+    default void execute() {
         for(VoidTailCall tailCall = this; ; tailCall = tailCall.next())
             if(isCompleted(tailCall)) return;
     }
 
     /**
-     * 再帰的にメソッドを呼び出すTailCallを実装します。
+     * 再帰的にメソッドを呼び出すVoidTailCallを実装します。
      *
      * <p>引数のactionの中で関数を再帰的に呼び出してください。
      *
-     * @param action 次に呼び出されるTailCallのAction
-     * @return このTailCallの次に呼び出されるTailCall
+     * @param action 次に呼び出されるVoidTailCallのAction
+     * @return このVoidTailCallの次に呼び出されるVoidTailCall
      */
     @NotNull
     static VoidTailCall call(@NotNull TailCallA action) {
@@ -42,9 +42,9 @@ public interface VoidTailCall {
     }
 
     /**
-     * 末尾再帰関数が終了したことを表すTailCallを返します。
+     * 末尾再帰関数が終了したことを表すVoidTailCallを返します。
      *
-     * @return 再帰が完了したTailCall
+     * @return 再帰が完了したVoidTailCall
      */
     @NotNull
     static VoidTailCall complete() {
