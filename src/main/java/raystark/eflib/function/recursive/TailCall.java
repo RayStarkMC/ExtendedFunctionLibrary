@@ -88,39 +88,6 @@ public interface TailCall<T> {
     }
 
     /**
-     * 再帰呼び出しが修了したTailCallを表すインターフェースです。
-     *
-     * <p>{@link Completed#next}メソッドは自分自身を返し、{@link Completed#evaluate}メソッドは値を返します。
-     *
-     * @param <T> 末尾再帰関数の戻り値の型
-     */
-    @FunctionalInterface
-    interface Completed<T> extends TailCall<T> {
-
-        /**
-         * このTailCallの次に評価されるTailCallを返します。
-         *
-         * <p>再帰が完了し、次に呼び出すべきTailCallが存在しないため、このメソッドは自身の参照を返します。
-         *
-         * @return 自身の参照
-         */
-        @Override
-        @NotNull
-        default TailCall<T> next() {
-            return this;
-        }
-
-        /**
-         * このTailCallの値を取得します。
-         *
-         * @return 末尾再帰関数の戻り値
-         */
-        @Override
-        @Nullable
-        T evaluate();
-    }
-
-    /**
      * 再帰的にメソッドを呼び出すTailCallを実装します。
      *
      * <p>引数のsupplierの中で関数を再帰的に呼び出してください。
@@ -135,7 +102,7 @@ public interface TailCall<T> {
     }
 
     /**
-     * 末尾再帰関数の評価値を返すCompletedを実装します。
+     * 末尾再帰関数の評価値を返すTailCallを実装します。
      *
      * <p>引数には末尾再帰関数の戻り値を渡してください。
      *
@@ -144,7 +111,7 @@ public interface TailCall<T> {
      * @return 再帰が完了したTailCall
      */
     @NotNull
-    static <T> Completed<T> complete(@Nullable T value) {
-        return () -> value;
+    static <T> TailCall<T> complete(@Nullable T value) {
+        return TailCallUtil.complete(value);
     }
 }
