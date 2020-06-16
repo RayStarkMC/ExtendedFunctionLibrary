@@ -4,8 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.notnull.NNS;
 
-import java.util.stream.Stream;
-
 import static raystark.eflib.function.recursive.TailCallUtil.VOID_COMPLETED;
 
 /**
@@ -20,11 +18,8 @@ public interface TailCall<T> {
 
     @Nullable
     default T get() {
-        return Stream.iterate(this, TailCall::next)
-                .filter(TailCall::isCompleted)
-                .findFirst()
-                .orElseThrow(RuntimeException::new)
-                .get();
+        for(TailCall<T> tailCall = this; ; tailCall = tailCall.next())
+            if(isCompleted(tailCall)) return tailCall.get();
     }
 
     @FunctionalInterface
