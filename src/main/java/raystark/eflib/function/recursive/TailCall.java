@@ -20,7 +20,6 @@ import static raystark.eflib.function.recursive.TailCallUtil.isCompleted;
  * <p>末尾再帰でない再帰関数を定義した場合は最適化されない事に注意してください。そのような再帰関数はコールスタックを保持しておく必要があり、
  * 再帰呼び出しをループに展開することが出来ません。
  *
- *
  * <p>最適化された末尾再帰関数を定義するためには再帰関数のreturn文で以下の2つのメソッドを利用してTailCallを実装します。
  * <ul>
  *     <li>{@link TailCall#call}: メソッドの再帰呼び出しを行う実装を返します。引数には次に呼び出すメソッドを実行するSupplierを渡します。</li>
