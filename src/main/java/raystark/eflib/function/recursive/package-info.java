@@ -47,7 +47,6 @@
  *              System.out.println(methodFact.apply(valueOf(5))); // print 120
  *          }
  *
- *          @NotNull
  *          public static TailCall<BigInteger> fact(BigInteger t0, BigInteger n) {
  *              if(n.compareTo(ONE) < 0) return TailCall.complete(t0);
  *
