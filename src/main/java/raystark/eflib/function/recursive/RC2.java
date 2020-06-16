@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.C2;
 
+@FunctionalInterface
 public interface RC2<T1, T2> {
     @NotNull
     VoidTailCall accept(@Nullable T1 t1, @Nullable T2 t2, @NotNull RC2<T1, T2> self);
