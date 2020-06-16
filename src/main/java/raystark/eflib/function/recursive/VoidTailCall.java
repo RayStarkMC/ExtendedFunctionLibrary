@@ -1,6 +1,7 @@
 package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.function.recursive.RA.TailCallA;
 
 import static raystark.eflib.function.recursive.TailCallHelper.isCompleted;
 
@@ -36,7 +37,7 @@ public interface VoidTailCall {
      * @return このTailCallの次に呼び出されるTailCall
      */
     @NotNull
-    static VoidTailCall call(@NotNull RA.TailCallA action) {
+    static VoidTailCall call(@NotNull TailCallA action) {
         return action::run;
     }
 
