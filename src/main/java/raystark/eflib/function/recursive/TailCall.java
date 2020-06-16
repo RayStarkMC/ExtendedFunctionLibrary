@@ -36,12 +36,12 @@ public interface TailCall<T> {
         T get();
     }
 
-    static boolean isCompleted(TailCall<?> tailCall) {
+    static boolean isCompleted(@NotNull TailCall<?> tailCall) {
         return tailCall instanceof Completed;
     }
 
     @NotNull
-    static <T> TailCall<T> call(@NotNull NNS<TailCall<T>> tailCall) {
+    static <T> TailCall<T> call(@NotNull RS.TailCallS<T> tailCall) {
         return tailCall::get;
     }
 
