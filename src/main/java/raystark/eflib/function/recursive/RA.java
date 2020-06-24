@@ -18,15 +18,4 @@ public interface RA {
     static A of(@NotNull RA ra) {
         return () -> ra.run().execute();
     }
-
-    @NotNull
-    static A of(@NotNull TailCallA ra) {
-        return () -> ra.run().execute();
-    }
-
-    @FunctionalInterface
-    interface TailCallA {
-        @NotNull
-        VoidTailCall run();
-    }
 }

@@ -18,15 +18,4 @@ public interface RP3<T1, T2, T3> {
     static <T1, T2, T3> P3<T1, T2, T3> of(@NotNull RP3<T1, T2, T3> rp3) {
         return (t1, t2, t3) -> rp3.test(t1, t2, t3).evaluate();
     }
-
-    @NotNull
-    static <T1, T2, T3> P3<T1, T2, T3> of(@NotNull TailCallP3<T1, T2, T3> rp3) {
-        return (t1, t2, t3) -> rp3.test(t1, t2, t3).evaluate();
-    }
-
-    @FunctionalInterface
-    interface TailCallP3<T1, T2, T3> {
-        @NotNull
-        BooleanTailCall test(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3);
-    }
 }

@@ -17,15 +17,4 @@ public interface RS<T> {
     static <T> S<T> of(@NotNull RS<T> rs) {
         return () -> rs.get().evaluate();
     }
-
-    @NotNull
-    static <T> S<T> of(@NotNull TailCallS<T> rs) {
-        return () -> rs.get().evaluate();
-    }
-
-    @FunctionalInterface
-    interface TailCallS<T> {
-        @NotNull
-        TailCall<T> get();
-    }
 }
