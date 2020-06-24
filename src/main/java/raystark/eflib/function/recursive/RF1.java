@@ -60,7 +60,7 @@ public interface RF1<T1, R> {
      * <pre>{@code
      *  F1<T1, R> f1 = RF1.<T1, R>of((t1, self) -> {
      *      if(someState) return complete(someValue1);
-     *      return call(() -> self.apply(someArg));
+     *      return call(() -> self.apply(modify(t1)));
      *  }.then1(SomeClass2::someMethod);
      * }</pre>
      *
