@@ -1,6 +1,8 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Function;
 
 /**
@@ -29,7 +31,8 @@ public interface F1<T1, R> {
      * @param t1 第一引数
      * @return 適用結果
      */
-    R apply(T1 t1);
+    @Nullable
+    R apply(@Nullable T1 t1);
 
     /**
      * 入力をこの関数を適用し、一変数関数としての結果を関数afterに適用する合成関数を返します。
@@ -81,7 +84,7 @@ public interface F1<T1, R> {
      * @return Supplier
      */
     @NotNull
-    default S<R> asS(T1 t1) {
+    default S<R> asS(@Nullable T1 t1) {
         return () -> apply(t1);
     }
 

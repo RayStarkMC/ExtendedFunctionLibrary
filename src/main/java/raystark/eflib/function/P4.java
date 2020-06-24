@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 型T1, 型T2, 型T3, 型T4の述語です。またBoolean型を返す関数です。
@@ -29,7 +30,7 @@ public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
      * @param t4 第四引数
      * @return 引数が述語に一致する場合true, それ以外の場合false
      */
-    boolean test(T1 t1, T2 t2, T3 t3, T4 t4);
+    boolean test(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @Nullable T4 t4);
 
     /**
      * 指定された引数でこの述語を評価します。
@@ -44,7 +45,7 @@ public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
      */
     @Override
     @NotNull
-    default Boolean apply(T1 t1, T2 t2, T3 t3, T4 t4) {
+    default Boolean apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @Nullable T4 t4) {
         return test(t1, t2, t3, t4);
     }
 
@@ -53,7 +54,7 @@ public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
      */
     @Override
     @NotNull
-    default P3<T2, T3, T4> apply(T1 t1) {
+    default P3<T2, T3, T4> apply(@Nullable T1 t1) {
         return (t2, t3, t4) -> test(t1, t2, t3, t4);
     }
 
@@ -62,7 +63,7 @@ public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
      */
     @Override
     @NotNull
-    default P2<T3, T4> apply(T1 t1, T2 t2) {
+    default P2<T3, T4> apply(@Nullable T1 t1, @Nullable T2 t2) {
         return (t3, t4) -> test(t1, t2, t3, t4);
     }
 
@@ -71,7 +72,7 @@ public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
      */
     @Override
     @NotNull
-    default P1<T4> apply(T1 t1, T2 t2, T3 t3) {
+    default P1<T4> apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3) {
         return t4 -> test(t1, t2, t3,t4);
     }
 

@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -27,7 +28,7 @@ public interface C1<T1> {
      *
      * @param t1 第一引数
      */
-    void accept(T1 t1);
+    void accept(@Nullable T1 t1);
 
     /**
      * このConsumerを実行した後にConsumer afterを実行する合成Consumerを返します。
@@ -116,7 +117,7 @@ public interface C1<T1> {
      * @return Action
      */
     @NotNull
-    default A asA(T1 t1) {
+    default A asA(@Nullable T1 t1) {
         return () -> accept(t1);
     }
 

@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiPredicate;
 
@@ -34,7 +35,7 @@ public interface P2<T1, T2> extends F2<T1, T2, Boolean> {
      * @param t2 第二引数
      * @return 引数が述語に一致する場合true, それ以外の場合false
      */
-    boolean test(T1 t1, T2 t2);
+    boolean test(@Nullable T1 t1, @Nullable T2 t2);
 
     /**
      * 指定された引数でこの述語を評価します。
@@ -47,7 +48,7 @@ public interface P2<T1, T2> extends F2<T1, T2, Boolean> {
      */
     @Override
     @NotNull
-    default Boolean apply(T1 t1, T2 t2) {
+    default Boolean apply(@Nullable T1 t1, @Nullable T2 t2) {
         return test(t1, t2);
     }
 
@@ -56,7 +57,7 @@ public interface P2<T1, T2> extends F2<T1, T2, Boolean> {
      */
     @Override
     @NotNull
-    default P1<T2> apply(T1 t1) {
+    default P1<T2> apply(@Nullable T1 t1) {
         return t2 -> test(t1, t2);
     }
 

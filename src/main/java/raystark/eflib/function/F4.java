@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 型T1, 型T2, 型T3, 型T4から型Rへの四変数関数です。
@@ -27,7 +28,8 @@ public interface F4<T1, T2, T3, T4, R> extends F3<T1, T2, T3, F1<T4, R>> {
      * @param t4 第四引数
      * @return 適用結果
      */
-    R apply(T1 t1, T2 t2, T3 t3, T4 t4);
+    @Nullable
+    R apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @Nullable T4 t4);
 
     /**
      * 第三引数までをこの関数に部分適用します。
@@ -39,7 +41,7 @@ public interface F4<T1, T2, T3, T4, R> extends F3<T1, T2, T3, F1<T4, R>> {
      */
     @NotNull
     @Override
-    default F1<T4, R> apply(T1 t1, T2 t2, T3 t3) {
+    default F1<T4, R> apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3) {
         return t4 -> apply(t1, t2, t3, t4);
     }
 
@@ -151,7 +153,7 @@ public interface F4<T1, T2, T3, T4, R> extends F3<T1, T2, T3, F1<T4, R>> {
      * @return Supplier
      */
     @NotNull
-    default S<R> asS(T1 t1, T2 t2, T3 t3, T4 t4) {
+    default S<R> asS(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @Nullable T4 t4) {
         return () -> apply(t1, t2, t3, t4);
     }
 

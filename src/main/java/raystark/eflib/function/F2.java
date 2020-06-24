@@ -1,6 +1,7 @@
 package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiFunction;
 
@@ -32,7 +33,8 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
      * @param t2 第二引数
      * @return 適用結果
      */
-    R apply(T1 t1, T2 t2);
+    @Nullable
+    R apply(@Nullable T1 t1, @Nullable T2 t2);
 
     /**
      * 第一引数までをこの関数に部分適用します。
@@ -42,7 +44,7 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
      */
     @NotNull
     @Override
-    default F1<T2, R> apply(T1 t1) {
+    default F1<T2, R> apply(@Nullable T1 t1) {
         return t2 -> apply(t1, t2);
     }
 
@@ -116,7 +118,7 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
      * @return Supplier
      */
     @NotNull
-    default S<R> asS(T1 t1, T2 t2) {
+    default S<R> asS(@Nullable T1 t1, @Nullable T2 t2) {
         return () -> apply(t1, t2);
     }
 
