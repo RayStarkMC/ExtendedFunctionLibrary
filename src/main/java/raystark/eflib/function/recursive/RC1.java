@@ -9,7 +9,7 @@ import raystark.eflib.function.C1;
  *
  * <p>このインターフェースは{@link RC1#accept(T1, RC1)}を関数メソッドに持つ関数型インターフェースです。
  *
- * <p>このインターフェースは一変数関数{@link C1}を再帰的ラムダ式で定義するためのインターフェースです。
+ * <p>このインターフェースは一変数Consumer {@link C1}を再帰的ラムダ式で定義するためのインターフェースです。
  * このインターフェース自体のインスタンスからは部分適用等の{@link C1}で定義されるdefaultメソッドにはアクセスできません。
  * {@link RC1#of}メソッドを使うことで再帰的ラムダ式から{@link C1}型の関数オブジェクトを作成できます。
  *
@@ -57,7 +57,7 @@ public interface RC1<T1> {
      *
      * <p>再帰的ラムダ式の型が推論されない場合は次のように明示的に型を指定してください。
      * <pre>{@code
-     *  C1<T1> c1 = RC1.<R1>of((t1, self) -> {
+     *  C1<T1> c1 = RC1.<R1>of((r1, self) -> {
      *      if(someCondition) return VoidTailCall.complete(someValue);
      *      return VoidTailCall.call(() -> self.apply(modify(t1)));
      *  }.compose1(SomeClass2::someMethod);
