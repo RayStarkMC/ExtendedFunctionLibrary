@@ -29,7 +29,7 @@ public interface RF1<T1, R> {
      *
      * @param t1 第一引数
      * @param self this参照
-     * @return 適用結果
+     * @return 再帰関数の末尾呼び出し
      * @see RF1#apply(T1)
      * @see TailCall#call
      */
@@ -42,7 +42,7 @@ public interface RF1<T1, R> {
      * <p>この実装では{@link RF1#apply(T1, RF1)}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
-     * @return 適用結果
+     * @return 再帰関数の末尾呼び出し
      * @see TailCall#call
      */
     @NotNull

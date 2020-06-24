@@ -1,7 +1,6 @@
 package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
-import raystark.eflib.function.F1;
 import raystark.eflib.function.S;
 
 /**
@@ -10,7 +9,7 @@ import raystark.eflib.function.S;
  * <p>このインターフェースは{@link RS#get(RS)}を関数メソッドに持つ関数型インターフェースです。
  *
  * <p>このインターフェースはSupplier {@link S}を再帰的ラムダ式で定義するためのインターフェースです。
- * このインターフェース自体のインスタンスからは部分適用等の{@link S}で定義されるdefaultメソッドにはアクセスできません。
+ * このインターフェース自体のインスタンスからは{@link S}で定義されるdefaultメソッドにはアクセスできません。
  * {@link RS#of}メソッドを使うことで再帰的ラムダ式から{@link S}型の関数オブジェクトを作成できます。
  *
  * @param <T> 供給する値の型
@@ -27,7 +26,7 @@ public interface RS<T> {
      * <p>再帰的ラムダ式では{@link TailCall#call}に渡すSupplierの中でselfを参照し、{@link RS#get()}メソッドを呼び出してください。
      *
      * @param self this参照
-     * @return 値
+     * @return 再帰関数の末尾呼び出し
      * @see RS#get()
      * @see TailCall#call
      */
@@ -39,7 +38,7 @@ public interface RS<T> {
      *
      * <p>この実装では{@link RS#get(RS)}メソッドに引数と関数自身を渡します。
      *
-     * @return 値
+     * @return 再帰関数の末尾呼び出し
      * @see TailCall#call
      */
     @NotNull

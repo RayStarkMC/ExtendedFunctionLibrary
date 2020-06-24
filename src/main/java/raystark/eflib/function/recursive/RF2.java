@@ -31,7 +31,7 @@ public interface RF2<T1, T2, R> {
      * @param t1 第一引数
      * @param t2 第二引数
      * @param self this参照
-     * @return 適用結果
+     * @return 再帰関数の末尾呼び出し
      * @see RF2#apply(T1, T2)
      * @see TailCall#call
      */
@@ -45,7 +45,7 @@ public interface RF2<T1, T2, R> {
      *
      * @param t1 第一引数
      * @param t2 第二引数
-     * @return 適用結果
+     * @return 再帰関数の末尾呼び出し
      * @see TailCall#call
      */
     @NotNull
