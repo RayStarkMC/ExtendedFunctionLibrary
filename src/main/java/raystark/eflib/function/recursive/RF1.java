@@ -39,7 +39,7 @@ public interface RF1<T1, R> {
     /**
      * 一変数関数として引数をこの関数に適用します。
      *
-     * <p>この実装では{@link RF1#apply(T1, RF1)}メソッドにt1と関数自身を渡します。
+     * <p>この実装では{@link RF1#apply(T1, RF1)}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
      * @return 適用結果
