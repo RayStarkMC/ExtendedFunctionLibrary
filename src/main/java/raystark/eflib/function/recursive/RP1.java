@@ -38,7 +38,7 @@ public interface RP1<T1> {
     /**
      * 指定された引数でこの述語を評価します。
      *
-     * <p>この実装では{@link RF1#apply(T1, RF1)}メソッドに引数と関数自身を渡します。
+     * <p>この実装では{@link RP1#test(T1, RP1)}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
      * @return 適用結果
@@ -57,8 +57,8 @@ public interface RP1<T1> {
      *
      * <p>再帰的ラムダ式の型が推論されない場合は次のように明示的に型を指定してください。
      * <pre>{@code
-     *  P1<T1> f1 = RP1.<T1>of((t1, self) -> {
-     *      if(someState) return complete(someValue1);
+     *  P1<T1> p1 = RP1.<T1>of((t1, self) -> {
+     *      if(someState) return complete(someValue);
      *      return call(() -> self.apply(modify(t1)));
      *  }.and(SomeClass2::someMethod);
      * }</pre>
