@@ -22,36 +22,25 @@
  * これらを使って記述された末尾再帰関数は自動で最適化されます。
  * 末尾再帰関数の正しい実装方法は{@link raystark.eflib.function.recursive.TailCall}を参照してください。
  *
- * <p>本パッケージ下の頭文字R: Recursiveで始まるインターフェースは末尾再帰関数をラムダ及びメソッド参照で記述するための関数型インターフェースです。
+ * <p>本パッケージ下の頭文字R: Recursiveで始まるインターフェースは末尾再帰関数を再帰的ラムダで記述するための関数型インターフェースです。
  * 各関数は{@link raystark.eflib.function}下のRを除く名前が一致する関数と対応しています。
  * 各インターフェースは再帰関数の記述のみを目的としており、部分適用や合成関数の作成などはサポートされていません。
- * 各インターフェースにはラムダ式用とメソッド参照用の2種類のofメソッドが定義されています。
+ * 各インターフェースには再帰的ラムダ式から関数オブジェクトを作成するofメソッドが定義されています。
  * 匿名クラスと違ってラムダ式ではthisが自身を参照しないため、各関数は自身の参照を持つselfを引数に取ります。
- * メソッド参照により関数を定義するためのインターフェースは各関数のインナーインターフェースとして定義されています。
  *
  * <p>以下に自然数nの階乗を求める関数をラムダ式で定義されたlambdaFact、
  * 及び再帰的に定義されたメソッドfactを参照して定義されたmethodFactのコード例を示します。
  * <pre>{@code
- *      public class SomeClass {
- *          public static void main(String[] args) {
- *              F2<BigInteger, BigInteger, BigInteger> factBase = RF2.of((t0, n, self) -> {
- *                  if(n.compareTo(ONE) < 0) return TailCall.complete(t0);
- *
- *                  return TailCall.call(() -> self.apply(t0.multiply(n), n.subtract(ONE)));
- *              });
- *
- *              F1<BigInteger, BigInteger> lambdaFact = factBase.apply(ONE);
- *              F1<BigInteger, BigInteger> methodFact = RF2.of(SomeClass::fact).apply(ONE);
- *
- *              System.out.println(lambdaFact.apply(valueOf(30000)));
- *              System.out.println(methodFact.apply(valueOf(30000)));
- *          }
- *
- *          public static TailCall<BigInteger> fact(BigInteger t0, BigInteger n) {
+ *      public static void main(String[] args) {
+ *          F2<BigInteger, BigInteger, BigInteger> factBase = RF2.of((t0, n, self) -> {
  *              if(n.compareTo(ONE) < 0) return TailCall.complete(t0);
  *
- *              return TailCall.call(() -> fact(t0.multiply(n), n.subtract(ONE)));
- *          }
+ *              return TailCall.call(() -> self.apply(t0.multiply(n), n.subtract(ONE)));
+ *          });
+ *
+ *          F1<BigInteger, BigInteger> lambdaFact = factBase.apply(ONE);
+ *
+ *          System.out.println(lambdaFact.apply(valueOf(30000)));
  *      }
  * }</pre>
  *
