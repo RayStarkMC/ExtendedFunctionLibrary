@@ -58,7 +58,7 @@ public interface RC1<T1> {
      * <p>再帰的ラムダ式の型が推論されない場合は次のように明示的に型を指定してください。
      * <pre>{@code
      *  C1<T1> c1 = RC1.<R1>of((r1, self) -> {
-     *      if(someCondition) return VoidTailCall.complete(someValue);
+     *      if(someCondition) return VoidTailCall.complete();
      *      return VoidTailCall.call(() -> self.apply(modify(t1)));
      *  }.compose1(SomeClass2::someMethod);
      * }</pre>
