@@ -33,7 +33,7 @@
  * <pre>{@code
  *      public static void main(String[] args) {
  *          F2<BigInteger, BigInteger, BigInteger> factBase = RF2.of((t0, n, self) -> {
- *              if(n.compareTo(ONE) < 0) return TailCall.complete(t0);
+ *              if(n.compareTo(ONE) <= 0) return TailCall.complete(t0);
  *
  *              return TailCall.call(() -> self.apply(t0.multiply(n), n.subtract(ONE)));
  *          });
