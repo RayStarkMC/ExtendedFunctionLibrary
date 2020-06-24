@@ -72,7 +72,7 @@ public interface RP3<T1, T2, T3> {
      * @param rp3 再帰的ラムダ式
      * @param <T1> 第一引数の型
      * @param <T2> 第二引数の型
-     * @param <T3> 第三引数
+     * @param <T3> 第三引数の型
      * @return ラムダ式のP3変換
      */
     @NotNull
