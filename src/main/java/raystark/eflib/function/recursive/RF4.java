@@ -69,7 +69,7 @@ public interface RF4<T1, T2, T3, T4, R> {
      * <p>再帰的ラムダ式の型が推論されない場合は次のように明示的に型を指定してください。
      * <pre>{@code
      *  F4<T1, T2, T3, T4, R> f4 = RF4.<T1, T2, T3, T4, R>of((t1, t2, t3, t4, self) -> {
-     *      if(someState) return complete(someValue);
+     *      if(someCondition) return complete(someValue);
      *      return call(() -> self.apply(modify(t1), modify(t2), modify(t3), modify(t4)));
      *  }.then4(SomeClass::someMethod);
      * }</pre>

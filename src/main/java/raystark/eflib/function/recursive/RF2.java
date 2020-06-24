@@ -62,7 +62,7 @@ public interface RF2<T1, T2, R> {
      * <p>再帰的ラムダ式の型が推論されない場合は次のように明示的に型を指定してください。
      * <pre>{@code
      *  F2<T1, T2, R> f2 = RF2.<T1, T2, R>of((t1, t2, self) -> {
-     *      if(someState) return complete(someValue);
+     *      if(someCondition) return complete(someValue);
      *      return call(() -> self.apply(modify(t1), modify(t2)));
      *  }.then2(SomeClass2::someMethod);
      * }</pre>
