@@ -58,7 +58,7 @@ public interface RS<T> {
      *  S<R> s = RS.<T>of(self -> {
      *      if(someCondition) return complete(someValue);
      *      return call(() -> self.get());
-     *  }.then1(SomeClass2::someMethod);
+     *  }.then(SomeClass2::someMethod);
      * }</pre>
      *
      * @param rs 再帰的ラムダ式
