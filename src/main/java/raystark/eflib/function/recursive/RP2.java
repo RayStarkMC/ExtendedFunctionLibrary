@@ -56,7 +56,7 @@ public interface RP2<T1, T2> {
      * 再帰的ラムダ式から関数オブジェクトを生成するファクトリメソッドです。
      *
      * <p>このメソッドは引数に渡された再帰的ラムダ式をP2型に変換して返します。
-     * {@link TailCall#evaluate}の実行は{@link P2#test}の実行まで遅延されます。
+     * {@link BooleanTailCall#evaluate}の実行は{@link P2#test}の実行まで遅延されます。
      *
      * <p>再帰的ラムダ式の型が推論されない場合は次のように明示的に型を指定してください。
      * <pre>{@code
