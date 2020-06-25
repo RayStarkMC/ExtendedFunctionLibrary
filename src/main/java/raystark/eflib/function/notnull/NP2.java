@@ -8,6 +8,7 @@ import java.util.function.BiPredicate;
  * 型T1, 型T2の述語です。またBoolean型を返す関数です。
  *
  * <p>このインターフェースは{@link NP2#test}を関数メソッドに持つ関数型インターフェースです。
+ * <p>この関数はnullを扱いません。
  *
  * <p>オーバーライドされた{@link NF2}のメソッドの内、関数を返すものは対応する述語を返します。
  *
