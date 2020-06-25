@@ -1,10 +1,7 @@
 package raystark.eflib.function.notnull.recursive;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import raystark.eflib.function.F3;
 import raystark.eflib.function.notnull.NF3;
-import raystark.eflib.function.recursive.TailCall;
 
 /**
  * 再帰的に定義された三変数関数です。
