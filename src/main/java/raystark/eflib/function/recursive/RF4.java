@@ -2,13 +2,12 @@ package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import raystark.eflib.function.F3;
 import raystark.eflib.function.F4;
 
 /**
  * 再帰的に定義された四変数関数です。
  *
- * <p>このインターフェースは{@link RF4#apply(T1, T2, T3, T4, RF4)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>このインターフェースは{@link RF4#apply}を関数メソッドに持つ関数型インターフェースです。
  *
  * <p>このインターフェースは一変数関数{@link F4}を再帰的ラムダ式で定義するためのインターフェースです。
  * このインターフェース自体のインスタンスからは部分適用等の{@link F4}で定義されるdefaultメソッドにはアクセスできません。
@@ -29,7 +28,7 @@ public interface RF4<T1, T2, T3, T4, R> {
      * <p>selfにこの関数自身を渡した場合、四変数関数として引数をこの関数に適用します。
      * selfに自身以外を渡した場合の動作は未定義です。
      *
-     * <p>再帰的ラムダ式では{@link TailCall#call}に渡すSupplierの中でselfを参照し、{@link RF4#apply(T1, T2, T3, T4)}メソッドを呼び出してください。
+     * <p>再帰的ラムダ式では{@link TailCall#call}に渡すSupplierの中でselfを参照し、{@link RF4#apply}メソッドを呼び出してください。
      *
      * @param t1 第一引数
      * @param t2 第二引数
@@ -37,8 +36,9 @@ public interface RF4<T1, T2, T3, T4, R> {
      * @param t4 第四引数
      * @param self this参照
      * @return 再帰関数の末尾呼び出し
-     * @see RF4#apply(T1, T2, T3, T4)
+     * @see RF4#apply
      * @see TailCall#call
+     * @see TailCall#complete
      */
     @NotNull
     TailCall<R> apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @Nullable T4 t4, @NotNull RF4<T1, T2, T3, T4, R> self);
@@ -46,14 +46,13 @@ public interface RF4<T1, T2, T3, T4, R> {
     /**
      * 四変数関数として引数をこの関数に適用します。
      *
-     * <p>この実装では{@link RF4#apply(T1, T2, T3, T4, RF4)}メソッドに引数と関数自身を渡します。
+     * <p>この実装では{@link RF4#apply}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
      * @param t2 第二引数
      * @param t3 第三引数
      * @param t4 第四引数
      * @return 再帰関数の末尾呼び出し
-     * @see TailCall#call
      */
     @NotNull
     default TailCall<R> apply(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @Nullable T4 t4) {
