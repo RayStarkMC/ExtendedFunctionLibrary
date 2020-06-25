@@ -53,7 +53,7 @@ public interface RC1<T1> {
      * 再帰的ラムダ式から関数オブジェクトを生成するファクトリメソッドです。
      *
      * <p>このメソッドは引数に渡された再帰的ラムダ式をC1型に変換して返します。
-     * {@link TailCall#evaluate}の実行は{@link C1#accept}の実行まで遅延されます。
+     * {@link VoidTailCall#execute}の実行は{@link C1#accept}の実行まで遅延されます。
      *
      * <p>再帰的ラムダ式の型が推論されない場合は次のように明示的に型を指定してください。
      * <pre>{@code
