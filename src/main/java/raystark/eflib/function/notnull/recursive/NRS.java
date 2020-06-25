@@ -7,6 +7,7 @@ import raystark.eflib.function.notnull.NS;
  * 再帰的に定義された型Tの値のSupplierです。
  *
  * <p>このインターフェースは{@link NRS#get(NRS)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>この関数はnullを扱いません。
  *
  * <p>このインターフェースはSupplier {@link NS}を再帰的ラムダ式で定義するためのインターフェースです。
  * このインターフェース自体のインスタンスからは{@link NS}で定義されるdefaultメソッドにはアクセスできません。
