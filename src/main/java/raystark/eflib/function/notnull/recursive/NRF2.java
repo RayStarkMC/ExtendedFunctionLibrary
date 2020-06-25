@@ -71,7 +71,7 @@ public interface NRF2<T1, T2, R> {
      * @param <T1> 第一引数の型
      * @param <T2> 第二引数の型
      * @param <R> 戻り値の型
-     * @return ラムダ式のF2変換
+     * @return ラムダ式のNF2変換
      */
     @NotNull
     static <T1, T2, R> NF2<T1, T2, R> of(@NotNull NRF2<T1, T2, R> rf2) {
