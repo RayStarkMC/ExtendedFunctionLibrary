@@ -66,7 +66,7 @@ public interface NRP1<T1> {
      *
      * @param rp1 再帰的ラムダ式
      * @param <T1> 第一引数の型
-     * @return ラムダ式のP1変換
+     * @return ラムダ式のNP1変換
      */
     @NotNull
     static <T1> NP1<T1> of(@NotNull NRP1<T1> rp1) {
