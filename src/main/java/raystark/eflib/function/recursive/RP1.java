@@ -24,7 +24,7 @@ public interface RP1<T1> {
      * <p>selfにこの関数自身を渡した場合、一変数述語として引数をこの関数に適用します。
      * selfに自身以外を渡した場合の動作は未定義です。
      *
-     * <p>再帰的ラムダ式では{@link TailCall#call}に渡すSupplierの中でselfを参照し、{@link RP1#test(T1)}メソッドを呼び出してください。
+     * <p>再帰的ラムダ式では{@link BooleanTailCall#call}に渡すSupplierの中でselfを参照し、{@link RP1#test(T1)}メソッドを呼び出してください。
      *
      * @param t1 第一引数
      * @param self this参照

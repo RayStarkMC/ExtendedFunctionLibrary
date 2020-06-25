@@ -27,7 +27,7 @@ public interface RP4<T1, T2, T3, T4> {
      * <p>selfにこの関数自身を渡した場合、四変数述語として引数をこの関数に適用します。
      * selfに自身以外を渡した場合の動作は未定義です。
      *
-     * <p>再帰的ラムダ式では{@link TailCall#call}に渡すSupplierの中でselfを参照し、{@link RP4#test(T1, T2, T3, T4)}メソッドを呼び出してください。
+     * <p>再帰的ラムダ式では{@link BooleanTailCall#call}に渡すSupplierの中でselfを参照し、{@link RP4#test(T1, T2, T3, T4)}メソッドを呼び出してください。
      *
      * @param t1 第一引数
      * @param t2 第二引数
