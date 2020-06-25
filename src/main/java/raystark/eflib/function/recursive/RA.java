@@ -6,7 +6,7 @@ import raystark.eflib.function.A;
 /**
  * 再帰的に定義されたActionです。
  *
- * <p>このインターフェースは{@link RA#run(RA)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>このインターフェースは{@link RA#run}を関数メソッドに持つ関数型インターフェースです。
  *
  * <p>このインターフェースはAction {@link A}を再帰的ラムダ式で定義するためのインターフェースです。
  * このインターフェース自体のインスタンスからは{@link A}で定義されるdefaultメソッドにはアクセスできません。
@@ -28,6 +28,7 @@ public interface RA {
      * @return 再帰関数の末尾呼び出し
      * @see RA#run()
      * @see VoidTailCall#call
+     * @see VoidTailCall#complete
      */
     @NotNull
     VoidTailCall run(@NotNull RA self);
@@ -38,7 +39,6 @@ public interface RA {
      * <p>この実装では{@link RA#run(RA)}メソッドに関数自身を渡します。
      *
      * @return 再帰関数の末尾呼び出し
-     * @see VoidTailCall#call
      */
     @NotNull
     default VoidTailCall run() {

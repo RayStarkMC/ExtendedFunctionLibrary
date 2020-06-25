@@ -28,7 +28,7 @@ public interface P3<T1, T2, T3> extends F3<T1, T2, T3, Boolean> {
      * @param t3 第三引数
      * @return 引数が述語に一致する場合true, それ以外の場合false
      */
-    boolean test(T1 t1, T2 t2, T3 t3);
+    boolean test(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3);
 
     /**
      * 指定された引数でこの述語を評価します。

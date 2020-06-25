@@ -6,7 +6,7 @@ import raystark.eflib.function.S;
 /**
  * 再帰的に定義された型Tの値のSupplierです。
  *
- * <p>このインターフェースは{@link RS#get(RS)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>このインターフェースは{@link RS#get}を関数メソッドに持つ関数型インターフェースです。
  *
  * <p>このインターフェースはSupplier {@link S}を再帰的ラムダ式で定義するためのインターフェースです。
  * このインターフェース自体のインスタンスからは{@link S}で定義されるdefaultメソッドにはアクセスできません。
@@ -29,6 +29,7 @@ public interface RS<T> {
      * @return 再帰関数の末尾呼び出し
      * @see RS#get()
      * @see TailCall#call
+     * @see TailCall#complete
      */
     @NotNull
     TailCall<T> get(@NotNull RS<T> self);
@@ -39,7 +40,6 @@ public interface RS<T> {
      * <p>この実装では{@link RS#get(RS)}メソッドに引数と関数自身を渡します。
      *
      * @return 再帰関数の末尾呼び出し
-     * @see TailCall#call
      */
     @NotNull
     default TailCall<T> get() {
