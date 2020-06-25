@@ -2,7 +2,6 @@ package raystark.eflib.function.recursive;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import raystark.eflib.function.F3;
 import raystark.eflib.function.F4;
 
 /**
