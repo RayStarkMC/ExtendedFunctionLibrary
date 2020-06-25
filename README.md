@@ -13,3 +13,6 @@ Extended Function Libraryはjava.util.functionパッケージを基に機能を�
 ### 末尾再帰最適化と再帰ラムダ式
 * TailCall, VoidTailCallによる末尾再帰関数の最適化
 * 関数をラムダ式で再帰的に定義するためインターフェース
+
+### 非null関数
+* アノテーションによりnullを扱わないことが保証された関数
