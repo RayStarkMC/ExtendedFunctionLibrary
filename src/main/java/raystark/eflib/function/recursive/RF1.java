@@ -32,6 +32,7 @@ public interface RF1<T1, R> {
      * @return 再帰関数の末尾呼び出し
      * @see RF1#apply(T1)
      * @see TailCall#call
+     * @see TailCall#complete
      */
     @NotNull
     TailCall<R> apply(@Nullable T1 t1, @NotNull RF1<T1, R> self);
@@ -43,7 +44,6 @@ public interface RF1<T1, R> {
      *
      * @param t1 第一引数
      * @return 再帰関数の末尾呼び出し
-     * @see TailCall#call
      */
     @NotNull
     default TailCall<R> apply(@Nullable T1 t1) {

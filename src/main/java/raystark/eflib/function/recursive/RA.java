@@ -28,6 +28,7 @@ public interface RA {
      * @return 再帰関数の末尾呼び出し
      * @see RA#run()
      * @see VoidTailCall#call
+     * @see VoidTailCall#complete
      */
     @NotNull
     VoidTailCall run(@NotNull RA self);
@@ -38,7 +39,6 @@ public interface RA {
      * <p>この実装では{@link RA#run(RA)}メソッドに関数自身を渡します。
      *
      * @return 再帰関数の末尾呼び出し
-     * @see VoidTailCall#call
      */
     @NotNull
     default VoidTailCall run() {

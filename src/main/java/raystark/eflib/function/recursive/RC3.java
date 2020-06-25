@@ -35,6 +35,7 @@ public interface RC3<T1, T2, T3> {
      * @return 再帰関数の末尾呼び出し
      * @see RC3#accept(T1, T2, T3)
      * @see VoidTailCall#call
+     * @see VoidTailCall#complete
      */
     @NotNull
     VoidTailCall accept(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3, @NotNull RC3<T1, T2, T3> self);
@@ -48,7 +49,6 @@ public interface RC3<T1, T2, T3> {
      * @param t2 第二引数
      * @param t3 第三引数
      * @return 再帰関数の末尾呼び出し
-     * @see VoidTailCall#call
      */
     @NotNull
     default VoidTailCall accept(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3) {

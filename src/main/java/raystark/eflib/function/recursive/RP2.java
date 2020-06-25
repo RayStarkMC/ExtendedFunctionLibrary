@@ -32,7 +32,8 @@ public interface RP2<T1, T2> {
      * @param self this参照
      * @return 再帰関数の末尾呼び出し
      * @see RP2#test(T1, T2)
-     * @see TailCall#call
+     * @see BooleanTailCall#call
+     * @see BooleanTailCall#complete
      */
     @NotNull
     BooleanTailCall test(@Nullable T1 t1, @Nullable T2 t2, @NotNull RP2<T1, T2> self);
@@ -45,7 +46,6 @@ public interface RP2<T1, T2> {
      * @param t1 第一引数
      * @param t2 第二引数
      * @return 再帰関数の末尾呼び出し
-     * @see TailCall#call
      */
     @NotNull
     default BooleanTailCall test(@Nullable T1 t1, @Nullable T2 t2) {

@@ -34,6 +34,7 @@ public interface RF2<T1, T2, R> {
      * @return 再帰関数の末尾呼び出し
      * @see RF2#apply(T1, T2)
      * @see TailCall#call
+     * @see TailCall#complete
      */
     @NotNull
     TailCall<R> apply(@Nullable T1 t1, @Nullable T2 t2, @NotNull RF2<T1, T2, R> self);
@@ -46,7 +47,6 @@ public interface RF2<T1, T2, R> {
      * @param t1 第一引数
      * @param t2 第二引数
      * @return 再帰関数の末尾呼び出し
-     * @see TailCall#call
      */
     @NotNull
     default TailCall<R> apply(@Nullable T1 t1, @Nullable T2 t2) {

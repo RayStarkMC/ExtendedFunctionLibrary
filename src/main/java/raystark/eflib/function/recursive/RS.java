@@ -29,6 +29,7 @@ public interface RS<T> {
      * @return 再帰関数の末尾呼び出し
      * @see RS#get()
      * @see TailCall#call
+     * @see TailCall#complete
      */
     @NotNull
     TailCall<T> get(@NotNull RS<T> self);
@@ -39,7 +40,6 @@ public interface RS<T> {
      * <p>この実装では{@link RS#get(RS)}メソッドに引数と関数自身を渡します。
      *
      * @return 再帰関数の末尾呼び出し
-     * @see TailCall#call
      */
     @NotNull
     default TailCall<T> get() {
