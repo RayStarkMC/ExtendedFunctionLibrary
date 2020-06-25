@@ -6,7 +6,7 @@ import raystark.eflib.function.notnull.NF1;
 /**
  * 再帰的に定義された一変数関数です。
  *
- * <p>このインターフェースは{@link NRF1#apply(T1, NRF1)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>このインターフェースは{@link NRF1#apply}を関数メソッドに持つ関数型インターフェースです。
  * <p>この関数はnullを扱いません。
  *
  * <p>このインターフェースは一変数関数{@link NF1}を再帰的ラムダ式で定義するためのインターフェースです。
@@ -25,12 +25,12 @@ public interface NRF1<T1, R> {
      * <p>selfにこの関数自身を渡した場合、一変数関数として引数をこの関数に適用します。
      * selfに自身以外を渡した場合の動作は未定義です。
      *
-     * <p>再帰的ラムダ式では{@link NTailCall#call}に渡すSupplierの中でselfを参照し、{@link NRF1#apply(T1)}メソッドを呼び出してください。
+     * <p>再帰的ラムダ式では{@link NTailCall#call}に渡すSupplierの中でselfを参照し、{@link NRF1#apply}メソッドを呼び出してください。
      *
      * @param t1 第一引数
      * @param self this参照
      * @return 再帰関数の末尾呼び出し
-     * @see NRF1#apply(T1)
+     * @see NRF1#apply
      * @see NTailCall#call
      * @see NTailCall#complete
      */
@@ -40,7 +40,7 @@ public interface NRF1<T1, R> {
     /**
      * 一変数関数として引数をこの関数に適用します。
      *
-     * <p>この実装では{@link NRF1#apply(T1, NRF1)}メソッドに引数と関数自身を渡します。
+     * <p>この実装では{@link NRF1#apply}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
      * @return 再帰関数の末尾呼び出し

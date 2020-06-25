@@ -7,7 +7,7 @@ import raystark.eflib.function.C1;
 /**
  * 再帰的に定義された型T1のConsumerです。
  *
- * <p>このインターフェースは{@link RC1#accept(T1, RC1)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>このインターフェースは{@link RC1#accept}を関数メソッドに持つ関数型インターフェースです。
  *
  * <p>このインターフェースは一変数Consumer {@link C1}を再帰的ラムダ式で定義するためのインターフェースです。
  * このインターフェース自体のインスタンスからは部分適用等の{@link C1}で定義されるdefaultメソッドにはアクセスできません。
@@ -24,12 +24,12 @@ public interface RC1<T1> {
      * <p>selfにこの関数自身を渡した場合、一変数Consumerとして引数をこの関数に適用します。
      * selfに自身以外を渡した場合の動作は未定義です。
      *
-     * <p>再帰的ラムダ式では{@link VoidTailCall#call}に渡すSupplierの中でselfを参照し、{@link RC1#accept(T1)}メソッドを呼び出してください。
+     * <p>再帰的ラムダ式では{@link VoidTailCall#call}に渡すSupplierの中でselfを参照し、{@link RC1#accept}メソッドを呼び出してください。
      *
      * @param t1 第一引数
      * @param self this参照
      * @return 再帰関数の末尾呼び出し
-     * @see RC1#accept(T1)
+     * @see RC1#accept
      * @see VoidTailCall#call
      * @see VoidTailCall#complete
      */
@@ -39,7 +39,7 @@ public interface RC1<T1> {
     /**
      * 一変数関数として引数をこの関数に適用します。
      *
-     * <p>この実装では{@link RC1#accept(T1, RC1)}メソッドに引数と関数自身を渡します。
+     * <p>この実装では{@link RC1#accept}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
      * @return 再帰関数の末尾呼び出し

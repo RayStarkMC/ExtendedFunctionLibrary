@@ -7,7 +7,7 @@ import raystark.eflib.function.recursive.BooleanTailCall;
 /**
  * 再帰的に定義された型T1, 型T2, 型T3, 型T4の述語です。
  *
- * <p>このインターフェースは{@link NRP4#test(T1, T2, T3, T4, NRP4)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>このインターフェースは{@link NRP4#test}を関数メソッドに持つ関数型インターフェースです。
  * <p>この関数はnullを扱いません。
  *
  * <p>このインターフェースは三変数述語{@link NP4}を再帰的ラムダ式で定義するためのインターフェースです。
@@ -28,7 +28,7 @@ public interface NRP4<T1, T2, T3, T4> {
      * <p>selfにこの関数自身を渡した場合、四変数述語として引数をこの関数に適用します。
      * selfに自身以外を渡した場合の動作は未定義です。
      *
-     * <p>再帰的ラムダ式では{@link BooleanTailCall#call}に渡すSupplierの中でselfを参照し、{@link NRP4#test(T1, T2, T3, T4)}メソッドを呼び出してください。
+     * <p>再帰的ラムダ式では{@link BooleanTailCall#call}に渡すSupplierの中でselfを参照し、{@link NRP4#test}メソッドを呼び出してください。
      *
      * @param t1 第一引数
      * @param t2 第二引数
@@ -36,7 +36,7 @@ public interface NRP4<T1, T2, T3, T4> {
      * @param t4 第四引数
      * @param self this参照
      * @return 再帰関数の末尾呼び出し
-     * @see NRP4#test(T1, T2, T3, T4)
+     * @see NRP4#test
      * @see BooleanTailCall#call
      * @see BooleanTailCall#complete
      */
@@ -46,7 +46,7 @@ public interface NRP4<T1, T2, T3, T4> {
     /**
      * 指定された引数でこの述語を評価します。
      *
-     * <p>この実装では{@link NRP4#test(T1, T2, T3, T4, NRP4)}メソッドに引数と関数自身を渡します。
+     * <p>この実装では{@link NRP4#test}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
      * @param t2 第二引数

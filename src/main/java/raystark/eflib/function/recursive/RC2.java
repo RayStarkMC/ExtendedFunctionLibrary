@@ -7,7 +7,7 @@ import raystark.eflib.function.C2;
 /**
  * 再帰的に定義された型T1, 型T2のConsumerです。
  *
- * <p>このインターフェースは{@link RC2#accept(T1, T2, RC2)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>このインターフェースは{@link RC2#accept}を関数メソッドに持つ関数型インターフェースです。
  *
  * <p>このインターフェースは二変数Consumer {@link C2}を再帰的ラムダ式で定義するためのインターフェースです。
  * このインターフェース自体のインスタンスからは部分適用等の{@link C2}で定義されるdefaultメソッドにはアクセスできません。
@@ -25,13 +25,13 @@ public interface RC2<T1, T2> {
      * <p>selfにこの関数自身を渡した場合、二変数Consumerとして引数をこの関数に適用します。
      * selfに自身以外を渡した場合の動作は未定義です。
      *
-     * <p>再帰的ラムダ式では{@link VoidTailCall#call}に渡すSupplierの中でselfを参照し、{@link RC2#accept(T1, T2)}メソッドを呼び出してください。
+     * <p>再帰的ラムダ式では{@link VoidTailCall#call}に渡すSupplierの中でselfを参照し、{@link RC2#accept}メソッドを呼び出してください。
      *
      * @param t1 第一引数
      * @param t2 第二引数
      * @param self this参照
      * @return 再帰関数の末尾呼び出し
-     * @see RC2#accept(T1, T2)
+     * @see RC2#accept
      * @see VoidTailCall#call
      * @see VoidTailCall#complete
      */
@@ -41,7 +41,7 @@ public interface RC2<T1, T2> {
     /**
      * 二変数関数として引数をこの関数に適用します。
      *
-     * <p>この実装では{@link RC2#accept(T1, T2, RC2)}メソッドに引数と関数自身を渡します。
+     * <p>この実装では{@link RC2#accept}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
      * @param t2 第二引数

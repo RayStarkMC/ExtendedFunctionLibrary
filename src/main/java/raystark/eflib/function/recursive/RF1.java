@@ -7,7 +7,7 @@ import raystark.eflib.function.F1;
 /**
  * 再帰的に定義された一変数関数です。
  *
- * <p>このインターフェースは{@link RF1#apply(T1, RF1)}を関数メソッドに持つ関数型インターフェースです。
+ * <p>このインターフェースは{@link RF1#apply}を関数メソッドに持つ関数型インターフェースです。
  *
  * <p>このインターフェースは一変数関数{@link F1}を再帰的ラムダ式で定義するためのインターフェースです。
  * このインターフェース自体のインスタンスからは部分適用等の{@link F1}で定義されるdefaultメソッドにはアクセスできません。
@@ -25,12 +25,12 @@ public interface RF1<T1, R> {
      * <p>selfにこの関数自身を渡した場合、一変数関数として引数をこの関数に適用します。
      * selfに自身以外を渡した場合の動作は未定義です。
      *
-     * <p>再帰的ラムダ式では{@link TailCall#call}に渡すSupplierの中でselfを参照し、{@link RF1#apply(T1)}メソッドを呼び出してください。
+     * <p>再帰的ラムダ式では{@link TailCall#call}に渡すSupplierの中でselfを参照し、{@link RF1#apply}メソッドを呼び出してください。
      *
      * @param t1 第一引数
      * @param self this参照
      * @return 再帰関数の末尾呼び出し
-     * @see RF1#apply(T1)
+     * @see RF1#apply
      * @see TailCall#call
      * @see TailCall#complete
      */
@@ -40,7 +40,7 @@ public interface RF1<T1, R> {
     /**
      * 一変数関数として引数をこの関数に適用します。
      *
-     * <p>この実装では{@link RF1#apply(T1, RF1)}メソッドに引数と関数自身を渡します。
+     * <p>この実装では{@link RF1#apply}メソッドに引数と関数自身を渡します。
      *
      * @param t1 第一引数
      * @return 再帰関数の末尾呼び出し
