@@ -38,7 +38,7 @@ public interface NP1<T1> extends NF1<T1, Boolean> {
     /**
      * 指定された引数でこの述語を評価します。
      *
-     * <p>このメソッドは{@link raystark.eflib.function.P1#test}の結果をBoolean型にラップします。
+     * <p>このメソッドは{@link NP1#test}の結果をBoolean型にラップします。
      *
      * @param t1 第一引数
      * @return Boolean型にラップされた述語の結果
