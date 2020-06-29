@@ -2,17 +2,13 @@ plugins {
     id 'java-library'
 }
 
+ext {
+    defaultEncoding = 'UTF-8'
+    defaultJavaVersion = JavaVersion.VERSION_11
+}
+
 group 'raystark.eflib'
 version '1.2.1'
-
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
-
-javadoc.options.encoding = 'UTF-8'
-
-tasks.withType(JavaCompile) {
-    options.encoding 'UTF-8'
-}
 
 repositories {
     mavenCentral()
@@ -21,4 +17,35 @@ repositories {
 dependencies {
     compileOnly group: 'org.jetbrains', name: 'annotations', version: '16.0.2'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task javadocJar(type: Jar) {
+    dependsOn javadoc
+    archiveClassifier.set 'javadoc'
+    from javadoc.destinationDir
+}
+
+task sourceJar(type: Jar) {
+    dependsOn classes
+    archiveClassifier.set 'source'
+    from sourceSets.main.allSource
+}
+
+setSourceCompatibility defaultJavaVersion
+setTargetCompatibility defaultJavaVersion
+
+tasks.withType(JavaCompile) {
+    options.encoding defaultEncoding
+}
+
+tasks.withType(Jar) {
+    from "$projectDir/LICENSE"
+}
+
+javadoc {
+    options.encoding defaultEncoding
+}
+
+build {
+    dependsOn javadocJar, sourceJar
 }

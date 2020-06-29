@@ -1,7 +1,9 @@
 # Extended Function Library
 
 ## 概要
-Extended Function Libraryはjava.util.functionパッケージを基に機能を拡張した関数ライブラリです。本ライブラリ下の関数には以下の機能が実装されています。  
+Extended Function Libraryは標準APIのjava.util.functionパッケージを基に機能を拡張した関数ライブラリです。  
+関数をより簡単に記述することを目的に様々なメソッドが定義されています。
+本ライブラリ下の関数には以下の機能が実装されています。  
 
 ### defaultメソッドの拡張
 * 合成関数の作成
