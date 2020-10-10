@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
 ext {
@@ -47,4 +48,34 @@ javadoc {
 
 build {
     dependsOn sourceJar, javadocJar
+}
+
+publishing {
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri "https://maven.pkg.github.com/raystarkmc/ExtendedFunctionLibrary"
+            credentials {
+                username = getProperty "github.username"
+                password = getProperty "github.password"
+            }
+        }
+    }
+
+    publications {
+        gpr(MavenPublication) {
+            pom {
+                url = "https://github.com/RayStarkMC/ExtendedFunctionLibrary"
+                description = "test"
+                licenses {
+                    license {
+                        name = 'MIT'
+                    }
+                }
+            }
+
+            from(components.java)
+        }
+    }
 }
