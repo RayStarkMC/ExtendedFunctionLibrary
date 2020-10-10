@@ -46,5 +46,5 @@ javadoc {
 }
 
 build {
-    dependsOn sourceJar
+    dependsOn sourceJar, javadocJar
 }
