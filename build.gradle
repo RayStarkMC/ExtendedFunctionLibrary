@@ -3,15 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-ext {
-    defaultEncoding = 'UTF-8'
-    defaultJavaVersion = JavaVersion.VERSION_11
-    pathLicense = file "$projectDir/LICENSE"
-}
-
-group 'raystark.eflib'
-version '1.2.1'
-
 repositories {
     mavenCentral()
 }
@@ -21,18 +12,14 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
-task javadocJar(type: Jar) {
-    archiveClassifier.set 'javadoc'
-    from javadoc
-}
+group 'raystark.eflib'
+version '1.2.1'
 
-task sourceJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier.set 'source'
-    from sourceSets.main.allSource
+ext {
+    defaultEncoding = 'UTF-8'
+    defaultJavaVersion = JavaVersion.VERSION_11
+    pathLicense = file "$projectDir/LICENSE"
 }
-
-setSourceCompatibility defaultJavaVersion
-setTargetCompatibility defaultJavaVersion
 
 tasks.withType(JavaCompile) {
     options.encoding defaultEncoding
@@ -42,39 +29,40 @@ tasks.withType(Jar) {
     from pathLicense
 }
 
-javadoc {
-    options.encoding defaultEncoding
-}
+javadoc.options.encoding defaultEncoding
 
-build {
-    dependsOn sourceJar, javadocJar
+java {
+    withJavadocJar()
+    withSourcesJar()
+    setSourceCompatibility defaultJavaVersion
+    setTargetCompatibility defaultJavaVersion
 }
 
 publishing {
-
     repositories {
         maven {
             name = "GitHubPackages"
             url = uri "https://maven.pkg.github.com/raystarkmc/ExtendedFunctionLibrary"
             credentials {
-                username = getProperty "github.username"
-                password = getProperty "github.password"
+                username = project.findProperty("github.username")
+                password = project.findProperty("github.password")
             }
         }
     }
 
     publications {
         gpr(MavenPublication) {
+            version = "testversion"
             pom {
+                name = "ExtendedFunctionLibrary"
+                description = "The function library based on java.util.function package."
                 url = "https://github.com/RayStarkMC/ExtendedFunctionLibrary"
-                description = "test"
                 licenses {
                     license {
-                        name = 'MIT'
+                        name = "MIT"
                     }
                 }
             }
-
             from(components.java)
         }
     }
