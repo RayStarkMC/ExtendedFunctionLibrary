@@ -12,10 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name:  Java version 11.0.x
+    - name:  Java version 14.0.x
       uses: actions/setup-java@v1
       with:
-        java-version: 11.0.x
+        java-version: 14.0.x
 
     - run: gradle build
       env:
