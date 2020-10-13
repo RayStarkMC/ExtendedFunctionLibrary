@@ -44,8 +44,8 @@ publishing {
             name = "GitHubPackages"
             url = uri "https://maven.pkg.github.com/raystarkmc/ExtendedFunctionLibrary"
             credentials {
-                username = project.findProperty("github.username")
-                password = project.findProperty("github.password")
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
             }
         }
     }
