@@ -12,12 +12,12 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
-group 'raystark.eflib'
+group 'raystark'
 version '1.2.1'
 
 ext {
     defaultEncoding = 'UTF-8'
-    defaultJavaVersion = JavaVersion.VERSION_11
+    javaVersion = JavaVersion.VERSION_11
     pathLicense = file "$projectDir/LICENSE"
 }
 
@@ -34,8 +34,8 @@ javadoc.options.encoding defaultEncoding
 java {
     withJavadocJar()
     withSourcesJar()
-    setSourceCompatibility defaultJavaVersion
-    setTargetCompatibility defaultJavaVersion
+    setSourceCompatibility javaVersion
+    setTargetCompatibility javaVersion
 }
 
 publishing {
@@ -44,15 +44,14 @@ publishing {
             name = "GitHubPackages"
             url = uri "https://maven.pkg.github.com/raystarkmc/ExtendedFunctionLibrary"
             credentials {
-                username = project.findProperty("github.username")
-                password = project.findProperty("github.password")
+                username = project.findProperty "github.username"
+                password = project.findProperty "github.password"
             }
         }
     }
 
     publications {
         gpr(MavenPublication) {
-            version = "testversion"
             pom {
                 name = "ExtendedFunctionLibrary"
                 description = "The function library based on java.util.function package."
