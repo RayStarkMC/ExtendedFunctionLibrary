@@ -18,3 +18,7 @@ Extended Function Libraryは標準APIのjava.util.functionパッケージを基�
 
 ### 非null関数
 * アノテーションによりnullを扱わないことが保証された関数
+
+## ライセンス
+**ソースコード及びライブラリはMITライセンスで保護されています。**  
+buildタスクで出力される全てのJarファイルにはLICENSEファイルが同封されています。
