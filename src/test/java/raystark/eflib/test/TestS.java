@@ -1,13 +1,14 @@
 package raystark.eflib.test;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import raystark.eflib.function.S;
 import raystark.eflib.test.util.MutableData;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DisplayName("Tests for S(Supplier).")
 class TestS {
-
     private int supply10() {
         return 10;
     }
