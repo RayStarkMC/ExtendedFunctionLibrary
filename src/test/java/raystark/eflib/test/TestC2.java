@@ -1,12 +1,11 @@
 package raystark.eflib.test;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import raystark.eflib.function.C2;
 import raystark.eflib.test.util.MutableData;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Tests for C2(2-variable Consumer).")
 class TestC2 {
