@@ -27,6 +27,10 @@ class TestC2 {
         //noinspection ConstantConditions
         data.setValue(data.getValue()*2);
     }
+    private void addBySub(int a, int b) {
+        //noinspection ConstantConditions
+        data.setValue(data.getValue()+(a-b));
+    }
     private void setBy0() {
         data.setValue(0);
     }
@@ -45,8 +49,8 @@ class TestC2 {
     @Test
     void apply() {
         setBy0();
-        var c2 = C2.of(this::addBySum).apply(1);
-        c2.accept(2);
+        var c1 = C2.of(this::addBySum).apply(1);
+        c1.accept(2);
         assertEquals(3, data.getValue());
     }
 
@@ -96,6 +100,14 @@ class TestC2 {
         var c2 = C2.of(this::addBySum).<String>compose2(Integer::parseInt);
         c2.accept(1, "2");
         assertEquals(3, data.getValue());
+    }
+
+    @Test
+    void swap2() {
+        setBy0();
+        var c1 = C2.of(this::addBySub).swap2().apply(1);
+        c1.accept(5);
+        assertEquals(4, data.getValue());
     }
 
     @Test
