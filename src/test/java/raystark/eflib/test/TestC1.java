@@ -13,7 +13,7 @@ class TestC1 {
     private final MutableData<Integer> data;
 
     TestC1() {
-        this.data = new MutableData<>();
+        this.data = new MutableData<>(0);
     }
 
     private void timesBy(int value) {
