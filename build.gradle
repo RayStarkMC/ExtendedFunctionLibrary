@@ -8,7 +8,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly group: 'org.jetbrains', name: 'annotations', version: '16.0.2'
+    compileOnly 'org.jetbrains:annotations:16.0.2'
+
+    testCompileOnly 'org.jetbrains:annotations:16.0.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
 }
