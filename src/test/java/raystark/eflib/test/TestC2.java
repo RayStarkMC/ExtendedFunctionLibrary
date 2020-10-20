@@ -13,7 +13,7 @@ class TestC2 {
     private final MutableData<Integer> data;
 
     TestC2() {
-        data = new MutableData<>(0);
+        data = new MutableData<>();
     }
 
     private void addBySum(int a, int b) {
@@ -35,13 +35,9 @@ class TestC2 {
         data.setValue(1);
     }
 
-    @BeforeEach
-    void setup() {
-        setBy0();
-    }
-
     @Test
     void accept() {
+        setBy0();
         var c2 = C2.of(this::addBySum);
         c2.accept(1, 2);
         assertEquals(3, data.getValue());
@@ -49,6 +45,7 @@ class TestC2 {
 
     @Test
     void apply() {
+        setBy0();
         var c2 = C2.of(this::addBySum).apply(1);
         c2.accept(2);
         assertEquals(3, data.getValue());
@@ -88,6 +85,7 @@ class TestC2 {
 
     @Test
     void compose1() {
+        setBy0();
         var c2 = C2.of(this::addBySum).<String>compose1(Integer::parseInt);
         c2.accept("1", 2);
         assertEquals(3, data.getValue());
@@ -95,6 +93,7 @@ class TestC2 {
 
     @Test
     void compose2() {
+        setBy0();
         var c2 = C2.of(this::addBySum).<String>compose2(Integer::parseInt);
         c2.accept(1, "2");
         assertEquals(3, data.getValue());
@@ -102,6 +101,7 @@ class TestC2 {
 
     @Test
     void asA() {
+        setBy0();
         var a = C2.of(this::addBySum).asA(1, 2);
         a.run();
         assertEquals(3, data.getValue());
