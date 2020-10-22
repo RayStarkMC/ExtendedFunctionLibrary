@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @TestInstance(PER_CLASS)
 @DisplayName("Tests for C3(3-variable Consumer).")
-public class TestC4 {
+class TestC4 {
     private final MutableData<Integer> data;
 
     TestC4() {
