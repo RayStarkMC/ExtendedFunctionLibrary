@@ -58,7 +58,7 @@ class TestC3 {
     }
 
     @Test
-    void apply2VariablePartially() {
+    void apply2VariablesPartially() {
         setBy0();
         var c1 = C3.of(this::addBySum).apply(1, 2);
         c1.accept(3);
