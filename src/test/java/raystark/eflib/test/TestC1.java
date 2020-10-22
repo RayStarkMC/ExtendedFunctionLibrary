@@ -2,11 +2,14 @@ package raystark.eflib.test;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import raystark.eflib.function.C1;
 import raystark.eflib.test.util.MutableData;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
+@TestInstance(PER_CLASS)
 @DisplayName("Tests for C1(1-variable Consumer).")
 class TestC1 {
     private final MutableData<Integer> data;
