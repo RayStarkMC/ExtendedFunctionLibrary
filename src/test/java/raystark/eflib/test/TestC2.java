@@ -18,6 +18,12 @@ class TestC2 {
         data = new MutableData<>();
     }
 
+    private void setBy0() {
+        data.setValue(0);
+    }
+    private void setBy1() {
+        data.setValue(1);
+    }
     private void addBySum(int a, int b) {
         //noinspection ConstantConditions
         data.setValue(data.getValue()+a+b);
@@ -26,19 +32,13 @@ class TestC2 {
         //noinspection ConstantConditions
         data.setValue(data.getValue()*(a+b));
     }
-    private void timesBy2() {
+    private void timesBy5() {
         //noinspection ConstantConditions
-        data.setValue(data.getValue()*2);
+        data.setValue(data.getValue()*5);
     }
-    private void addBySub(int a, int b) {
+    private void pushDigit(int a, int b) {
         //noinspection ConstantConditions
-        data.setValue(data.getValue()+(a-b));
-    }
-    private void setBy0() {
-        data.setValue(0);
-    }
-    private void setBy1() {
-        data.setValue(1);
+        data.setValue(data.getValue()*100 + a*10 + b);
     }
 
     @Test
@@ -60,9 +60,9 @@ class TestC2 {
     @Test
     void nextA() {
         setBy1();
-        var c2 = C2.of(this::addBySum).next(this::timesBy2);
+        var c2 = C2.of(this::addBySum).next(this::timesBy5);
         c2.accept(1, 2);
-        assertEquals(8, data.getValue());
+        assertEquals(20, data.getValue());
     }
 
     @Test
@@ -76,9 +76,9 @@ class TestC2 {
     @Test
     void prevA() {
         setBy1();
-        var c2 = C2.of(this::addBySum).prev(this::timesBy2);
+        var c2 = C2.of(this::addBySum).prev(this::timesBy5);
         c2.accept(1, 2);
-        assertEquals(5, data.getValue());
+        assertEquals(8, data.getValue());
     }
 
     @Test
@@ -108,9 +108,9 @@ class TestC2 {
     @Test
     void swap2() {
         setBy0();
-        var c1 = C2.of(this::addBySub).swap2().apply(1);
-        c1.accept(5);
-        assertEquals(4, data.getValue());
+        var c1 = C2.of(this::pushDigit).swap2().apply(1);
+        c1.accept(2);
+        assertEquals(21, data.getValue());
     }
 
     @Test
