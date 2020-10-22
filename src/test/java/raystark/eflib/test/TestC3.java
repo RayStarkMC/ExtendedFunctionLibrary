@@ -124,16 +124,16 @@ class TestC3 {
     @Test
     void swap2() {
         setBy0();
-        var c2 = C3.of(this::pushDigit).swap2().apply(1);
-        c2.accept(2, 3);
+        var c3 = C3.of(this::pushDigit).swap2();
+        c3.accept(1, 2, 3);
         assertEquals(213, data.getValue());
     }
 
     @Test
     void swap3() {
         setBy0();
-        var c2 = C3.of(this::pushDigit).swap3().apply(1);
-        c2.accept(2, 3);
+        var c3 = C3.of(this::pushDigit).swap3();
+        c3.accept(1, 2, 3);
         assertEquals(321, data.getValue());
     }
 

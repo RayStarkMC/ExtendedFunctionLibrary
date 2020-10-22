@@ -108,8 +108,8 @@ class TestC2 {
     @Test
     void swap2() {
         setBy0();
-        var c1 = C2.of(this::pushDigit).swap2().apply(1);
-        c1.accept(2);
+        var c2 = C2.of(this::pushDigit).swap2();
+        c2.accept(1, 2);
         assertEquals(21, data.getValue());
     }
 
