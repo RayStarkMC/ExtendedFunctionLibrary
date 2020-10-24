@@ -29,10 +29,10 @@ public interface Try2<T, X1 extends Throwable, X2 extends Throwable> {
 
     @NotNull
     static <T, X1 extends Exception, X2 extends Exception> Try2<T, X1, X2> of(
-        @NotNull STh2<T, X1, X2> s2,
+        @NotNull STh2<T, X1, X2> s,
         @NotNull Class<X1> classX1,
         @NotNull Class<X2> classX2
     ) {
-        return new Try2Impl<>(s2, classX1, classX2);
+        return new Try2Impl<>(s, classX1, classX2);
     }
 }

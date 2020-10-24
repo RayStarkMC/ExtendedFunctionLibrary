@@ -19,9 +19,9 @@ public interface Try1<T, X1 extends Throwable> {
 
     @NotNull
     static <T, X1 extends Throwable> Try1<T, X1>of(
-        @NotNull STh1<T, X1> f1,
+        @NotNull STh1<T, X1> s,
         @NotNull Class<X1> classX1
     ) {
-        return new Try1Impl<>(f1, classX1);
+        return new Try1Impl<>(s, classX1);
     }
 }

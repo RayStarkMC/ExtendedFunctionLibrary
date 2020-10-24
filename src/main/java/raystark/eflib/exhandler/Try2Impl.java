@@ -8,12 +8,12 @@ import raystark.eflib.function.F1;
 import raystark.eflib.function.S;
 
 class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T, X1, X2> {
-    private final STh2<T, X1, X2> s2;
+    private final STh2<T, X1, X2> s;
     private final Class<X1> classX1;
     private final Class<X2> classX2;
 
-    Try2Impl(@NotNull STh2<T, X1, X2> s2, @NotNull Class<X1> classX1, @NotNull Class<X2> classX2) {
-        this.s2 = s2;
+    Try2Impl(@NotNull STh2<T, X1, X2> s, @NotNull Class<X1> classX1, @NotNull Class<X2> classX2) {
+        this.s = s;
         this.classX1 = classX1;
         this.classX2 = classX2;
     }
@@ -21,7 +21,7 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
     @Override
     @Nullable
     public  T rawGet() throws X1, X2 {
-        return s2.get();
+        return s.get();
     }
 
     @Override
@@ -68,6 +68,6 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
 
     @Override
     public @NotNull Try2<T, X2, X1> swap2() {
-        return new Try2Impl<T, X2, X1>(s2::get, classX2, classX1);
+        return new Try2Impl<T, X2, X1>(s::get, classX2, classX1);
     }
 }
