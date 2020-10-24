@@ -18,12 +18,12 @@ public interface Try1<T, X1 extends Throwable> {
     );
 
     @NotNull
-    static <X1 extends Throwable> Builder<X1> builder(@NotNull Class<X1> throwable1) {
+    static <X1 extends Throwable> Builder<X1> builder(@NotNull Class<X1> classX1) {
         return new Builder<>() {
             @Override
             @NotNull
             public <T> Try1<T, X1> build(@NotNull STh1<T, X1> s) {
-                return new Try1Impl<>(s, throwable1);
+                return new Try1Impl<>(s, classX1);
             }
         };
     }
