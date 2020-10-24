@@ -54,8 +54,8 @@ class Try3Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
     public Try1<T, X3> recover2(
         @NotNull F1<? super X1, ? extends T> handlerX1,
         @NotNull F1<? super X2, ? extends T> handlerX2,
-        @NotNull A handlerFinally)
-    {
+        @NotNull A handlerFinally
+    ) {
         return Try1.builder(classX3).build(() -> {
             try {
                 return rawGet();
@@ -73,7 +73,12 @@ class Try3Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
     @Override
     @NotNull
     @SuppressWarnings("unchecked")
-    public S<T> recover3(@NotNull F1<? super X1, ? extends T> handlerX1, @NotNull F1<? super X2, ? extends T> handlerX2, @NotNull F1<? super X3, ? extends T> handlerX3, @NotNull A handlerFinally) {
+    public S<T> recover3(
+        @NotNull F1<? super X1, ? extends T> handlerX1,
+        @NotNull F1<? super X2, ? extends T> handlerX2,
+        @NotNull F1<? super X3, ? extends T> handlerX3,
+        @NotNull A handlerFinally
+    ) {
         return S.of(() -> {
             try {
                 return rawGet();
