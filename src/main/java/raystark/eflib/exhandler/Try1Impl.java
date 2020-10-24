@@ -20,8 +20,10 @@ class Try1Impl<T, X1 extends Throwable> implements Try1<T, X1> {
         return s.get();
     }
 
+
     @Override
     @NotNull
+    @SuppressWarnings("unchecked")
     public S<T> recover1(
         @NotNull F1<? super X1, ? extends T> handlerX1,
         @NotNull A handlerFinally
@@ -30,7 +32,7 @@ class Try1Impl<T, X1 extends Throwable> implements Try1<T, X1> {
             try {
                 return rawGet();
             } catch (Throwable x) {
-                return handlerX1.apply(classX1.cast(x));
+                return handlerX1.apply((X1)x);
             } finally {
                 handlerFinally.run();
             }
