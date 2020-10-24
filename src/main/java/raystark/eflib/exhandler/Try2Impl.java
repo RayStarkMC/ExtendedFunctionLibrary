@@ -67,7 +67,8 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
     }
 
     @Override
-    public @NotNull Try2<T, X2, X1> swap2() {
+    @NotNull
+    public Try2<T, X2, X1> swap2() {
         return new Try2Impl<T, X2, X1>(s::get, classX2, classX1);
     }
 }
