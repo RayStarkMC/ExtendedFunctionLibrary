@@ -26,7 +26,7 @@ public interface Try1<T, X1 extends Throwable> {
     }
 
     @NotNull
-    static <X1 extends Throwable, X2 extends Throwable> Builder<X1> builder(@NotNull Class<X1> throwable1) {
+    static <X1 extends Throwable> Builder<X1> builder(@NotNull Class<X1> throwable1) {
         return new Builder<>() {
             @Override
             @NotNull
