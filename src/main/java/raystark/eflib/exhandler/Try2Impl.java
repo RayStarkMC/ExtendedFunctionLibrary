@@ -69,6 +69,8 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
     @Override
     @NotNull
     public Try2<T, X2, X1> swap2() {
-        return new Try2Impl<T, X2, X1>(s::get, classX2, classX1);
+        //例外型の宣言順は無関係なためキャストは安全
+        //noinspection unchecked
+        return new Try2Impl<>((STh2<T, X2, X1>)s, classX2, classX1);
     }
 }
