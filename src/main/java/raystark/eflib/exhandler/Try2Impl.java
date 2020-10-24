@@ -31,7 +31,7 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
         @NotNull F1<? super X1, ? extends T> handlerX1,
         @NotNull A handlerFinally
     ) {
-        return Try1.of(() -> {
+        return Try1.builder(classX2).build(() -> {
             try {
                 return rawGet();
             } catch (Throwable x) {
@@ -41,7 +41,7 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
             } finally {
                 handlerFinally.run();
             }
-        }, classX2);
+        });
     }
 
 
