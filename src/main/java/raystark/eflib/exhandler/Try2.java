@@ -28,11 +28,21 @@ public interface Try2<T, X1 extends Throwable, X2 extends Throwable> {
     Try2<T, X2, X1> swap2();
 
     @NotNull
-    static <T, X1 extends Exception, X2 extends Exception> Try2<T, X1, X2> of(
-        @NotNull STh2<T, X1, X2> s,
-        @NotNull Class<X1> classX1,
-        @NotNull Class<X2> classX2
+    static <X1 extends Throwable, X2 extends Throwable> Builder<X1, X2> builder(
+        @NotNull Class<X1> throwable1,
+        @NotNull Class<X2> throwable2
     ) {
-        return new Try2Impl<>(s, classX1, classX2);
+        return new Builder<>() {
+            @Override
+            @NotNull
+            public <T> Try2<T, X1, X2> build(@NotNull STh2<T, X1, X2> s) {
+                return new Try2Impl<>(s, throwable1, throwable2);
+            }
+        };
+    }
+
+    interface Builder<X1 extends Throwable, X2 extends Throwable> {
+        @NotNull
+        <T> Try2<T, X1, X2> build(@NotNull STh2<T, X1, X2> s);
     }
 }
