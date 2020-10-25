@@ -48,7 +48,7 @@ public interface Try3<T, X1 extends Throwable, X2 extends Throwable, X3 extends 
             @Override
             @NotNull
             public <T> Try3<T, X1, X2, X3> build(@NotNull STh3<T, X1, X2, X3> s) {
-                return new Try3Impl<>(s, classX1, classX2, classX3);
+                return new Try3Impl<>(classX1, classX2, classX3, s);
             }
         };
     }

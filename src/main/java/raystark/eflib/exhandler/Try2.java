@@ -36,7 +36,7 @@ public interface Try2<T, X1 extends Throwable, X2 extends Throwable> {
             @Override
             @NotNull
             public <T> Try2<T, X1, X2> build(@NotNull STh2<T, X1, X2> s) {
-                return new Try2Impl<>(s, classX1, classX2);
+                return new Try2Impl<>( classX1, classX2, s);
             }
         };
     }

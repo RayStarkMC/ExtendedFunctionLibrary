@@ -23,7 +23,7 @@ public interface Try1<T, X1 extends Throwable> {
             @Override
             @NotNull
             public <T> Try1<T, X1> build(@NotNull STh1<T, X1> s) {
-                return new Try1Impl<>(s, classX1);
+                return new Try1Impl<>(classX1, s);
             }
         };
     }

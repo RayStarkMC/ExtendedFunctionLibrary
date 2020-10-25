@@ -7,12 +7,12 @@ import raystark.eflib.function.F1;
 import raystark.eflib.function.S;
 
 class Try1Impl<T, X1 extends Throwable> implements Try1<T, X1> {
-    private final STh1<T, X1> s;
     private final Class<X1> classX1;
+    private final STh1<T, X1> s;
 
-    Try1Impl(@NotNull STh1<T, X1> s, @NotNull Class<X1> classX1) {
-        this.s = s;
+    Try1Impl(@NotNull Class<X1> classX1, @NotNull STh1<T, X1> s) {
         this.classX1 = classX1;
+        this.s = s;
     }
 
     @Override

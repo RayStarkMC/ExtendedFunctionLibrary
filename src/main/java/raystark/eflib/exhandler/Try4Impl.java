@@ -8,18 +8,18 @@ import raystark.eflib.function.F1;
 import raystark.eflib.function.S;
 
 class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwable, X4 extends Throwable> implements Try4<T, X1, X2, X3, X4> {
-    private final STh4<T, X1, X2, X3, X4> s;
     private final Class<X1> classX1;
     private final Class<X2> classX2;
     private final Class<X3> classX3;
     private final Class<X4> classX4;
+    private final STh4<T, X1, X2, X3, X4> s;
 
-    Try4Impl(@NotNull STh4<T, X1, X2, X3, X4> s, @NotNull Class<X1> classX1, @NotNull Class<X2> classX2, @NotNull Class<X3> classX3, @NotNull Class<X4> classX4) {
-        this.s = s;
+    Try4Impl(@NotNull Class<X1> classX1, @NotNull Class<X2> classX2, @NotNull Class<X3> classX3, @NotNull Class<X4> classX4, @NotNull STh4<T, X1, X2, X3, X4> s) {
         this.classX1 = classX1;
         this.classX2 = classX2;
         this.classX3 = classX3;
         this.classX4 = classX4;
+        this.s = s;
     }
 
     @Override
@@ -127,7 +127,7 @@ class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
     public Try4<T, X2, X1, X3, X4> swap2() {
         //例外型の宣言順は順不同なためキャストは安全
         //noinspection unchecked
-        return new Try4Impl<>((STh4<T, X2, X1, X3, X4>)s, classX2, classX1, classX3, classX4);
+        return new Try4Impl<>(classX2, classX1, classX3, classX4, (STh4<T, X2, X1, X3, X4>)s);
     }
 
     @Override
@@ -135,13 +135,13 @@ class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
     public Try4<T, X3, X2, X1, X4> swap3() {
         //例外型の宣言順は順不同なためキャストは安全
         //noinspection unchecked
-        return new Try4Impl<>((STh4<T, X3, X2, X1, X4>)s, classX3, classX2, classX1, classX4);
+        return new Try4Impl<>(classX3, classX2, classX1, classX4, (STh4<T, X3, X2, X1, X4>)s);
     }
 
     @Override
     public @NotNull Try4<T, X4, X2, X3, X1> swap4() {
         //例外型の宣言順は順不同なためキャストは安全
         //noinspection unchecked
-        return new Try4Impl<>((STh4<T, X4, X2, X3, X1>)s, classX4, classX2, classX3, classX1);
+        return new Try4Impl<>(classX4, classX2, classX3, classX1, (STh4<T, X4, X2, X3, X1>)s);
     }
 }

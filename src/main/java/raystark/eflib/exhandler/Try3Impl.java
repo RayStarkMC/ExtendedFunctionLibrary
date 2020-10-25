@@ -9,16 +9,16 @@ import raystark.eflib.function.F1;
 import raystark.eflib.function.S;
 
 class Try3Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwable> implements Try3<T, X1, X2, X3> {
-    private final STh3<T, X1, X2, X3> s;
     private final Class<X1> classX1;
     private final Class<X2> classX2;
     private final Class<X3> classX3;
+    private final STh3<T, X1, X2, X3> s;
 
-    Try3Impl(@NotNull STh3<T, X1, X2, X3> s, @NotNull Class<X1> classX1, @NotNull Class<X2> classX2, @NotNull Class<X3> classX3) {
-        this.s = s;
+    Try3Impl(@NotNull Class<X1> classX1, @NotNull Class<X2> classX2, @NotNull Class<X3> classX3, @NotNull STh3<T, X1, X2, X3> s) {
         this.classX1 = classX1;
         this.classX2 = classX2;
         this.classX3 = classX3;
+        this.s = s;
     }
 
     @Override
@@ -98,7 +98,7 @@ class Try3Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
     public Try3<T, X2, X1, X3> swap2() {
         //例外型の宣言順は順不同なためキャストは安全
         //noinspection unchecked
-        return new Try3Impl<>((STh3<T, X2, X1, X3>)s, classX2, classX1, classX3);
+        return new Try3Impl<>(classX2, classX1, classX3, (STh3<T, X2, X1, X3>)s);
     }
 
     @Override
@@ -106,6 +106,6 @@ class Try3Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
     public Try3<T, X3, X2, X1> swap3() {
         //例外型の宣言順は順不同なためキャストは安全
         //noinspection unchecked
-        return new Try3Impl<>((STh3<T, X3, X2, X1>)s, classX3, classX2, classX1);
+        return new Try3Impl<>(classX3, classX2, classX1, (STh3<T, X3, X2, X1>)s);
     }
 }
