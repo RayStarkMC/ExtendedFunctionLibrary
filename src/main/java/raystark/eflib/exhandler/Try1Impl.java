@@ -32,7 +32,8 @@ class Try1Impl<T, X1 extends Throwable> implements Try1<T, X1> {
             try {
                 return rawGet();
             } catch (Throwable x) {
-                return handlerX1.apply((X1)x);
+                if(classX1.isInstance(x)) return handlerX1.apply((X1)x);
+                throw new AssertionError("All throwable must be handled.");
             } finally {
                 handlerFinally.run();
             }
