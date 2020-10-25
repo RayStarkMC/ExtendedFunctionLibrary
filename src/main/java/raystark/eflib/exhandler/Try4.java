@@ -41,7 +41,6 @@ public interface Try4<T, X1 extends Throwable, X2 extends Throwable, X3 extends 
         @NotNull A handlerFinally
     );
 
-
     @NotNull
     Try4<T, X2, X1, X3, X4> swap2();
 
