@@ -2,7 +2,6 @@ package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import raystark.eflib.function.notnull.NF1;
 
 import java.util.function.BiFunction;
 
@@ -157,10 +156,5 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     @NotNull
     static <T1, T2, R> F2<T1, T2, R> of(@NotNull F2<T1, T2, R> f2) {
         return f2;
-    }
-
-    @NotNull
-    static <T1, T2, R> NF1<F2<? super T1, ? super T2, ? extends R>, F1<? super T2, ? extends R>> bind(@Nullable T1 value) {
-        return f2 -> f2.apply(value);
     }
 }
