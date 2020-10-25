@@ -20,7 +20,7 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
 
     @Override
     @Nullable
-    public  T rawGet() throws X1, X2 {
+    public T rawGet() throws X1, X2 {
         return s.get();
     }
 

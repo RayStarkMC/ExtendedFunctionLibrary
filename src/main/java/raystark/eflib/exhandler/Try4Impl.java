@@ -24,7 +24,7 @@ class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
 
     @Override
     @Nullable
-    public  T rawGet() throws X1, X2, X3, X4 {
+    public T rawGet() throws X1, X2, X3, X4 {
         return s.get();
     }
 
