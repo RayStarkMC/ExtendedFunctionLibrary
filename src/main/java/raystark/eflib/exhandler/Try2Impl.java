@@ -37,7 +37,7 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
             } catch (Throwable x) {
                 if(classX1.isInstance(x)) return handlerX1.apply((X1)x);
                 if(classX2.isInstance(x)) throw (X2)x;
-                throw new AssertionError("All throwable must be handled.");
+                throw new AssertionError("All throwable must be handled.", x);
             } finally {
                 handlerFinally.run();
             }

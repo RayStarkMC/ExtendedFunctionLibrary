@@ -43,7 +43,7 @@ class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
                 if(classX2.isInstance(x)) throw (X2)x;
                 if(classX3.isInstance(x)) throw (X3)x;
                 if(classX4.isInstance(x)) throw (X4)x;
-                throw new AssertionError("All throwable must be handled.");
+                throw new AssertionError("All throwable must be handled.", x);
             } finally {
                 handlerFinally.run();
             }
@@ -66,7 +66,7 @@ class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
                 if(classX2.isInstance(x)) return handlerX2.apply((X2)x);
                 if(classX3.isInstance(x)) throw (X3)x;
                 if(classX4.isInstance(x)) throw (X4)x;
-                throw new AssertionError("All throwable must be handled.");
+                throw new AssertionError("All throwable must be handled.", x);
             } finally {
                 handlerFinally.run();
             }
@@ -90,7 +90,7 @@ class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
                 if(classX2.isInstance(x)) return handlerX2.apply((X2)x);
                 if(classX3.isInstance(x)) return handlerX3.apply((X3)x);
                 if(classX4.isInstance(x)) throw (X4)x;
-                throw new AssertionError("All throwable must be handled.");
+                throw new AssertionError("All throwable must be handled.", x);
             } finally {
                 handlerFinally.run();
             }
@@ -115,7 +115,7 @@ class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
                 if(classX2.isInstance(x)) return handlerX2.apply((X2)x);
                 if(classX3.isInstance(x)) return handlerX3.apply((X3)x);
                 if(classX4.isInstance(x)) return handlerX4.apply((X4)x);
-                throw new AssertionError("All throwable must be handled.");
+                throw new AssertionError("All throwable must be handled.", x);
             } finally {
                 handlerFinally.run();
             }
