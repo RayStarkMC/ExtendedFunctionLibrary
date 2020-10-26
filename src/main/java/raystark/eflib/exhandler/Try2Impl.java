@@ -68,9 +68,9 @@ class Try2Impl<T, X1 extends Throwable, X2 extends Throwable> implements Try2<T,
 
     @Override
     @NotNull
+    @SuppressWarnings("unchecked")
     public Try2<T, X2, X1> swap2() {
         //例外型の宣言順は順不同なためキャストは安全
-        //noinspection unchecked
         return new Try2Impl<>(classX2, classX1, (STh2<T, X2, X1>)s);
     }
 }

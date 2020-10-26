@@ -95,17 +95,17 @@ class Try3Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
 
     @Override
     @NotNull
+    @SuppressWarnings("unchecked")
     public Try3<T, X2, X1, X3> swap2() {
         //例外型の宣言順は順不同なためキャストは安全
-        //noinspection unchecked
         return new Try3Impl<>(classX2, classX1, classX3, (STh3<T, X2, X1, X3>)s);
     }
 
     @Override
     @NotNull
+    @SuppressWarnings("unchecked")
     public Try3<T, X3, X2, X1> swap3() {
         //例外型の宣言順は順不同なためキャストは安全
-        //noinspection unchecked
         return new Try3Impl<>(classX3, classX2, classX1, (STh3<T, X3, X2, X1>)s);
     }
 }

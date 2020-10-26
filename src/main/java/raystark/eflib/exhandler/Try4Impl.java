@@ -124,24 +124,25 @@ class Try4Impl<T, X1 extends Throwable, X2 extends Throwable, X3 extends Throwab
 
     @Override
     @NotNull
+    @SuppressWarnings("unchecked")
     public Try4<T, X2, X1, X3, X4> swap2() {
         //例外型の宣言順は順不同なためキャストは安全
-        //noinspection unchecked
         return new Try4Impl<>(classX2, classX1, classX3, classX4, (STh4<T, X2, X1, X3, X4>)s);
     }
 
     @Override
     @NotNull
+    @SuppressWarnings("unchecked")
     public Try4<T, X3, X2, X1, X4> swap3() {
         //例外型の宣言順は順不同なためキャストは安全
-        //noinspection unchecked
         return new Try4Impl<>(classX3, classX2, classX1, classX4, (STh4<T, X3, X2, X1, X4>)s);
     }
 
     @Override
-    public @NotNull Try4<T, X4, X2, X3, X1> swap4() {
+    @NotNull
+    @SuppressWarnings("unchecked")
+    public Try4<T, X4, X2, X3, X1> swap4() {
         //例外型の宣言順は順不同なためキャストは安全
-        //noinspection unchecked
         return new Try4Impl<>(classX4, classX2, classX3, classX1, (STh4<T, X4, X2, X3, X1>)s);
     }
 }
