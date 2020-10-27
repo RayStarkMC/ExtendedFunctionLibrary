@@ -10,15 +10,15 @@ import raystark.eflib.function.notnull.NS;
  */
 public final class MLazy<T> {
     private volatile T value;
-    private volatile NS<? extends T> s;
+    private volatile NS<? extends T> initializer;
 
-    private MLazy(NS<? extends T> s) {
-        this.s = s;
+    private MLazy(NS<? extends T> initializer) {
+        this.initializer = initializer;
     }
 
     @NotNull
-    public static <T> MLazy<T> of(@NotNull NS<? extends T> s) {
-        return new MLazy<>(s);
+    public static <T> MLazy<T> of(@NotNull NS<? extends T> initializer) {
+        return new MLazy<>(initializer);
     }
 
     @NotNull
@@ -29,8 +29,8 @@ public final class MLazy<T> {
             synchronized (this) {
                 result = value;
                 if(result == null) {
-                    value = result = s.get();
-                    s = null; //初期化以降sは不要なためGC対象にするためnull代入
+                    value = result = initializer.get();
+                    initializer = null; //初期化以降不要なinitializerをGC対象にするためのnull代入
                 }
             }
         }

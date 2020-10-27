@@ -10,22 +10,22 @@ import raystark.eflib.function.notnull.NS;
  */
 public final class SLazy<T> {
     private T value;
-    private NS<? extends T> s;
+    private NS<? extends T> initializer;
 
-    private SLazy(NS<? extends T> s) {
-        this.s = s;
+    private SLazy(NS<? extends T> initializer) {
+        this.initializer = initializer;
     }
 
     @NotNull
-    public static <T> SLazy<T> of(@NotNull NS<? extends T> s) {
-        return new SLazy<>(s);
+    public static <T> SLazy<T> of(@NotNull NS<? extends T> initializer) {
+        return new SLazy<>(initializer);
     }
 
     @NotNull
     public T get() {
         if(value == null) {
-            value = s.get();
-            s = null; //初期化以降sは不要なためGC対象にするためnull代入
+            value = initializer.get();
+            initializer = null; //初期化以降不要なinitializerをGC対象にするためのnull代入
         }
         return value;
     }
