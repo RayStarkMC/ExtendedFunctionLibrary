@@ -3,8 +3,19 @@ package raystark.eflib.lazy;
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.notnull.NS;
 
+import java.util.Optional;
+
 /**
- * シングルスレッド用遅延初期化型("S"ingle-Thread "Lazy")
+ * シングルスレッド用の遅延初期化される値を表す型("S"ingle-Thread "Lazy")
+ *
+ * <p>{@link SLazy#of(NS)}でインスタンスを生成する時に指定したSupplierを用いて値を遅延初期化します。
+ * Supplierは初めて{@link SLazy#get()}が呼ばれた時に一度のみ評価され、その後Supplierへの参照が破棄されます。
+ *
+ * <p>このクラスはスレッドセーフではありません。マルチスレッド環境では{@link MLazy}の利用を検討してください。
+ * シングルスレッド環境ではこの実装を選ぶことにより値取得時のロックコストが回避出来ます。
+ * Supplierが参照透過でない場合や副作用を持つ場合は注意してください。
+ * 評価毎に異なる参照を返すSupplierを利用した場合、{@link SLazy#get()}は最初の一度目の評価で得られた参照を返し続けます。
+ * 副作用を持つSupplierを利用した場合、その副作用は初めて{@link SLazy#get()}が呼び出された時に一度だけ実行されます。
  *
  * @param <T> 遅延初期化される値の型
  */
@@ -19,7 +30,8 @@ public final class SLazy<T> {
     /**
      * 値を算出するSupplierを指定してLazyを生成します。
      *
-     * initializerとしてnullを返す関数を渡す事は禁止されています。そのような場合はOptionalを始めとした空コンテナの使用を検討してください。
+     * <p>initializerにnullを返すSupplierを指定する事は禁止されています。
+     * そのような場合は{@link Optional}を返すサプライヤを利用するか、空コンテナに対応するオブジェクトの使用を検討してください。
      *
      * <p>渡されたinitializerの評価はLazy生成後に初めて{@link SLazy#get()}が呼ばれるまで遅延されます。
      * 値の初期化後はinitializerへの参照は破棄されます。
@@ -36,9 +48,10 @@ public final class SLazy<T> {
     /**
      * initializerによって生成された値を取得します。
      *
-     * <p>複数のスレッドからこのメソッドを呼び出す事は禁止されています。そのような呼び出しが行われる場合は{@link MLazy}の使用を検討してください。
+     * <p>このメソッドが複数回呼び出された場合、必ず最初の一回目に返した値を返します。
+     *　initializerへの参照はこのメソッドの初回実行後に破棄されます。
      *
-     * <p>値は同期されていない単一チェックイディオムにより遅延初期化されます。また、initializerへの参照はこのメソッドの初回実行後に破棄されます。
+     * <p>このメソッドはスレッドセーフではありません。マルチスレッド環境ではスレッドセーフな実装である{@link MLazy}の使用を検討してください。
      * 複数のスレッドからこのメソッドが呼び出された場合、initializerが複数回呼ばれたり、予期せぬ例外が発生する可能性があります。
      *
      * @return 遅延初期化された値
