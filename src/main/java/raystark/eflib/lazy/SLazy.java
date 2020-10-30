@@ -1,6 +1,7 @@
 package raystark.eflib.lazy;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NS;
 
 import java.util.Optional;
@@ -27,6 +28,10 @@ public final class SLazy<T> {
         this.initializer = initializer;
     }
 
+    private NS<T> asNS() {
+        return NS.of(this::get);
+    }
+
     /**
      * 値を算出するSupplierを指定してLazyを生成します。
      *
@@ -41,7 +46,7 @@ public final class SLazy<T> {
      * @return initializerにより遅延初期化される値を表すSLazyのインスタンス
      */
     @NotNull
-    public static <T> SLazy<T> of(@NotNull NS<? extends T> initializer) {
+    public static <T> SLazy<T> of(@NotNull NS<T> initializer) {
         return new SLazy<>(initializer);
     }
 
@@ -65,5 +70,43 @@ public final class SLazy<T> {
             initializer = null; //初期化以降不要なinitializerをGC対象にするためのnull代入
         }
         return result;
+    }
+
+    /**
+     * このLazyをスレッドセーフなLazyに変換します。
+     *
+     * @return スレッドセーフなLazy
+     */
+    @NotNull
+    public MLazy<T> asMLazy() {
+        return MLazy.of(this::get);
+    }
+
+    /**
+     * このLazyの値をmapperに適用した結果で遅延初期化されるLazyを返します。
+     *
+     * <p>mapperは遅延評価されます。
+     *
+     * @param mapper 値に適用するマッピング関数
+     * @param <V> mapperが返す値の型
+     * @return このLazyの値をmapperに適用した結果で遅延初期化されるLazy
+     */
+    @NotNull
+    public <V> SLazy<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
+        return SLazy.of(this.asNS().then(mapper));
+    }
+
+    /**
+     * このLazyの値をmapperに適用した結果で遅延初期化されるLazyを返します。
+     *
+     * <p>mapperは遅延評価されます。ネストしたLazyの値を遅延して取り出すLazyを返します。
+     *
+     * @param mapper 値に適用するマッピング関数
+     * @param <V> mapperが返す値の型
+     * @return このLazyの値をmapperに適用した結果で遅延初期化されるLazy
+     */
+    @NotNull
+    public <V> SLazy<V> flatMap(@NotNull NF1<? super T, SLazy<? extends V>> mapper) {
+        return this.map(mapper.then1(SLazy::get));
     }
 }
