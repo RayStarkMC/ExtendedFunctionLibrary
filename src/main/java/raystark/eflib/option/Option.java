@@ -91,6 +91,11 @@ public abstract class Option<T> {
             return new Some<>(value);
         }
 
+        @SuppressWarnings("unchecked")
+        public static <T> Some<T> cast(Some<? extends T> some) {
+            return (Some<T>) some;
+        }
+
         @Override
         @NotNull
         public <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
@@ -117,7 +122,7 @@ public abstract class Option<T> {
         @Override
         @NotNull
         public Option<T> or(@NotNull Option<? extends T> other) {
-            return cast(other);
+            return this;
         }
 
         @Override
@@ -189,24 +194,26 @@ public abstract class Option<T> {
 
         private None() {}
 
-        @SuppressWarnings("unchecked")
         @NotNull
         public static <T> None<T> of() {
-            return (None<T>) INSTANCE;
+            return cast(INSTANCE);
         }
 
         @SuppressWarnings("unchecked")
+        public static <T> None<T> cast(None<?> option) {
+            return (None<T>) option;
+        }
+
         @Override
         @NotNull
         public <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
-            return (Option<V>)this;
+            return cast(this);
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         @NotNull
         public <V> Option<V> flatMap(@NotNull NF1<? super T, Option<? extends V>> mapper) {
-            return (Option<V>)this;
+            return cast(this);
         }
 
         @Override
@@ -220,17 +227,16 @@ public abstract class Option<T> {
             return false;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         @NotNull
         public Option<T> or(@NotNull Option<? extends T> other) {
-            return (Option<T>) other;
+            return cast(other);
         }
 
-        @SuppressWarnings("unchecked")
         @Override
-        public @NotNull Option<T> or(@NotNull NS<Option<? extends T>> other) {
-            return (Option<T>) other.get();
+        @NotNull
+        public Option<T> or(@NotNull NS<Option<? extends T>> other) {
+            return cast(other.get());
         }
 
         @Override
@@ -266,23 +272,27 @@ public abstract class Option<T> {
         }
 
         @Override
-        public @NotNull Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
+        @NotNull
+        public Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
             return this;
         }
 
         @Override
-        public @NotNull Option<T> whenNotPresent(@NotNull A action) {
+        @NotNull
+        public Option<T> whenNotPresent(@NotNull A action) {
             action.run();
             return this;
         }
 
         @Override
-        public @NotNull Optional<T> optional() {
+        @NotNull
+        public Optional<T> optional() {
             return Optional.empty();
         }
 
         @Override
-        public @NotNull Stream<T> stream() {
+        @NotNull
+        public Stream<T> stream() {
             return Stream.of();
         }
     }
