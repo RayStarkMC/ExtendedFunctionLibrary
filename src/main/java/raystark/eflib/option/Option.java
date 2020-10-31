@@ -2,14 +2,24 @@ package raystark.eflib.option;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import raystark.eflib.function.A;
 import raystark.eflib.function.P1;
+import raystark.eflib.function.notnull.NC1;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NS;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public abstract class Option<T> {
     Option() {}
+
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <T> Option<T> cast(Option<? extends T> option) {
+        return (Option<T>) option;
+    }
 
     @NotNull
     public static <T> Option<T> ofNullable(@Nullable T value) {
@@ -46,6 +56,30 @@ public abstract class Option<T> {
     @NotNull
     public abstract T orElseThrow();
 
+    @NotNull
+    public abstract <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X;
+
+    public abstract void ifPresent(@NotNull NC1<? super T> consumer);
+
+    public abstract void ifNotPresent(@NotNull A action);
+
+    @NotNull
+    public abstract Option<T> whenPresent(@NotNull NC1<? super T> consumer);
+
+    @NotNull
+    public abstract Option<T> whenNotPresent(@NotNull A action);
+
+    @NotNull
+    public abstract Optional<T> optional();
+
+    @NotNull
+    public abstract Stream<T> stream();
+
+    @NotNull
+    public Iterable<T> iterable() {
+        return stream()::iterator;
+    }
+
     public static class Some<T> extends Option<T> {
         private final T value;
 
@@ -57,18 +91,16 @@ public abstract class Option<T> {
             return new Some<>(value);
         }
 
-
         @Override
         @NotNull
         public <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
             return Some.of(mapper.apply(value));
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         @NotNull
         public <V> Option<V> flatMap(@NotNull NF1<? super T, Option<? extends V>> mapper) {
-            return (Option<V>) mapper.apply(value);
+            return cast(mapper.apply(value));
         }
 
         @Override
@@ -85,7 +117,7 @@ public abstract class Option<T> {
         @Override
         @NotNull
         public Option<T> or(@NotNull Option<? extends T> other) {
-            return this;
+            return cast(other);
         }
 
         @Override
@@ -110,6 +142,45 @@ public abstract class Option<T> {
         @NotNull
         public T orElseThrow() {
             return value;
+        }
+
+        @Override
+        @NotNull
+        public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X {
+            return value;
+        }
+
+        @Override
+        public void ifPresent(@NotNull NC1<? super T> consumer) {
+            consumer.accept(value);
+        }
+
+        @Override
+        public void ifNotPresent(@NotNull A action) {}
+
+        @Override
+        @NotNull
+        public Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
+            consumer.accept(value);
+            return this;
+        }
+
+        @Override
+        @NotNull
+        public Option<T> whenNotPresent(@NotNull A action) {
+            return this;
+        }
+
+        @Override
+        @NotNull
+        public Optional<T> optional() {
+            return Optional.of(value);
+        }
+
+        @Override
+        @NotNull
+        public Stream<T> stream() {
+            return Stream.of(value);
         }
     }
 
@@ -178,6 +249,41 @@ public abstract class Option<T> {
         @NotNull
         public T orElseThrow() {
             throw new NoSuchElementException();
+        }
+
+        @Override
+        @NotNull
+        public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X {
+            throw exceptionSupplier.get();
+        }
+
+        @Override
+        public void ifPresent(@NotNull NC1<? super T> consumer) {}
+
+        @Override
+        public void ifNotPresent(@NotNull A action) {
+            action.run();
+        }
+
+        @Override
+        public @NotNull Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
+            return this;
+        }
+
+        @Override
+        public @NotNull Option<T> whenNotPresent(@NotNull A action) {
+            action.run();
+            return this;
+        }
+
+        @Override
+        public @NotNull Optional<T> optional() {
+            return Optional.empty();
+        }
+
+        @Override
+        public @NotNull Stream<T> stream() {
+            return Stream.of();
         }
     }
 }
