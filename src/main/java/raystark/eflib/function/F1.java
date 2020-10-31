@@ -136,4 +136,9 @@ public interface F1<T1, R> {
     static <T1, R> F1<T1, R> of(@NotNull F1<T1, R> f1) {
         return f1;
     }
+
+    @NotNull
+    static <T1> F1<T1, T1> identity() {
+        return F1Support.identity();
+    }
 }
