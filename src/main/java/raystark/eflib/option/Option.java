@@ -146,7 +146,7 @@ public abstract class Option<T> {
 
         @Override
         @NotNull
-        public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X {
+        public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) {
             return value;
         }
 
