@@ -68,5 +68,7 @@ public interface A {
         return a;
     }
 
-
+    static A doNothing() {
+        return FunctionSupport.doNothing();
+    }
 }
