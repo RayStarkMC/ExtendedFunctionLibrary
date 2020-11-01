@@ -137,6 +137,12 @@ public interface F1<T1, R> {
         return f1;
     }
 
+    /**
+     * 恒等関数を返します。
+     *
+     * @param <T1> 恒等関数の型
+     * @return 恒等関数
+     */
     @NotNull
     static <T1> F1<T1, T1> identity() {
         return F1Support.identity();
