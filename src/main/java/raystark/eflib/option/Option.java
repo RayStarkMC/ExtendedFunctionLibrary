@@ -30,14 +30,14 @@ public abstract class Option<T> {
     Option() {}
 
     /**
-     * このインスタンスの変性を表すキャストメソッド。
+     * この型の変性を表すキャストメソッド。
      *
      * <p>OptionはT型について共変です。すなわちA extends Bの時{@literal Option<A>}は{@literal Option<B>}のサブクラスです。
      * このメソッドを使ってそのようなOptionをキャストする事ができます。
      *
      * @param option サブタイプのoption
      * @param <T> キャスト後のOptionの型
-     * @return 同じインスタンス
+     * @return キャスト後の引数
      */
     @SuppressWarnings("unchecked")
     @NotNull
@@ -250,6 +250,13 @@ public abstract class Option<T> {
         return stream()::iterator;
     }
 
+    /**
+     * 値が存在するOption。
+     *
+     * <p>Optionを実装しインスタンスの生成方法を適用する他、保持する値を取得する{@link Some#get()}メソッドが定義されます。
+     *
+     * @param <T> 値の型
+     */
     public static class Some<T> extends Option<T> {
         private final T value;
 
@@ -257,88 +264,152 @@ public abstract class Option<T> {
             this.value = value;
         }
 
+        /**
+         * 非null値を受け取ってSomeインスタンスを生成します。
+         *
+         * @param value Someの保持する非null値
+         * @param <T> 値の型
+         * @return valueを保持したSome
+         */
         @NotNull
         public static <T> Some<T> of(@NotNull T value) {
             return new Some<>(value);
         }
 
+        /**
+         * この型の変性を表すキャストメソッド。
+         *
+         * <p>SomeはT型について共変です。すなわちA extends Bの時{@literal Some<A>}は{@literal Some<B>}のサブクラスです。
+         * このメソッドを使ってそのようなSomeをキャストする事ができます。
+         *
+         * @param some サブタイプのsome
+         * @param <T> キャスト後のSomeの型
+         * @return キャスト後の引数
+         */
         @SuppressWarnings("unchecked")
         @NotNull
         public static <T> Some<T> cast(@NotNull Some<? extends T> some) {
             return (Some<T>) some;
         }
 
+
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
             return Some.of(mapper.apply(value));
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
             return cast(mapper.apply(value));
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> filter(@NotNull P1<T> tester) {
             return tester.test(value) ? this : None.of();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean isPresent() {
             return true;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> or(@NotNull Option<? extends T> other) {
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> or(@NotNull NS<Option<? extends T>> other) {
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public T orElse(@NotNull T other) {
             return value;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public T orElse(@NotNull NS<? extends T> other) {
             return value;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public T orElseThrow() {
             return value;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) {
             return value;
         }
 
+        /**
+         * このSomeが保持する値を返します。
+         *
+         * <p>{@link Some#orElseThrow()}と違い例外をスローしません。
+         *
+         * @return このSomeが保持する値
+         */
         public T get() {
             return value;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void ifPresent(@NotNull NC1<? super T> consumer) {
             consumer.accept(value);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void ifNotPresent(@NotNull A action) {}
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
@@ -346,18 +417,27 @@ public abstract class Option<T> {
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> whenNotPresent(@NotNull A action) {
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Optional<T> optional() {
             return Optional.of(value);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Stream<T> stream() {
@@ -365,94 +445,159 @@ public abstract class Option<T> {
         }
     }
 
+    /**
+     * 値が存在しないOption。
+     *
+     * <p>この型はシングルトンです。任意のNoneインスタンスに対し、{@literal ==}比較は常にtrueを返します。
+     *
+     * @param <T> 値の型
+     */
     public static class None<T> extends Option<T> {
         private static final None<?> INSTANCE = new None<>();
 
         private None() {}
 
+        /**
+         * シングルトンを返します。
+         *
+         * @param <T> 値の型
+         * @return シングルトン
+         */
         @NotNull
         public static <T> None<T> of() {
             return cast(INSTANCE);
         }
 
+        /**
+         * この型の変性を表すキャストメソッド。
+         *
+         * <p>NoneはT型について任意の型のサブタイプです。任意の型のNoneから別の型のNoneへキャストすることができます。
+         * このメソッドを使って任意のNoneをキャストできます。
+         *
+         * @param none サブタイプのnone
+         * @param <T> キャスト後のnoneの型
+         * @return キャスト後の引数
+         */
         @SuppressWarnings("unchecked")
-        public static <T> None<T> cast(None<?> option) {
-            return (None<T>) option;
+        public static <T> None<T> cast(None<?> none) {
+            return (None<T>) none;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
             return cast(this);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
             return cast(this);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> filter(@NotNull P1<T> tester) {
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean isPresent() {
             return false;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> or(@NotNull Option<? extends T> other) {
             return cast(other);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> or(@NotNull NS<Option<? extends T>> other) {
             return cast(other.get());
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public T orElse(@NotNull T other) {
             return other;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public T orElse(@NotNull NS<? extends T> other) {
             return other.get();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public T orElseThrow() {
             throw new NoSuchElementException();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X {
             throw exceptionSupplier.get();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void ifPresent(@NotNull NC1<? super T> consumer) {}
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void ifNotPresent(@NotNull A action) {
             action.run();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Option<T> whenNotPresent(@NotNull A action) {
@@ -460,12 +605,18 @@ public abstract class Option<T> {
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Optional<T> optional() {
             return Optional.empty();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         @NotNull
         public Stream<T> stream() {
