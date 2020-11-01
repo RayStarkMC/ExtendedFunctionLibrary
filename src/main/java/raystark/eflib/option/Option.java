@@ -173,13 +173,16 @@ public abstract class Option<T> {
     @NotNull
     public abstract T orElseThrow();
 
+
     /**
      * 値が存在する場合その値を返し、そうでない場合例外をスローします。
      *
      * <p>このOptionがSomeの場合exceptionSupplierは評価されません。
      *
-     * @throws X 値が存在しない場合
+     * @param exceptionSupplier 例外を生成するSupplier
+     * @param <X> スローする例外の型
      * @return 値が存在する場合その値
+     * @throws X 値が存在しない場合
      */
     @NotNull
     public abstract <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X;
