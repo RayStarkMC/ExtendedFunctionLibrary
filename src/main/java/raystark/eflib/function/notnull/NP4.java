@@ -1,6 +1,10 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.function.P1;
+import raystark.eflib.function.P2;
+import raystark.eflib.function.P3;
+import raystark.eflib.function.S;
 
 /**
  * 型T1, 型T2, 型T3, 型T4の述語です。またBoolean型を返す関数です。
@@ -63,6 +67,16 @@ public interface NP4<T1, T2, T3, T4> extends NF4<T1, T2, T3, T4, Boolean> {
      */
     @Override
     @NotNull
+    default NP3<T2, T3, T4> apply(@NotNull NS<? extends T1> t1) {
+        return (t2, t3, t4) -> test(t1.get(), t2, t3, t4);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
     default NP2<T3, T4> apply(@NotNull T1 t1, @NotNull T2 t2) {
         return (t3, t4) -> test(t1, t2, t3, t4);
     }
@@ -72,8 +86,26 @@ public interface NP4<T1, T2, T3, T4> extends NF4<T1, T2, T3, T4, Boolean> {
      */
     @Override
     @NotNull
+    default NP2<T3, T4> apply(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2) {
+        return (t3, t4) -> test(t1.get(), t2.get(), t3, t4);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
     default NP1<T4> apply(@NotNull T1 t1, @NotNull T2 t2, @NotNull T3 t3) {
         return t4 -> test(t1, t2, t3,t4);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
+    default NP1<T4> apply(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2, @NotNull NS<? extends T3> t3) {
+        return t4 -> test(t1.get(), t2.get(), t3.get(),t4);
     }
 
     /**

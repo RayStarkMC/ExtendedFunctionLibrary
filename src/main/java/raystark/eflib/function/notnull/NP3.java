@@ -60,8 +60,26 @@ public interface NP3<T1, T2, T3> extends NF3<T1, T2, T3, Boolean> {
      */
     @Override
     @NotNull
+    default NP2<T2, T3> apply(@NotNull NS<? extends T1> t1) {
+        return (t2, t3) -> test(t1.get(), t2, t3);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
     default NP1<T3> apply(@NotNull T1 t1, @NotNull T2 t2) {
         return t3 -> test(t1, t2, t3);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
+    default NP1<T3> apply(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2) {
+        return t3 -> test(t1.get(), t2.get(), t3);
     }
 
     /**

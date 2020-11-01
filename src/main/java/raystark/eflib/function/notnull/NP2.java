@@ -62,6 +62,15 @@ public interface NP2<T1, T2> extends NF2<T1, T2, Boolean> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
+    default NP1<T2> apply(@NotNull NS<? extends T1> t1) {
+        return t2 -> apply(t1.get(), t2);
+    }
+
+    /**
      * この述語と述語otherの短絡論理積を表す合成述語を返します。
      *
      * <p>この述語がfalseだった場合、又はこの述語の評価時に例外がスローされた場合otherは評価されません。

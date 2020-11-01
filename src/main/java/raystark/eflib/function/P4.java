@@ -95,6 +95,17 @@ public interface P4<T1, T2, T3, T4> extends F4<T1, T2, T3, T4, Boolean> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
+    default P1<T4> apply(@NotNull S<? extends T1> t1, @NotNull S<? extends T2> t2, @NotNull S<? extends T3> t3) {
+        return t4 -> test(t1.get(), t2.get(), t3.get(),t4);
+    }
+
+
+
+    /**
      * この述語と述語otherの短絡論理積を表す合成述語を返します。
      *
      * <p>この述語がfalseだった場合、又はこの述語の評価時に例外がスローされた場合otherは評価されません。
