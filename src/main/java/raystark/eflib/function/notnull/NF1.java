@@ -89,6 +89,20 @@ public interface NF1<T1, R> {
     }
 
     /**
+     * 引数をこの関数に適用した結果を生成するSupplierを返します。
+     *
+     * <p>この関数の評価時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @return Supplier
+     */
+    @NotNull
+    default NS<R> asS(@NotNull NS<? extends T1> t1) {
+        return () -> apply(t1.get());
+    }
+
+    /**
      * この関数の一変数関数としての結果をConsumer afterが消費するConsumerを返します。
      *
      * <p>この関数の評価時にスローされた例外は呼び出し元に中継されます。
