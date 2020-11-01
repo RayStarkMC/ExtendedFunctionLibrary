@@ -145,6 +145,6 @@ public interface F1<T1, R> {
      */
     @NotNull
     static <T1> F1<T1, T1> identity() {
-        return F1Support.identity();
+        return FunctionSupport.identity();
     }
 }

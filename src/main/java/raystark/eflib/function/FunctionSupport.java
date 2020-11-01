@@ -1,6 +1,6 @@
 package raystark.eflib.function;
 
-class F1Support {
+class FunctionSupport {
     private static final F1<?, ?> IDENTITY = t -> t;
 
     @SuppressWarnings("unchecked")
