@@ -122,4 +122,15 @@ public interface NF1<T1, R> {
     static <T1, R> NF1<T1, R> of(@NotNull NF1<T1, R> f1) {
         return f1;
     }
+
+    /**
+     * 恒等関数を返します。
+     *
+     * @param <T1> 恒等関数の型
+     * @return 恒等関数
+     */
+    @NotNull
+    static <T1> NF1<T1, T1> identity() {
+        return NFunctionSupport.identity();
+    }
 }
