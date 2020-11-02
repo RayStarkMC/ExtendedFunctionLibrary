@@ -43,6 +43,20 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
     }
 
     /**
+     * 第二引数までをこの関数に部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @return 引数が部分適用された関数
+     */
+    @NotNull
+    default F1<T3, R> apply(@NotNull S<? extends T1> t1, @NotNull S<? extends T2> t2) {
+        return t3 -> apply(t1.get(), t2.get(), t3);
+    }
+
+    /**
      * 入力をこの関数を適用し、三変数関数としての結果を関数afterに適用する合成関数を返します。
      *
      * <p>いずれかの関数の評価時にスローされた例外は呼び出し元に中継されます。
@@ -133,6 +147,22 @@ public interface F3<T1, T2, T3, R> extends F2<T1, T2, F1<T3, R>> {
     @NotNull
     default S<R> asS(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3) {
         return () -> apply(t1, t2, t3);
+    }
+
+    /**
+     * 引数をこの関数に適用した結果を返すSupplierを返します。
+     *
+     * <p>この関数の評価時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @param t3 第三引数
+     * @return Supplier
+     */
+    @NotNull
+    default S<R> asS(@NotNull S<? extends T1> t1, @NotNull S<? extends T2> t2, @NotNull S<? extends T3> t3) {
+        return () -> apply(t1.get(), t2.get(), t3.get());
     }
 
     /**

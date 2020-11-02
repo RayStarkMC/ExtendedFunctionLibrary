@@ -47,6 +47,19 @@ public interface NC2<T1, T2> {
     }
 
     /**
+     * 第一引数までをこのConsumerに部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @return 引数が部分適用されたConsumer
+     */
+    @NotNull
+    default NC1<T2> apply(@NotNull NS<? extends T1> t1) {
+        return t2 -> accept(t1.get(), t2);
+    }
+
+    /**
      * このConsumerを実行した後にConsumer afterを実行する合成Consumerを返します。
      *
      * <p>いずれかの関数の実行時にスローされた例外は呼び出し元に中継されます。
@@ -160,6 +173,21 @@ public interface NC2<T1, T2> {
     @NotNull
     default A asA(@NotNull T1 t1, @NotNull T2 t2) {
         return () -> accept(t1, t2);
+    }
+
+    /**
+     * このConsumerに引数を適用するActionを返します。
+     *
+     * <p>このconsumerの実行時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @return Action
+     */
+    @NotNull
+    default A asA(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2) {
+        return () -> accept(t1.get(), t2.get());
     }
 
     /**

@@ -60,8 +60,26 @@ public interface P3<T1, T2, T3> extends F3<T1, T2, T3, Boolean> {
      */
     @Override
     @NotNull
+    default P2<T2, T3> apply(@NotNull S<? extends T1> t1) {
+        return (t2, t3) -> test(t1.get(), t2, t3);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
     default P1<T3> apply(@Nullable T1 t1, @Nullable T2 t2) {
         return t3 -> test(t1, t2, t3);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
+    default P1<T3> apply(@NotNull S<? extends T1> t1, @NotNull S<? extends T2> t2) {
+        return t3 -> test(t1.get(), t2.get(), t3);
     }
 
     /**

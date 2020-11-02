@@ -1,6 +1,8 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.function.F1;
+import raystark.eflib.function.S;
 
 /**
  * 型T1, 型T2, 型T3, 型T4から型Rへの四変数関数です。
@@ -43,6 +45,21 @@ public interface NF4<T1, T2, T3, T4, R> extends NF3<T1, T2, T3, NF1<T4, R>> {
     @Override
     default NF1<T4, R> apply(@NotNull T1 t1, @NotNull T2 t2, @NotNull T3 t3) {
         return t4 -> apply(t1, t2, t3, t4);
+    }
+
+    /**
+     * 第三引数までをこの関数に部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @param t3 第三引数
+     * @return 引数が部分適用された関数
+     */
+    @NotNull
+    default NF1<T4, R> apply(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2, @NotNull NS<? extends T3> t3) {
+        return t4 -> apply(t1.get(), t2.get(), t3.get(), t4);
     }
 
     /**
@@ -155,6 +172,23 @@ public interface NF4<T1, T2, T3, T4, R> extends NF3<T1, T2, T3, NF1<T4, R>> {
     @NotNull
     default NS<R> asS(@NotNull T1 t1, @NotNull T2 t2, @NotNull T3 t3, @NotNull T4 t4) {
         return () -> apply(t1, t2, t3, t4);
+    }
+
+    /**
+     * 引数をこの関数に適用した結果を返すSupplierを返します。
+     *
+     * <p>この関数の評価時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @param t3 第三引数
+     * @param t4 第四引数
+     * @return Supplier
+     */
+    @NotNull
+    default NS<R> asS(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2, @NotNull NS<? extends T3> t3, @NotNull NS<? extends T4> t4) {
+        return () -> apply(t1.get(), t2.get(), t3.get(), t4.get());
     }
 
     /**

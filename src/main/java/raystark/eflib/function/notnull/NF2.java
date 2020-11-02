@@ -1,6 +1,7 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.function.S;
 
 import java.util.function.BiFunction;
 
@@ -46,6 +47,19 @@ public interface NF2<T1, T2, R> extends NF1<T1, NF1<T2, R>> {
     @Override
     default NF1<T2, R> apply(@NotNull T1 t1) {
         return t2 -> apply(t1, t2);
+    }
+
+    /**
+     * 第一引数までをこの関数に部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @return 引数が部分適用された関数
+     */
+    @NotNull
+    default NF1<T2, R> apply(@NotNull NS<? extends T1> t1) {
+        return t2 -> apply(t1.get(), t2);
     }
 
     /**
@@ -120,6 +134,21 @@ public interface NF2<T1, T2, R> extends NF1<T1, NF1<T2, R>> {
     @NotNull
     default NS<R> asS(@NotNull T1 t1, @NotNull T2 t2) {
         return () -> apply(t1, t2);
+    }
+
+    /**
+     * 引数をこの関数に適用した結果を返すSupplierを返します。
+     *
+     * <p>この関数の評価時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @return Supplier
+     */
+    @NotNull
+    default NS<R> asS(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2) {
+        return () -> apply(t1.get(), t2.get());
     }
 
     /**

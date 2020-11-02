@@ -123,6 +123,20 @@ public interface NC1<T1> {
     }
 
     /**
+     * このConsumerに引数を適用するActionを返します。
+     *
+     * <p>このconsumerの実行時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @return Action
+     */
+    @NotNull
+    default A asA(@NotNull NS<? extends T1> t1) {
+        return () -> accept(t1.get());
+    }
+
+    /**
      * ラムダやメソッド参照から関数オブジェクトを生成するファクトリメソッドです。
      *
      * <p>このメソッドは引数をそのまま返します。

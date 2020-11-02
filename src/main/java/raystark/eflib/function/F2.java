@@ -3,6 +3,7 @@ package raystark.eflib.function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.function.BiFunction;
 
 /**
@@ -46,6 +47,19 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     @Override
     default F1<T2, R> apply(@Nullable T1 t1) {
         return t2 -> apply(t1, t2);
+    }
+
+    /**
+     * 第一引数までをこの関数に部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @return 引数が部分適用された関数
+     */
+    @NotNull
+    default F1<T2, R> apply(@NotNull S<? extends T1> t1) {
+        return t2 -> apply(t1.get(), t2);
     }
 
     /**
@@ -120,6 +134,21 @@ public interface F2<T1, T2, R> extends F1<T1, F1<T2, R>> {
     @NotNull
     default S<R> asS(@Nullable T1 t1, @Nullable T2 t2) {
         return () -> apply(t1, t2);
+    }
+
+    /**
+     * 引数をこの関数に適用した結果を返すSupplierを返します。
+     *
+     * <p>この関数の評価時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @return Supplier
+     */
+    @NotNull
+    default S<R> asS(@NotNull S<? extends T1> t1, @NotNull S<? extends T2> t2) {
+        return () -> apply(t1.get(), t2.get());
     }
 
     /**
