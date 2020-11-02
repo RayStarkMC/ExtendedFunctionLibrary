@@ -42,6 +42,19 @@ public interface NC4<T1, T2, T3, T4> {
     }
 
     /**
+     * 第一引数までをこのConsumerに部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @return 引数が部分適用されたConsumer
+     */
+    @NotNull
+    default NC3<T2, T3, T4> apply(@NotNull NS<? extends T1> t1) {
+        return (t2, t3, t4) -> accept(t1.get(), t2, t3, t4);
+    }
+
+    /**
      * 第二引数までをこのConsumerに部分適用します。
      *
      * @param t1 第一引数
@@ -51,6 +64,20 @@ public interface NC4<T1, T2, T3, T4> {
     @NotNull
     default NC2<T3, T4> apply(@NotNull T1 t1, @NotNull T2 t2) {
         return (t3, t4) -> accept(t1, t2, t3, t4);
+    }
+
+    /**
+     * 第二引数までをこのConsumerに部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @return 引数が部分適用されたConsumer
+     */
+    @NotNull
+    default NC2<T3, T4> apply(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2) {
+        return (t3, t4) -> accept(t1.get(), t2.get(), t3, t4);
     }
 
     /**
@@ -64,6 +91,21 @@ public interface NC4<T1, T2, T3, T4> {
     @NotNull
     default NC1<T4> apply(@NotNull T1 t1, @NotNull T2 t2, @NotNull T3 t3) {
         return t4 -> accept(t1, t2, t3, t4);
+    }
+
+    /**
+     * 第三引数までをこのConsumerに部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @param t3 第三引数
+     * @return 引数が部分適用されたConsumer
+     */
+    @NotNull
+    default NC1<T4> apply(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2, @NotNull NS<? extends T3> t3) {
+        return t4 -> accept(t1.get(), t2.get(), t3.get(), t4);
     }
 
     /**
@@ -230,6 +272,23 @@ public interface NC4<T1, T2, T3, T4> {
     @NotNull
     default A asA(@NotNull T1 t1, @NotNull T2 t2, @NotNull T3 t3, @NotNull T4 t4) {
         return () -> accept(t1, t2, t3, t4);
+    }
+
+    /**
+     * このConsumerに引数を適用するActionを返します。
+     *
+     * <p>このconsumerの実行時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @param t3 第三引数
+     * @param t4 第四引数
+     * @return Action
+     */
+    @NotNull
+    default A asA(@NotNull NS<? extends T1> t1, @NotNull NS<? extends T2> t2, @NotNull NS<? extends T3> t3, @NotNull NS<? extends T4> t4) {
+        return () -> accept(t1.get(), t2.get(), t3.get(), t4.get());
     }
 
     /**

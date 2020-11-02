@@ -39,6 +39,19 @@ public interface C3<T1, T2, T3> {
     }
 
     /**
+     * 第一引数までをこのConsumerに部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @return 引数が部分適用されたConsumer
+     */
+    @NotNull
+    default C2<T2, T3> apply(@NotNull S<? extends T1> t1) {
+        return (t2, t3) -> accept(t1.get(), t2, t3);
+    }
+
+    /**
      * 第二引数までをこのConsumerに部分適用します。
      *
      * @param t1 第一引数
@@ -48,6 +61,20 @@ public interface C3<T1, T2, T3> {
     @NotNull
     default C1<T3> apply(@Nullable T1 t1, @Nullable T2 t2) {
         return t3 -> accept(t1, t2, t3);
+    }
+
+    /**
+     * 第二引数までをこのConsumerに部分適用します。
+     *
+     * <p>引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @return 引数が部分適用されたConsumer
+     */
+    @NotNull
+    default C1<T3> apply(@NotNull S<? extends T1> t1, @NotNull S<? extends T2> t2) {
+        return t3 -> accept(t1.get(), t2.get(), t3);
     }
 
     /**
@@ -189,6 +216,22 @@ public interface C3<T1, T2, T3> {
     @NotNull
     default A asA(@Nullable T1 t1, @Nullable T2 t2, @Nullable T3 t3) {
         return () -> accept(t1, t2, t3);
+    }
+
+    /**
+     * このConsumerに引数を適用するActionを返します。
+     *
+     * <p>このconsumerの実行時にスローされた例外は呼び出し元に中継されます。
+     * 引数は遅延評価されます。
+     *
+     * @param t1 第一引数
+     * @param t2 第二引数
+     * @param t3 第三引数
+     * @return Action
+     */
+    @NotNull
+    default A asA(@NotNull S<? extends T1> t1, @NotNull S<? extends T2> t2, @NotNull S<? extends T3> t3) {
+        return () -> accept(t1.get(), t2.get(), t3.get());
     }
 
     /**
