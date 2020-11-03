@@ -32,10 +32,8 @@ repositories {
     maven {
         url = 'https://maven.pkg.github.com/raystarkmc/ExtendedFunctionLibrary'
         credentials {
-            credentials {
-                username = project.findProperty("github.username")
-                password = project.findProperty("github.password")
-            }
+            username = project.findProperty("github.username")
+            password = project.findProperty("github.password")
         }
     }
 }
