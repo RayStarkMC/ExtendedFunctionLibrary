@@ -57,6 +57,12 @@ public abstract class Option<T> {
         return value == null ? None.of() : Some.of(value);
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    @NotNull
+    public static <T> Option<T> asOption(@NotNull Optional<? extends T> optional) {
+        return optional.isPresent() ? Some.of(optional.get()) : None.of();
+    }
+
     /**
      * このOptionの値にmapperを適用した値を保持するOptionを返します。
      *
@@ -71,6 +77,30 @@ public abstract class Option<T> {
     public abstract <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper);
 
     /**
+     * このOptionの値にmapperを適用した結果を取り出します。
+     *
+     * <p>これは次の呼び出しと同等ですが、ボクシングを挟まずに値を取り出します。
+     * <pre>{@code
+     * var bool = opt.map(mapper::test).orElse(true);
+     * }</pre>
+     *
+     * @return 値が存在する場合それをmapperに適用した値、存在しない場合はtrue
+     */
+    public abstract boolean mapOrElseTrue(@NotNull P1<? super T> mapper);
+
+    /**
+     * このOptionの値にmapperを適用した結果を取り出します。
+     *
+     * <p>これは次の呼び出しと同等ですが、ボクシングを挟まずに値を取り出します。
+     * <pre>{@code
+     * var bool = opt.map(mapper::test).orElse(false);
+     * }</pre>
+     *
+     * @return 値が存在する場合それをmapperに適用した値、存在しない場合はfalse
+     */
+    public abstract boolean mapOrElseFalse(@NotNull P1<? super T> mapper);
+
+    /**
      * このOptionの値にmapperを適用した結果を返します。
      *
      * <p>このOptionがNoneの場合はmapperが評価されず、自身が返されます。
@@ -82,6 +112,30 @@ public abstract class Option<T> {
      */
     @NotNull
     public abstract <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper);
+
+    /**
+     * このOptionの値にmapperを適用した結果を取り出します。
+     *
+     * <p>これは次の呼び出しと同等です。
+     * <pre>{@code
+     * var bool = opt.flatMap(mapper).orElse(true);
+     * }</pre>
+     *
+     * @return 値が存在し、かつその値をmapperに適用した値が存在する場合はその値、それ以外の場合true
+     */
+    public abstract boolean flatMapOrElseTrue(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper);
+
+    /**
+     * このOptionの値にmapperを適用した結果を取り出します。
+     *
+     * <p>これは次の呼び出しと同等です。
+     * <pre>{@code
+     * var bool = opt.flatMap(mapper).orElse(false);
+     * }</pre>
+     *
+     * @return 値が存在し、かつその値をmapperに適用した値が存在する場合はその値、それ以外の場合false
+     */
+    public abstract boolean flatMapOrElseFalse(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper);
 
     /**
      * testerによりOptionを選別します。
@@ -165,6 +219,14 @@ public abstract class Option<T> {
     public abstract T orElse(@NotNull NS<? extends T> other);
 
     /**
+     * 値が存在する場合その値を、そうでない場合nullを返します。
+     *
+     * @return 値が存在する場合その値、そうでない場合null
+     */
+    @Nullable
+    public abstract T orElseNull();
+
+    /**
      * 値が存在する場合その値を返し、そうでない場合例外をスローします。
      *
      * @throws NoSuchElementException 値が存在しない場合
@@ -229,7 +291,9 @@ public abstract class Option<T> {
      * @return このOptionに対応するOptional
      */
     @NotNull
-    public abstract Optional<T> optional();
+    public Optional<T> optional() {
+        return Optional.ofNullable(orElseNull());
+    }
 
     /**
      * このOptionをStreamに変換します。
@@ -309,9 +373,41 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
+        public boolean mapOrElseTrue(@NotNull P1<? super T> mapper) {
+            return mapper.test(value);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean mapOrElseFalse(@NotNull P1<? super T> mapper) {
+            return mapper.test(value);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         @NotNull
         public <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
             return cast(mapper.apply(value));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean flatMapOrElseTrue(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
+            return flatMap(mapper).orElse(true);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean flatMapOrElseFalse(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
+            return flatMap(mapper).orElse(false);
         }
 
         /**
@@ -365,6 +461,12 @@ public abstract class Option<T> {
         @NotNull
         public T orElse(@NotNull NS<? extends T> other) {
             return value;
+        }
+
+        @Override
+        @NotNull
+        public T orElseNull() {
+            return get();
         }
 
         /**
@@ -434,15 +536,6 @@ public abstract class Option<T> {
          */
         @Override
         @NotNull
-        public Optional<T> optional() {
-            return Optional.of(value);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
         public Stream<T> stream() {
             return Stream.of(value);
         }
@@ -499,9 +592,41 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
+        public boolean mapOrElseTrue(@NotNull P1<? super T> mapper) {
+            return true;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean mapOrElseFalse(@NotNull P1<? super T> mapper) {
+            return false;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         @NotNull
         public <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
             return cast(this);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean flatMapOrElseTrue(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
+            return true;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean flatMapOrElseFalse(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
+            return false;
         }
 
         /**
@@ -557,6 +682,12 @@ public abstract class Option<T> {
             return other.get();
         }
 
+        @Override
+        @Nullable
+        public T orElseNull() {
+            return null;
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -606,15 +737,6 @@ public abstract class Option<T> {
         public Option<T> whenNotPresent(@NotNull A action) {
             action.run();
             return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Optional<T> optional() {
-            return Optional.empty();
         }
 
         /**
