@@ -57,6 +57,13 @@ public abstract class Option<T> {
         return value == null ? None.of() : Some.of(value);
     }
 
+    /**
+     * OptionalをOptionに変換します。
+     *
+     * @param optional optional
+     * @param <T> 返還後の型
+     * @return optionalと同じ値を持つOption
+     */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @NotNull
     public static <T> Option<T> asOption(@NotNull Optional<? extends T> optional) {
@@ -84,6 +91,7 @@ public abstract class Option<T> {
      * var bool = opt.map(mapper::test).orElse(true);
      * }</pre>
      *
+     * @param mapper boolean型へのマッピング関数
      * @return 値が存在する場合それをmapperに適用した値、存在しない場合はtrue
      */
     public abstract boolean mapOrElseTrue(@NotNull P1<? super T> mapper);
@@ -96,6 +104,7 @@ public abstract class Option<T> {
      * var bool = opt.map(mapper::test).orElse(false);
      * }</pre>
      *
+     * @param mapper boolean型へのマッピング関数
      * @return 値が存在する場合それをmapperに適用した値、存在しない場合はfalse
      */
     public abstract boolean mapOrElseFalse(@NotNull P1<? super T> mapper);
@@ -121,6 +130,7 @@ public abstract class Option<T> {
      * var bool = opt.flatMap(mapper).orElse(true);
      * }</pre>
      *
+     * @param mapper boolean型へのマッピング関数
      * @return 値が存在し、かつその値をmapperに適用した値が存在する場合はその値、それ以外の場合true
      */
     public abstract boolean flatMapOrElseTrue(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper);
@@ -133,6 +143,7 @@ public abstract class Option<T> {
      * var bool = opt.flatMap(mapper).orElse(false);
      * }</pre>
      *
+     * @param mapper boolean型へのマッピング関数
      * @return 値が存在し、かつその値をmapperに適用した値が存在する場合はその値、それ以外の場合false
      */
     public abstract boolean flatMapOrElseFalse(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper);
