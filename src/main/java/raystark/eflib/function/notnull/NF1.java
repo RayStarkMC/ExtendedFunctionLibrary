@@ -149,41 +149,41 @@ public interface NF1<T1, R> {
     }
 
     /**
-     * Optionに対してf1でマッピングする関数を返します。
+     * Optionに対してmapperでマッピングする関数を返します。
      *
-     * @param f1 マッピング関数
+     * @param mapper マッピング関数
      * @param <T1> マッピング関数の引数の型
      * @param <R> マッピング関数の戻り値の型
      * @return Option型にリフトされた関数
      */
     @NotNull
-    static <T1, R> NF1<Option<T1>, Option<R>> liftOption(@NotNull NF1<? super T1, ? extends R> f1) {
-        return opt -> opt.map(f1);
+    static <T1, R> NF1<Option<T1>, Option<R>> liftOption(@NotNull NF1<? super T1, ? extends R> mapper) {
+        return opt -> opt.map(mapper);
     }
 
     /**
-     * SLazyに対してf1でマッピングする関数を返します。
+     * SLazyに対してmapperでマッピングする関数を返します。
      *
-     * @param f1 マッピング関数
+     * @param mapper マッピング関数
      * @param <T1> マッピング関数の引数の型
      * @param <R> マッピング関数の戻り値の型
      * @return SLazy型にリフトされた関数
      */
     @NotNull
-    static <T1, R> NF1<SLazy<T1>, SLazy<R>> liftSLazy(@NotNull NF1<? super T1, ? extends R> f1) {
-        return sLazy -> sLazy.map(f1);
+    static <T1, R> NF1<SLazy<T1>, SLazy<R>> liftSLazy(@NotNull NF1<? super T1, ? extends R> mapper) {
+        return sLazy -> sLazy.map(mapper);
     }
 
     /**
-     * MLazyに対してf1でマッピングする関数を返します。
+     * MLazyに対してmapperでマッピングする関数を返します。
      *
-     * @param f1 マッピング関数
+     * @param mapper マッピング関数
      * @param <T1> マッピング関数の引数の型
      * @param <R> マッピング関数の戻り値の型
      * @return MLazy型にリフトされた関数
      */
-    static <T1, R> NF1<MLazy<T1>, MLazy<R>> liftMLazy(@NotNull NF1<? super T1, ? extends R> f1) {
-        return mLazy -> mLazy.map(f1);
+    static <T1, R> NF1<MLazy<T1>, MLazy<R>> liftMLazy(@NotNull NF1<? super T1, ? extends R> mapper) {
+        return mLazy -> mLazy.map(mapper);
     }
 
     /**
