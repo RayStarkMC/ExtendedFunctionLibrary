@@ -2,6 +2,9 @@ package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.A;
+import raystark.eflib.lazy.MLazy;
+import raystark.eflib.lazy.SLazy;
+import raystark.eflib.option.Option;
 
 import java.util.function.Consumer;
 
@@ -134,6 +137,72 @@ public interface NC1<T1> {
     @NotNull
     default A asA(@NotNull NS<? extends T1> t1) {
         return () -> accept(t1.get());
+    }
+
+    /**
+     * Optionに対して自身で{@link Option#ifPresent(NC1)}を適用するConsumerを返します。
+     *
+     * @return Optionにリフトされたconsumer
+     */
+    @NotNull
+    default NC1<Option<T1>> liftOption() {
+        return liftOption(this);
+    }
+
+    /**
+     * 渡されたSLazyの値に自身を適用するConsumerを返します。
+     *
+     * @return SLazyにリフトされたconsumer
+     */
+    @NotNull
+    default NC1<SLazy<T1>> liftSLazy() {
+        return liftSLazy(this);
+    }
+
+    /**
+     * 渡されたMLazyの値に自身を適用するConsumerを返します。
+     *
+     * @return MLazyにリフトされたconsumer
+     */
+    @NotNull
+    default NC1<MLazy<T1>> liftMLazy() {
+        return liftMLazy(this);
+    }
+
+    /**
+     * Optionに対してconsumerで{@link Option#ifPresent(NC1)}を適用するConsumerを返します。
+     *
+     * @param consumer Consumer
+     * @param <T1> Consumerの引数の型
+     * @return Optionにリフトされたconsumer
+     */
+    @NotNull
+    static <T1> NC1<Option<T1>> liftOption(NC1<? super T1> consumer) {
+        return opt -> opt.ifPresent(consumer);
+    }
+
+    /**
+     * 渡されたSLazyの値にconsumerを適用するConsumerを返します。
+     *
+     * @param consumer Consumer
+     * @param <T1> Consumerの引数の型
+     * @return SLazyにリフトされたconsumer
+     */
+    @NotNull
+    static <T1> NC1<SLazy<T1>> liftSLazy(NC1<? super T1> consumer) {
+        return sLazy -> consumer.accept(sLazy.get());
+    }
+
+    /**
+     * 渡されたMLazyの値にconsumerを適用するConsumerを返します。
+     *
+     * @param consumer Consumer
+     * @param <T1> Consumerの引数の型
+     * @return MLazyにリフトされたconsumer
+     */
+    @NotNull
+    static <T1> NC1<MLazy<T1>> liftMLazy(NC1<? super T1> consumer) {
+        return mLazy -> consumer.accept(mLazy.get());
     }
 
     /**
