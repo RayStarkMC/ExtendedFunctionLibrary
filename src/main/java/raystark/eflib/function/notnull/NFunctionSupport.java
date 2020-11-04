@@ -1,7 +1,5 @@
 package raystark.eflib.function.notnull;
 
-import raystark.eflib.function.F1;
-
 final class NFunctionSupport {
     private static final NF1<?, ?> IDENTITY = t -> t;
 
