@@ -2,6 +2,8 @@ package raystark.eflib.function;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import raystark.eflib.function.notnull.NS;
+import raystark.eflib.option.Option;
 
 import java.util.function.Supplier;
 
@@ -61,6 +63,28 @@ public interface S<T> {
     @NotNull
     default A asA(@NotNull C1<? super T> after) {
         return () -> after.accept(get());
+    }
+
+    /**
+     * このSupplierの供給する値をOptionでラップするSupplierを返します。
+     *
+     * @return OptionにリフトされたSupplier
+     */
+    @NotNull
+    default NS<Option<T>> liftOption() {
+        return liftOption(this);
+    }
+
+    /**
+     * supplierの供給する値をOptionでラップするSupplierを返します。
+     *
+     * @param supplier サプライヤ
+     * @param <T> サプライヤの値の型
+     * @return OptionにリフトされたSupplier
+     */
+    @NotNull
+    static <T> NS<Option<T>> liftOption(@NotNull S<? extends T> supplier) {
+        return () -> Option.ofNullable(supplier.get());
     }
 
     /**
