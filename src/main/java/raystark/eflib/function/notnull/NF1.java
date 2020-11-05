@@ -1,6 +1,9 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.lazy.MLazy;
+import raystark.eflib.lazy.SLazy;
+import raystark.eflib.option.Option;
 
 import java.util.function.Function;
 
@@ -113,6 +116,74 @@ public interface NF1<T1, R> {
     @NotNull
     default NC1<T1> asC1(@NotNull NC1<? super R> after) {
         return t1 -> after.accept(apply(t1));
+    }
+
+    /**
+     * Optionに対してこの関数でマッピングする関数を返します。
+     *
+     * @return Option型にリフトされた関数
+     */
+    @NotNull
+    default NF1<Option<T1>, Option<R>> liftOption() {
+        return liftOption(this);
+    }
+
+    /**
+     * SLazyに対してこの関数でマッピングする関数を返します。
+     *
+     * @return SLazy型にリフトされた関数
+     */
+    @NotNull
+    default NF1<SLazy<T1>, SLazy<R>> liftSLazy() {
+        return sLazy -> sLazy.map(this);
+    }
+
+    /**
+     * MLazyに対してこの関数でマッピングする関数を返します。
+     *
+     * @return MLazy型にリフトされた関数
+     */
+    @NotNull
+    default NF1<MLazy<T1>, MLazy<R>> liftMLazy() {
+        return mLazy -> mLazy.map(this);
+    }
+
+    /**
+     * Optionに対してmapperでマッピングする関数を返します。
+     *
+     * @param mapper マッピング関数
+     * @param <T1> マッピング関数の引数の型
+     * @param <R> マッピング関数の戻り値の型
+     * @return Option型にリフトされた関数
+     */
+    @NotNull
+    static <T1, R> NF1<Option<T1>, Option<R>> liftOption(@NotNull NF1<? super T1, ? extends R> mapper) {
+        return opt -> opt.map(mapper);
+    }
+
+    /**
+     * SLazyに対してmapperでマッピングする関数を返します。
+     *
+     * @param mapper マッピング関数
+     * @param <T1> マッピング関数の引数の型
+     * @param <R> マッピング関数の戻り値の型
+     * @return SLazy型にリフトされた関数
+     */
+    @NotNull
+    static <T1, R> NF1<SLazy<T1>, SLazy<R>> liftSLazy(@NotNull NF1<? super T1, ? extends R> mapper) {
+        return sLazy -> sLazy.map(mapper);
+    }
+
+    /**
+     * MLazyに対してmapperでマッピングする関数を返します。
+     *
+     * @param mapper マッピング関数
+     * @param <T1> マッピング関数の引数の型
+     * @param <R> マッピング関数の戻り値の型
+     * @return MLazy型にリフトされた関数
+     */
+    static <T1, R> NF1<MLazy<T1>, MLazy<R>> liftMLazy(@NotNull NF1<? super T1, ? extends R> mapper) {
+        return mLazy -> mLazy.map(mapper);
     }
 
     /**
