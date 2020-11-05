@@ -2,6 +2,10 @@ package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.A;
+import raystark.eflib.lazy.MLazy;
+import raystark.eflib.lazy.SLazy;
+import raystark.eflib.option.Option;
+import raystark.eflib.option.Option.Some;
 
 import java.util.function.Supplier;
 
@@ -62,6 +66,72 @@ public interface NS<T> {
     @NotNull
     default A asA(@NotNull NC1<? super T> after) {
         return () -> after.accept(get());
+    }
+
+    /**
+     * このSupplierの供給する値をOptionでラップするSupplierを返します。
+     *
+     * @return OptionにリフトされたSupplier
+     */
+    @NotNull
+    default NS<Option<T>> liftOption() {
+        return liftOption(this);
+    }
+
+    /**
+     * このSupplierの供給する値をSLazyでラップするSupplierを返します。
+     *
+     * @return SLazyにリフトされたSupplier
+     */
+    @NotNull
+    default NS<SLazy<T>> liftSLazy() {
+        return liftSLazy(this);
+    }
+
+    /**
+     * このSupplierの供給する値をMLazyでラップするSupplierを返します。
+     *
+     * @return MLazyにリフトされたSupplier
+     */
+    @NotNull
+    default NS<MLazy<T>> liftMLazy() {
+        return liftMLazy(this);
+    }
+
+    /**
+     * supplierの供給する値をOptionでラップするSupplierを返します。
+     *
+     * @param supplier サプライヤ
+     * @param <T> サプライヤの値の型
+     * @return OptionにリフトされたSupplier
+     */
+    @NotNull
+    static <T> NS<Option<T>> liftOption(@NotNull NS<? extends T> supplier) {
+        return () -> Some.of(supplier.get());
+    }
+
+    /**
+     * supplierの供給する値をSLazyでラップするSupplierを返します。
+     *
+     * @param supplier サプライヤ
+     * @param <T> サプライヤの値の型
+     * @return SLazyにリフトされたSupplier
+     */
+    @NotNull
+    static <T> NS<SLazy<T>> liftSLazy(@NotNull NS<? extends T> supplier) {
+        return () -> SLazy.of(supplier);
+    }
+
+    /**
+     * supplierの供給する値をMLazyでラップするSupplierを返します。
+     *
+     * @param supplier サプライヤ
+     * @param <T> サプライヤの値の型
+     * @return MLazyにリフトされたSupplier
+     */
+    @NotNull
+    static <T> NS<MLazy<T>> liftMLazy(@NotNull NS<? extends T> supplier) {
+        return () -> MLazy.of(supplier);
     }
 
     /**

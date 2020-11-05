@@ -6,6 +6,7 @@ import raystark.eflib.function.A;
 import raystark.eflib.function.P1;
 import raystark.eflib.function.notnull.NC1;
 import raystark.eflib.function.notnull.NF1;
+import raystark.eflib.function.notnull.NP1;
 import raystark.eflib.function.notnull.NS;
 
 import java.util.NoSuchElementException;
@@ -94,7 +95,7 @@ public abstract class Option<T> {
      * @param mapper boolean型へのマッピング関数
      * @return 値が存在する場合それをmapperに適用した値、存在しない場合はtrue
      */
-    public abstract boolean mapOrElseTrue(@NotNull P1<? super T> mapper);
+    public abstract boolean mapOrElseTrue(@NotNull NP1<? super T> mapper);
 
     /**
      * このOptionの値にmapperを適用した結果を取り出します。
@@ -107,7 +108,31 @@ public abstract class Option<T> {
      * @param mapper boolean型へのマッピング関数
      * @return 値が存在する場合それをmapperに適用した値、存在しない場合はfalse
      */
-    public abstract boolean mapOrElseFalse(@NotNull P1<? super T> mapper);
+    public abstract boolean mapOrElseFalse(@NotNull NP1<? super T> mapper);
+
+    /**
+     * 値がtesterを満たす場合trueを返します。
+     *
+     * 値が存在しない場合はtrueを返します。
+     *
+     * @param tester 条件
+     * @return forall
+     */
+    public boolean allMatch(@NotNull NP1<? super T> tester) {
+        return mapOrElseTrue(tester);
+    }
+
+    /**
+     * 値がtesterを満たす場合trueを返します。
+     *
+     * 値が存在しない場合はfalseを返します。
+     *
+     * @param tester 条件
+     * @return exist
+     */
+    public boolean anyMatch(@NotNull NP1<? super T> tester) {
+        return mapOrElseFalse(tester);
+    }
 
     /**
      * このOptionの値にmapperを適用した結果を返します。
@@ -384,7 +409,7 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean mapOrElseTrue(@NotNull P1<? super T> mapper) {
+        public boolean mapOrElseTrue(@NotNull NP1<? super T> mapper) {
             return mapper.test(value);
         }
 
@@ -392,7 +417,7 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean mapOrElseFalse(@NotNull P1<? super T> mapper) {
+        public boolean mapOrElseFalse(@NotNull NP1<? super T> mapper) {
             return mapper.test(value);
         }
 
@@ -603,7 +628,7 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean mapOrElseTrue(@NotNull P1<? super T> mapper) {
+        public boolean mapOrElseTrue(@NotNull NP1<? super T> mapper) {
             return true;
         }
 
@@ -611,7 +636,7 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean mapOrElseFalse(@NotNull P1<? super T> mapper) {
+        public boolean mapOrElseFalse(@NotNull NP1<? super T> mapper) {
             return false;
         }
 

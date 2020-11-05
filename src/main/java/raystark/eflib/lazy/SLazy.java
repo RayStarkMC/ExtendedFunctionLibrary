@@ -46,7 +46,7 @@ public final class SLazy<T> {
      * @return initializerにより遅延初期化される値を表すSLazyのインスタンス
      */
     @NotNull
-    public static <T> SLazy<T> of(@NotNull NS<T> initializer) {
+    public static <T> SLazy<T> of(@NotNull NS<? extends T> initializer) {
         return new SLazy<>(initializer);
     }
 

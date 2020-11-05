@@ -1,6 +1,9 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.lazy.MLazy;
+import raystark.eflib.lazy.SLazy;
+import raystark.eflib.option.Option;
 
 import java.util.function.Predicate;
 
@@ -96,6 +99,94 @@ public interface NP1<T1> extends NF1<T1, Boolean> {
     @NotNull
     default <V1> NP1<V1> compose1(@NotNull NF1<? super V1, ? extends T1> before) {
         return v1 -> test(before.apply(v1));
+    }
+
+    /**
+     * Optionに対してこの関数で{@link Option#mapOrElseTrue(NP1)}を適用する関数を返します。
+     *
+     * @return Optionにリフトされた述語
+     */
+    @NotNull
+    default NP1<Option<T1>> liftOptionTrue() {
+        return liftOptionTrue(this);
+    }
+
+    /**
+     * Optionに対してこの関数で{@link Option#mapOrElseFalse(NP1)}を適用する関数を返します。
+     *
+     * @return Optionにリフトされた述語
+     */
+    @NotNull
+    default NP1<Option<T1>> liftOptionFalse() {
+        return liftOptionFalse(this);
+    }
+
+    /**
+     * Optionに対してこの関数で{@link Option#allMatch(NP1)}を適用する関数を返します。
+     *
+     * @return Optionにリフトされた述語
+     */
+    @NotNull
+    default NP1<Option<T1>> liftOptionAllMatch() {
+        return liftOptionAllMatch(this);
+    }
+
+    /**
+     * Optionに対してこの関数で{@link Option#anyMatch(NP1)}を適用する関数を返します。
+     *
+     * @return Optionにリフトされた述語
+     */
+    @NotNull
+    default NP1<Option<T1>> liftOptionAnyMatch() {
+        return liftOptionAnyMatch(this);
+    }
+
+    /**
+     * Optionに対してmapperで{@link Option#mapOrElseTrue(NP1)}を適用する関数を返します。
+     *
+     * @param mapper マッピング関数
+     * @param <T1> mapperの引数の型
+     * @return Optionにリフトされた述語
+     */
+    @NotNull
+    static <T1> NP1<Option<T1>> liftOptionTrue(@NotNull NP1<? super T1> mapper) {
+        return opt -> opt.mapOrElseTrue(mapper);
+    }
+
+    /**
+     * Optionに対してmapperで{@link Option#mapOrElseFalse(NP1)}を適用する関数を返します。
+     *
+     * @param mapper マッピング関数
+     * @param <T1> mapperの引数の型
+     * @return Optionにリフトされた述語
+     */
+    @NotNull
+    static <T1> NP1<Option<T1>> liftOptionFalse(@NotNull NP1<? super T1> mapper) {
+        return opt -> opt.mapOrElseFalse(mapper);
+    }
+
+    /**
+     * Optionに対してmapperで{@link Option#allMatch(NP1)}を適用する関数を返します。
+     *
+     * @param mapper マッピング関数
+     * @param <T1> mapperの引数の型
+     * @return Optionにリフトされた述語
+     */
+    @NotNull
+    static <T1> NP1<Option<T1>> liftOptionAllMatch(@NotNull NP1<? super T1> mapper) {
+        return opt -> opt.allMatch(mapper);
+    }
+
+    /**
+     * Optionに対してmapperで{@link Option#anyMatch(NP1)}を適用する関数を返します。
+     *
+     * @param mapper マッピング関数
+     * @param <T1> mapperの引数の型
+     * @return Optionにリフトされた述語
+     */
+    @NotNull
+    static <T1> NP1<Option<T1>> liftOptionAnyMatch(@NotNull NP1<? super T1> mapper) {
+        return opt -> opt.anyMatch(mapper);
     }
 
     /**
