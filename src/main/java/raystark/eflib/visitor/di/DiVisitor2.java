@@ -13,13 +13,13 @@ public interface DiVisitor2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 ext
 
     @Override
     default MonoDefinition2<T, T1, T2, IMonoVisitor2<T, T1, T2, R>> monoDefinition2() {
-        return MonoDefinition2.<T, T1, T2, IMonoVisitor2<T, T1, T2, R>>builder()
-            .type1(arg1 -> IMonoVisitor2.of(MonoDefinition2.<T, T1, T2, R>builder()
+        return MonoDefinition2.build(builder1 -> builder1
+            .type1(arg1 -> IMonoVisitor2.build(builder2 -> builder2
                 .type1(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2))
                 .type2(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2))))
-            .type2(arg1 -> IMonoVisitor2.of(MonoDefinition2.<T, T1, T2, R>builder()
+            .type2(arg1 -> IMonoVisitor2.build(builder2 -> builder2
                 .type1(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2))));
+                .type2(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2)))));
     }
 
     DiDefinition2<T, T1, T2, R> diDefinition2();

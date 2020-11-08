@@ -14,9 +14,9 @@ public interface DiVisitor1<T extends Acceptor1<T, T1>, T1 extends T, R> extends
 
     @Override
     default MonoDefinition1<T, T1, IMonoVisitor1<T, T1, R>> monoDefinition1() {
-        return MonoDefinition1.<T, T1, IMonoVisitor1<T, T1, R>>builder()
-            .type1(arg1 -> IMonoVisitor1.of(MonoDefinition1.<T, T1, R>builder()
-                .type1(arg2 -> diDefinition1().dispatch(() -> arg1, () -> arg2))));
+        return MonoDefinition1.build(builder1 -> builder1
+            .type1(arg1 -> IMonoVisitor1.build(builder2 -> builder2
+                .type1(arg2 -> diDefinition1().dispatch(() -> arg1, () -> arg2)))));
     }
 
     DiDefinition1<T, T1, R> diDefinition1();
