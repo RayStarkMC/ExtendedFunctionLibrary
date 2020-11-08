@@ -8,6 +8,8 @@ import raystark.eflib.function.notnull.NC1;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NP1;
 import raystark.eflib.function.notnull.NS;
+import raystark.eflib.visitor.acceptor.Acceptor2;
+import raystark.eflib.visitor.definition.mono.MonoDefinition2;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,8 +29,18 @@ import java.util.stream.Stream;
  *
  * @param <T> 値の型
  */
-public abstract class Option<T> {
+public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, Option.None<T>> {
     Option() {}
+
+    /**
+     * このインスタンスを定義にディスパッチします。
+     *
+     * @param monoDefinition2 定義
+     * @param <R> 定義に自身をディスパッチした結果の型
+     * @return 定義に自身をディスパッチした結果
+     */
+    @Override
+    public abstract <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> monoDefinition2);
 
     /**
      * この型の変性を表すキャストメソッド。
@@ -575,6 +587,14 @@ public abstract class Option<T> {
         public Stream<T> stream() {
             return Stream.of(value);
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> monoDefinition2) {
+            return monoDefinition2.dispatch(() -> this);
+        }
     }
 
     /**
@@ -782,6 +802,14 @@ public abstract class Option<T> {
         @NotNull
         public Stream<T> stream() {
             return Stream.of();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> monoDefinition2) {
+            return monoDefinition2.dispatch(() -> this);
         }
     }
 }
