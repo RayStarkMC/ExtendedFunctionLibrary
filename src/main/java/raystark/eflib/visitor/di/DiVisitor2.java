@@ -1,8 +1,8 @@
 package raystark.eflib.visitor.di;
 
 import raystark.eflib.visitor.acceptor.Acceptor2;
-import raystark.eflib.visitor.definition.DiDefinition2;
-import raystark.eflib.visitor.definition.MonoDefinition2;
+import raystark.eflib.visitor.definition.di.DiDefinition2;
+import raystark.eflib.visitor.definition.mono.MonoDefinition2;
 import raystark.eflib.visitor.mono.IMonoVisitor2;
 
 public interface DiVisitor2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> extends IMonoVisitor2<T, T1, T2, IMonoVisitor2<T, T1, T2, R>> {

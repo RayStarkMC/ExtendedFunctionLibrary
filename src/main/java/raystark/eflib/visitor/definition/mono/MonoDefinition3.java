@@ -1,4 +1,4 @@
-package raystark.eflib.visitor.definition;
+package raystark.eflib.visitor.definition.mono;
 
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.visitor.acceptor.Acceptor3;

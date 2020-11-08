@@ -1,7 +1,7 @@
 package raystark.eflib.visitor.mono;
 
 import raystark.eflib.visitor.acceptor.Acceptor3;
-import raystark.eflib.visitor.definition.MonoDefinition3;
+import raystark.eflib.visitor.definition.mono.MonoDefinition3;
 
 public interface IMonoVisitor3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
     default R apply(T arg1) {
