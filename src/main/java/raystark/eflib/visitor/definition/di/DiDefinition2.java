@@ -1,5 +1,6 @@
 package raystark.eflib.visitor.definition.di;
 
+import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NF2;
 import raystark.eflib.visitor.acceptor.Acceptor2;
 import raystark.eflib.visitor.type.Type1;
@@ -35,6 +36,11 @@ public interface DiDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 
                 return f22.apply(arg1.get(), arg2.get());
             }
         };
+    }
+
+    static <T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R>
+    DiDefinition2<T, T1, T2, R> build(NF1<BuilderT11<T, T1, T2, R>, DiDefinition2<T, T1, T2, R>> builder) {
+        return builder.apply(builder());
     }
 
     interface BuilderT11<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {

@@ -18,6 +18,11 @@ public interface MonoDefinition1<T extends Acceptor1<T, T1>, T1 extends T, R> {
         };
     }
 
+    static <T extends Acceptor1<T, T1>, T1 extends T, R>
+    MonoDefinition1<T, T1, R> build(NF1<BuilderT1<T, T1, R>, MonoDefinition1<T, T1, R>> builder) {
+        return builder.apply(builder());
+    }
+
     interface BuilderT1<T extends Acceptor1<T, T1>, T1 extends T, R> {
         MonoDefinition1<T, T1, R> type1(NF1<T1, R> f1);
     }
