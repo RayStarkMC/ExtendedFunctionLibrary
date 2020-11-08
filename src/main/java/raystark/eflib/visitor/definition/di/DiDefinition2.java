@@ -14,7 +14,7 @@ public interface DiDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 
     @NotNull R dispatch(@NotNull Type2<T2> arg1, @NotNull Type2<T2> arg2);
 
     static <T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R>
-    BuilderT11<T, T1, T2, R> builder() {
+    @NotNull BuilderT11<T, T1, T2, R> builder() {
         return f11 -> f12 ->
                f21 -> f22 -> new DiDefinition2<>() {
             @Override

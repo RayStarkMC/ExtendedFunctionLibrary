@@ -20,7 +20,7 @@ public interface DiDefinition3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T,
     @NotNull R dispatch(@NotNull Type3<T3> arg1, @NotNull Type3<T3> arg2);
 
     static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
-    BuilderT11<T, T1, T2, T3, R> builder() {
+    @NotNull BuilderT11<T, T1, T2, T3, R> builder() {
         return f11 -> f12 -> f13 ->
                f21 -> f22 -> f23 ->
                f31 -> f32 -> f33 -> new DiDefinition3<>() {
