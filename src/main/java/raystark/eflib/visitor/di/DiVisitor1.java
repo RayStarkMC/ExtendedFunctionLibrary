@@ -1,6 +1,7 @@
 package raystark.eflib.visitor.di;
 
 
+import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.visitor.acceptor.Acceptor1;
 import raystark.eflib.visitor.definition.di.DiDefinition1;
 import raystark.eflib.visitor.definition.mono.MonoDefinition1;
@@ -23,5 +24,10 @@ public interface DiVisitor1<T extends Acceptor1<T, T1>, T1 extends T, R> extends
     static <T extends Acceptor1<T, T1>, T1 extends T, R>
     DiVisitor1<T, T1, R> of(DiDefinition1<T, T1, R> definition) {
         return () -> definition;
+    }
+
+    static<T extends Acceptor1<T, T1>, T1 extends T, R>
+    DiVisitor1<T, T1, R> build(NF1<DiDefinition1.BuilderT11<T, T1, R>, DiDefinition1<T, T1, R>> builder) {
+        return of(builder.apply(DiDefinition1.builder()));
     }
 }
