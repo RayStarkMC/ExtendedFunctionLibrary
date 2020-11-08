@@ -1,9 +1,10 @@
-package raystark.eflib.visitor.mono;
+package raystark.eflib.visitor.di;
 
 
 import raystark.eflib.visitor.acceptor.Acceptor1;
 import raystark.eflib.visitor.definition.DiDefinition1;
 import raystark.eflib.visitor.definition.MonoDefinition1;
+import raystark.eflib.visitor.mono.IMonoVisitor1;
 
 public interface DiVisitor1<T extends Acceptor1<T, T1>, T1 extends T, R> extends IMonoVisitor1<T, T1, IMonoVisitor1<T, T1, R>> {
     default R apply(T arg1, T arg2) {
