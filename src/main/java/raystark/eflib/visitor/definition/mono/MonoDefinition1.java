@@ -14,7 +14,7 @@ public interface MonoDefinition1<T extends Acceptor1<T, T1>, T1 extends T, R> {
         return f1 -> new MonoDefinition1<>() {
             @Override
             public @NotNull R dispatch(@NotNull Type1<T1> arg1) {
-                return f1.apply(arg1.get());
+                return f1.apply(arg1.unwrap());
             }
         };
     }
@@ -24,6 +24,7 @@ public interface MonoDefinition1<T extends Acceptor1<T, T1>, T1 extends T, R> {
         return builder.apply(builder());
     }
 
+    @FunctionalInterface
     interface BuilderT1<T extends Acceptor1<T, T1>, T1 extends T, R> {
         @NotNull MonoDefinition1<T, T1, R> type1(@NotNull NF1<T1, R> f1);
     }

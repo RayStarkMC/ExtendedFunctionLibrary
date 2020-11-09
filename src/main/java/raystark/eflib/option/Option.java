@@ -35,12 +35,12 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
     /**
      * このインスタンスを定義にディスパッチします。
      *
-     * @param monoDefinition2 定義
+     * @param definition2 定義
      * @param <R> 定義に自身をディスパッチした結果の型
      * @return 定義に自身をディスパッチした結果
      */
     @Override
-    public abstract <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> monoDefinition2);
+    public abstract <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2);
 
     /**
      * この型の変性を表すキャストメソッド。
@@ -592,8 +592,8 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
          * {@inheritDoc}
          */
         @Override
-        public <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> monoDefinition2) {
-            return monoDefinition2.dispatch(() -> this);
+        public <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2) {
+            return definition2.dispatch(() -> this);
         }
     }
 
@@ -808,8 +808,8 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
          * {@inheritDoc}
          */
         @Override
-        public <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> monoDefinition2) {
-            return monoDefinition2.dispatch(() -> this);
+        public <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2) {
+            return definition2.dispatch(() -> this);
         }
     }
 }

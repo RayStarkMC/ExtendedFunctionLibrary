@@ -15,12 +15,12 @@ public interface MonoDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T
         return f1 -> f2 -> new MonoDefinition2<>() {
             @Override
             public @NotNull R dispatch(@NotNull Type1<T1> arg1) {
-                return f1.apply(arg1.get());
+                return f1.apply(arg1.unwrap());
             }
 
             @Override
             public @NotNull R dispatch(@NotNull Type2<T2> arg1) {
-                return f2.apply(arg1.get());
+                return f2.apply(arg1.unwrap());
             }
         };
     }
@@ -30,10 +30,11 @@ public interface MonoDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T
         return builder.apply(builder());
     }
 
+    @FunctionalInterface
     interface BuilderT1<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
         @NotNull BuilderT2<T, T1, T2, R> type1(@NotNull NF1<T1, R> f1);
     }
-
+    @FunctionalInterface
     interface BuilderT2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
         @NotNull MonoDefinition2<T, T1, T2, R> type2(@NotNull NF1<T2, R> f1);
     }

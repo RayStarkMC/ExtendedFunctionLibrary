@@ -15,7 +15,7 @@ public interface DiDefinition1<T extends Acceptor1<T, T1>, T1 extends T, R> {
         return f11 -> new DiDefinition1<>() {
             @Override
             public @NotNull R dispatch(@NotNull Type1<T1> arg1, @NotNull Type1<T1> arg2) {
-                return f11.apply(arg1.get(), arg2.get());
+                return f11.apply(arg1.unwrap(), arg2.unwrap());
             }
         };
     }
@@ -25,6 +25,7 @@ public interface DiDefinition1<T extends Acceptor1<T, T1>, T1 extends T, R> {
         return builder.apply(builder());
     }
 
+    @FunctionalInterface
     interface BuilderT11<T extends Acceptor1<T, T1>, T1 extends T, R> {
         @NotNull DiDefinition1<T, T1, R> type11(@NotNull NF2<T1, T1, R> f11);
     }
