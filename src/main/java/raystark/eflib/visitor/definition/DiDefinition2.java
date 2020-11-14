@@ -1,4 +1,4 @@
-package raystark.eflib.visitor.definition.di;
+package raystark.eflib.visitor.definition;
 
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.notnull.NF1;

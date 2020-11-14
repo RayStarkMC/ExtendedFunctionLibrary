@@ -1,9 +1,9 @@
-package raystark.eflib.visitor.mono;
+package raystark.eflib.visitor;
 
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.visitor.acceptor.Acceptor3;
-import raystark.eflib.visitor.definition.mono.MonoDefinition3;
+import raystark.eflib.visitor.definition.MonoDefinition3;
 
 public interface IMonoVisitor3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
     default @NotNull R apply(@NotNull T arg1) {

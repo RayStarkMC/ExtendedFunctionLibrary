@@ -9,7 +9,7 @@ import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NP1;
 import raystark.eflib.function.notnull.NS;
 import raystark.eflib.visitor.acceptor.Acceptor2;
-import raystark.eflib.visitor.definition.mono.MonoDefinition2;
+import raystark.eflib.visitor.definition.MonoDefinition2;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

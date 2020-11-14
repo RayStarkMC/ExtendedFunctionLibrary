@@ -1,11 +1,10 @@
-package raystark.eflib.visitor.di;
+package raystark.eflib.visitor;
 
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.visitor.acceptor.Acceptor3;
-import raystark.eflib.visitor.definition.di.DiDefinition3;
-import raystark.eflib.visitor.definition.mono.MonoDefinition3;
-import raystark.eflib.visitor.mono.IMonoVisitor3;
+import raystark.eflib.visitor.definition.DiDefinition3;
+import raystark.eflib.visitor.definition.MonoDefinition3;
 
 public interface DiVisitor3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> extends IMonoVisitor3<T, T1, T2, T3, IMonoVisitor3<T, T1, T2, T3, R>> {
     default @NotNull R apply(@NotNull T arg1, @NotNull T arg2) {
