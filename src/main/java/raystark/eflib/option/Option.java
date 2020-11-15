@@ -9,7 +9,7 @@ import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NP1;
 import raystark.eflib.function.notnull.NS;
 import raystark.eflib.visitor.acceptor.Acceptor2;
-import raystark.eflib.visitor.definition.MonoDefinition2;
+import raystark.eflib.visitor.definition.IMonoDefinition2;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -40,7 +40,7 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
      * @return 定義に自身をディスパッチした結果
      */
     @Override
-    public abstract <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2);
+    public abstract <R> @NotNull R accept(@NotNull IMonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2);
 
     /**
      * この型の変性を表すキャストメソッド。
@@ -592,7 +592,7 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
          * {@inheritDoc}
          */
         @Override
-        public <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2) {
+        public <R> @NotNull R accept(@NotNull IMonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2) {
             return definition2.dispatch(() -> this);
         }
     }
@@ -808,7 +808,7 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
          * {@inheritDoc}
          */
         @Override
-        public <R> @NotNull R accept(@NotNull MonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2) {
+        public <R> @NotNull R accept(@NotNull IMonoDefinition2<Option<T>, Some<T>, None<T>, R> definition2) {
             return definition2.dispatch(() -> this);
         }
     }
