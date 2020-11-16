@@ -34,15 +34,15 @@ public final class MonoDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T,
     }
 
     public static <T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R>
-    @NotNull IMonoDefinition2<T, T1, T2, R> build(@NotNull NF1<BuilderT1<T, T1, T2, R>, MonoDefinition2<T, T1, T2, R>> buildProcess) {
+    @NotNull MonoDefinition2<T, T1, T2, R> build(@NotNull NF1<BuilderT1<T, T1, T2, R>, MonoDefinition2<T, T1, T2, R>> buildProcess) {
         return buildProcess.apply(builder());
     }
     @FunctionalInterface
-    interface BuilderT1<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
+    public interface BuilderT1<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
         @NotNull BuilderT2<T, T1, T2, R> type1(@NotNull NF1<T1, R> f1);
     }
     @FunctionalInterface
-    interface BuilderT2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
+    public interface BuilderT2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
         @NotNull MonoDefinition2<T, T1, T2, R> type2(@NotNull NF1<T2, R> f1);
     }
 }
