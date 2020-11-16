@@ -52,23 +52,23 @@ public final class DiDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T
     }
 
     public static <T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R>
-    @NotNull IDiDefinition2<T, T1, T2, R> build(@NotNull NF1<BuilderT11<T, T1, T2, R>, IDiDefinition2<T, T1, T2, R>> buildProcess) {
+    @NotNull DiDefinition2<T, T1, T2, R> build(@NotNull NF1<BuilderT11<T, T1, T2, R>, DiDefinition2<T, T1, T2, R>> buildProcess) {
         return buildProcess.apply(builder());
     }
     @FunctionalInterface
-    interface BuilderT11<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
+    public interface BuilderT11<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
         @NotNull BuilderT12<T, T1, T2, R> type11(@NotNull NF2<T1, T1, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT12<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
+    public interface BuilderT12<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
         @NotNull BuilderT21<T, T1, T2, R> type12(@NotNull NF2<T1, T2, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT21<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
+    public interface BuilderT21<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
         @NotNull BuilderT22<T, T1, T2, R> type21(@NotNull NF2<T2, T1, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT22<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
+    public interface BuilderT22<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
         @NotNull IDiDefinition2<T, T1, T2, R> type22(@NotNull NF2<T2, T2, R> f2);
     }
 }
