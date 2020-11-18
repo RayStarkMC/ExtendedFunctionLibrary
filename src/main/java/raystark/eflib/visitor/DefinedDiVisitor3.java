@@ -12,7 +12,7 @@ public class DefinedDiVisitor3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T,
         this.definition3 = definition3;
     }
 
-    static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
+    public static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
     @NotNull DefinedDiVisitor3<T, T1, T2, T3, R> build(@NotNull NF1<DiDefinition3.BuilderT11<T, T1, T2, T3, R>, DiDefinition3<T, T1, T2, T3, R>> buildProcess) {
         return new DefinedDiVisitor3<>(DiDefinition3.build(buildProcess));
     }

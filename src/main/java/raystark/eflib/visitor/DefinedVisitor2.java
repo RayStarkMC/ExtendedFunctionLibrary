@@ -12,7 +12,7 @@ public final class DefinedVisitor2<T extends Acceptor2<T, T1, T2>, T1 extends T,
         this.definition2 = definition2;
     }
 
-    static <T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R>
+    public static <T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R>
     @NotNull DefinedVisitor2<T, T1, T2, R> build(@NotNull NF1<MonoDefinition2.BuilderT1<T, T1, T2, R>, MonoDefinition2<T, T1, T2, R>> buildProcess) {
         return new DefinedVisitor2<>(MonoDefinition2.build(buildProcess));
     }

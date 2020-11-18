@@ -18,7 +18,7 @@ public final class DefinedVisitor3<T extends Acceptor3<T, T1, T2, T3>, T1 extend
         return definition3;
     }
 
-    static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
+    public static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
     @NotNull DefinedVisitor3<T, T1, T2, T3, R> build(@NotNull NF1<MonoDefinition3.BuilderT1<T, T1, T2, T3, R>, MonoDefinition3<T, T1, T2, T3, R>> builder) {
         return new DefinedVisitor3<>(MonoDefinition3.build(builder));
     }
