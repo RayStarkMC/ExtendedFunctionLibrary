@@ -8,7 +8,7 @@ import raystark.eflib.visitor.definition.DiDefinition2;
 public final class DefinedDiVisitor2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> extends AbstractDefinedDiVisitor2<T, T1, T2, R> {
     private final DiDefinition2<T, T1, T2, R> diDefinition2;
 
-    protected DefinedDiVisitor2(DiDefinition2<T, T1, T2, R> diDefinition2) {
+    private DefinedDiVisitor2(DiDefinition2<T, T1, T2, R> diDefinition2) {
         this.diDefinition2 = diDefinition2;
     }
 
