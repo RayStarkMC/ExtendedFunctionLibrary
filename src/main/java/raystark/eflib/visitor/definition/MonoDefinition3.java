@@ -37,26 +37,26 @@ public final class MonoDefinition3<T extends Acceptor3<T, T1, T2, T3>, T1 extend
         return f3.apply(arg1.unwrap());
     }
 
-    static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
+    private static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
     BuilderT1<T, T1, T2, T3, R> builder() {
         return f1 -> f2 -> f3 -> new MonoDefinition3<>(f1, f2, f3);
     }
 
-    static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
+    public static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
     @NotNull MonoDefinition3<T, T1, T2, T3, R> build(@NotNull NF1<BuilderT1<T, T1, T2, T3, R>, MonoDefinition3<T, T1, T2, T3, R>> buildProcess) {
         return buildProcess.apply(builder());
     }
 
     @FunctionalInterface
-    interface BuilderT1<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT1<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT2<T, T1, T2, T3, R> type1(@NotNull NF1<T1, R> f1);
     }
     @FunctionalInterface
-    interface BuilderT2<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT2<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT3<T, T1, T2, T3, R> type2(@NotNull NF1<T2, R> f1);
     }
     @FunctionalInterface
-    interface BuilderT3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull MonoDefinition3<T, T1, T2, T3, R> type3(@NotNull NF1<T3, R> f1);
     }
 }

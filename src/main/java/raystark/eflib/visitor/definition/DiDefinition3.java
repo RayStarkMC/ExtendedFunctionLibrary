@@ -87,7 +87,7 @@ public class DiDefinition3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 
     }
 
 
-    static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
+    private static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
     @NotNull BuilderT11<T, T1, T2, T3, R> builder() {
         return f11 -> f12 -> f13 ->
                f21 -> f22 -> f23 ->
@@ -99,45 +99,45 @@ public class DiDefinition3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 
         );
     }
 
-    static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
-    @NotNull DiDefinition3<T, T1, T2, T3, R> build(@NotNull NF1<BuilderT11<T, T1, T2, T3, R>, DiDefinition3<T, T1, T2, T3, R>> builder) {
-        return builder.apply(builder());
+    public static <T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R>
+    @NotNull DiDefinition3<T, T1, T2, T3, R> build(@NotNull NF1<BuilderT11<T, T1, T2, T3, R>, DiDefinition3<T, T1, T2, T3, R>> buildProcess) {
+        return buildProcess.apply(builder());
     }
 
     @FunctionalInterface
-    interface BuilderT11<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT11<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT12<T, T1, T2, T3, R> type11(@NotNull NF2<T1, T1, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT12<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT12<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT13<T, T1, T2, T3, R> type12(@NotNull NF2<T1, T2, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT13<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT13<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT21<T, T1, T2, T3, R> type21(@NotNull NF2<T1, T3, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT21<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT21<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT22<T, T1, T2, T3, R> type22(@NotNull NF2<T2, T1, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT22<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT22<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT23<T, T1, T2, T3, R> type11(@NotNull NF2<T2, T2, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT23<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT23<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT31<T, T1, T2, T3, R> type12(@NotNull NF2<T2, T3, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT31<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT31<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT32<T, T1, T2, T3, R> type21(@NotNull NF2<T3, T1, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT32<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT32<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull BuilderT33<T, T1, T2, T3, R> type22(@NotNull NF2<T3, T2, R> f2);
     }
     @FunctionalInterface
-    interface BuilderT33<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
+    public interface BuilderT33<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> {
         @NotNull DiDefinition3<T, T1, T2, T3, R> type22(@NotNull NF2<T3, T3, R> f2);
     }
 }
