@@ -69,6 +69,6 @@ public final class DiDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T
     }
     @FunctionalInterface
     public interface BuilderT22<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> {
-        @NotNull IDiDefinition2<T, T1, T2, R> type22(@NotNull NF2<T2, T2, R> f2);
+        @NotNull DiDefinition2<T, T1, T2, R> type22(@NotNull NF2<T2, T2, R> f2);
     }
 }
