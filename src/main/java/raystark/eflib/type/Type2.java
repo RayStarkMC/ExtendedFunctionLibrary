@@ -1,4 +1,4 @@
-package raystark.eflib.visitor.type;
+package raystark.eflib.type;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -3,9 +3,9 @@ package raystark.eflib.visitor.definition;
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.visitor.acceptor.Acceptor3;
-import raystark.eflib.visitor.type.Type1;
-import raystark.eflib.visitor.type.Type2;
-import raystark.eflib.visitor.type.Type3;
+import raystark.eflib.type.Type1;
+import raystark.eflib.type.Type2;
+import raystark.eflib.type.Type3;
 
 public final class MonoDefinition3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 extends T, T3 extends T, R> implements IMonoDefinition3<T, T1, T2, T3, R> {
     private final NF1<T1, R> f1;

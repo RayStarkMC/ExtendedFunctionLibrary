@@ -3,8 +3,8 @@ package raystark.eflib.visitor.definition;
 import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.visitor.acceptor.Acceptor2;
-import raystark.eflib.visitor.type.Type1;
-import raystark.eflib.visitor.type.Type2;
+import raystark.eflib.type.Type1;
+import raystark.eflib.type.Type2;
 
 public final class MonoDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> implements IMonoDefinition2<T, T1, T2, R> {
     private final NF1<T1, R> f1;
