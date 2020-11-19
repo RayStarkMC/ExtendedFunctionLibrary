@@ -8,8 +8,12 @@ import raystark.eflib.function.notnull.NC1;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NP1;
 import raystark.eflib.function.notnull.NS;
+import raystark.eflib.visitor.DefinedDiVisitor2;
+import raystark.eflib.visitor.DefinedVisitor2;
 import raystark.eflib.visitor.acceptor.Acceptor2;
+import raystark.eflib.visitor.definition.DiDefinition2;
 import raystark.eflib.visitor.definition.IMonoDefinition2;
+import raystark.eflib.visitor.definition.MonoDefinition2;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -363,6 +367,14 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
     @NotNull
     public Iterable<T> iterable() {
         return stream()::iterator;
+    }
+
+    public static <T, R> DefinedVisitor2<Option<T>, Some<T>, None<T>, R> definedVisitor2(@NotNull NF1<MonoDefinition2.BuilderT1<Option<T>, Some<T>, None<T>, R>, MonoDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
+        return Acceptor2.definedVisitor2(buildProcess);
+    }
+
+    public static <T, R> DefinedDiVisitor2<Option<T>, Some<T>, None<T>, R> definedDiVisitor2(@NotNull NF1<DiDefinition2.BuilderT11<Option<T>, Some<T>, None<T>, R>, DiDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
+        return Acceptor2.definedDiVisitor2(buildProcess);
     }
 
     /**
