@@ -14,7 +14,7 @@ public final class MonoDispatcher3<T extends Acceptor3<T, T1, T2, T3>, T1 extend
     }
 
     @Override
-    protected IMonoDefinition3<T, T1, T2, T3, R> definition() {
+    protected @NotNull IMonoDefinition3<T, T1, T2, T3, R> definition() {
         return definition3;
     }
 

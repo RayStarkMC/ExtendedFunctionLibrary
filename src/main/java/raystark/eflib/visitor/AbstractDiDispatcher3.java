@@ -1,6 +1,7 @@
 package raystark.eflib.visitor;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.function.notnull.NF2;
 import raystark.eflib.visitor.acceptor.Acceptor3;
 import raystark.eflib.visitor.definition.IDiDefinition3;
 
@@ -10,17 +11,17 @@ public abstract class AbstractDiDispatcher3<T extends Acceptor3<T, T1, T2, T3>, 
     protected AbstractDiDispatcher3() {
         visitor3 = MonoDispatcher3.build(builder1 -> builder1
             .type1(arg1 -> MonoDispatcher3.build(builder2 -> builder2
-                .type1(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
-                .type3(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))))
+                .type1(arg2 -> definition().dispatch(() -> arg1, () -> arg2))
+                .type2(arg2 -> definition().dispatch(() -> arg1, () -> arg2))
+                .type3(arg2 -> definition().dispatch(() -> arg1, () -> arg2))))
             .type2(arg1 -> MonoDispatcher3.build(builder2 -> builder2
-                .type1(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
-                .type3(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))))
+                .type1(arg2 -> definition().dispatch(() -> arg1, () -> arg2))
+                .type2(arg2 -> definition().dispatch(() -> arg1, () -> arg2))
+                .type3(arg2 -> definition().dispatch(() -> arg1, () -> arg2))))
             .type3(arg1 -> MonoDispatcher3.build(builder2 -> builder2
-                .type1(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
-                .type3(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))))
+                .type1(arg2 -> definition().dispatch(() -> arg1, () -> arg2))
+                .type2(arg2 -> definition().dispatch(() -> arg1, () -> arg2))
+                .type3(arg2 -> definition().dispatch(() -> arg1, () -> arg2))))
         );
     }
 
@@ -30,9 +31,14 @@ public abstract class AbstractDiDispatcher3<T extends Acceptor3<T, T1, T2, T3>, 
     }
 
     @Override
+    public final @NotNull NF2<T, T, R> asF2() {
+        return IDiDispatcher3.super.asF2();
+    }
+
+    @Override
     public final @NotNull IMonoDispatcher3<T, T1, T2, T3, R> apply(@NotNull T arg1) {
         return visitor3.apply(arg1);
     }
 
-    protected abstract IDiDefinition3<T, T1, T2, T3, R> diDefinition();
+    protected abstract IDiDefinition3<T, T1, T2, T3, R> definition();
 }

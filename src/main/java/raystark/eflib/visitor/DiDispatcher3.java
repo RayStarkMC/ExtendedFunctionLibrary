@@ -18,7 +18,7 @@ public class DiDispatcher3<T extends Acceptor3<T, T1, T2, T3>, T1 extends T, T2 
     }
 
     @Override
-    protected DiDefinition3<T, T1, T2, T3, R> diDefinition() {
+    protected DiDefinition3<T, T1, T2, T3, R> definition() {
         return definition3;
     }
 }

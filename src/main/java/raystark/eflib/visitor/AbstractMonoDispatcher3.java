@@ -1,6 +1,7 @@
 package raystark.eflib.visitor;
 
 import org.jetbrains.annotations.NotNull;
+import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.visitor.acceptor.Acceptor3;
 import raystark.eflib.visitor.definition.IMonoDefinition3;
 
@@ -12,5 +13,10 @@ public abstract class AbstractMonoDispatcher3<T extends Acceptor3<T, T1, T2, T3>
         return arg1.accept(definition());
     }
 
-    protected abstract IMonoDefinition3<T, T1, T2, T3, R> definition();
+    @Override
+    public final @NotNull NF1<T, R> asF1() {
+        return IMonoDispatcher3.super.asF1();
+    }
+
+    protected abstract @NotNull IMonoDefinition3<T, T1, T2, T3, R> definition();
 }
