@@ -20,7 +20,7 @@ public abstract class AbstractDefinedDiVisitor2<T extends Acceptor2<T, T1, T2>, 
 
     @Override
     public final @NotNull R apply(@NotNull T arg1, @NotNull T arg2) {
-        return apply(arg1).apply(arg2);
+        return IDefinedDiVisitor2.super.apply(arg1, arg2);
     }
 
     @Override
