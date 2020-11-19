@@ -18,7 +18,7 @@ public final class DiDispathcer2<T extends Acceptor2<T, T1, T2>, T1 extends T, T
     }
 
     @Override
-    protected @NotNull DiDefinition2<T, T1, T2, R> diDefinition2() {
+    protected @NotNull DiDefinition2<T, T1, T2, R> diDefinition() {
         return diDefinition2;
     }
 }

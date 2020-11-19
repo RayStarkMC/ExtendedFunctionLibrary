@@ -9,8 +9,8 @@ public abstract class AbstractMonoDispatcher2<T extends Acceptor2<T, T1, T2>, T1
 
     @Override
     public final @NotNull R apply(@NotNull T arg1) {
-        return arg1.accept(definition2());
+        return arg1.accept(definition());
     }
 
-    protected abstract @NotNull IMonoDefinition2<T, T1, T2, R> definition2();
+    protected abstract @NotNull IMonoDefinition2<T, T1, T2, R> definition();
 }

@@ -10,17 +10,17 @@ public abstract class AbstractDiDispatcher3<T extends Acceptor3<T, T1, T2, T3>, 
     protected AbstractDiDispatcher3() {
         visitor3 = MonoDispatcher3.build(builder1 -> builder1
             .type1(arg1 -> MonoDispatcher3.build(builder2 -> builder2
-                .type1(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))
-                .type3(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))))
+                .type1(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
+                .type2(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
+                .type3(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))))
             .type2(arg1 -> MonoDispatcher3.build(builder2 -> builder2
-                .type1(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))
-                .type3(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))))
+                .type1(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
+                .type2(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
+                .type3(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))))
             .type3(arg1 -> MonoDispatcher3.build(builder2 -> builder2
-                .type1(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))
-                .type3(arg2 -> diDefinition3().dispatch(() -> arg1, () -> arg2))))
+                .type1(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
+                .type2(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
+                .type3(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))))
         );
     }
 
@@ -34,5 +34,5 @@ public abstract class AbstractDiDispatcher3<T extends Acceptor3<T, T1, T2, T3>, 
         return visitor3.apply(arg1);
     }
 
-    protected abstract IDiDefinition3<T, T1, T2, T3, R> diDefinition3();
+    protected abstract IDiDefinition3<T, T1, T2, T3, R> diDefinition();
 }

@@ -10,11 +10,11 @@ public abstract class AbstractDiDispatcher2<T extends Acceptor2<T, T1, T2>, T1 e
     protected AbstractDiDispatcher2() {
         this.visitor2 = MonoDispatcher2.build(builder1 -> builder1
             .type1(arg1 -> MonoDispatcher2.build(builder2 -> builder2
-                .type1(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2))))
+                .type1(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
+                .type2(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))))
             .type2(arg1 -> MonoDispatcher2.build(builder2 -> builder2
-                .type1(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2))
-                .type2(arg2 -> diDefinition2().dispatch(() -> arg1, () -> arg2))))
+                .type1(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))
+                .type2(arg2 -> diDefinition().dispatch(() -> arg1, () -> arg2))))
         );
     }
 
@@ -28,5 +28,5 @@ public abstract class AbstractDiDispatcher2<T extends Acceptor2<T, T1, T2>, T1 e
         return visitor2.apply(arg1);
     }
 
-    protected abstract @NotNull IDiDefinition2<T, T1, T2, R> diDefinition2();
+    protected abstract @NotNull IDiDefinition2<T, T1, T2, R> diDefinition();
 }

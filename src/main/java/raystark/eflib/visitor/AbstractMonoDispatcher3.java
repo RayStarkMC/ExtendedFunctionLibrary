@@ -9,8 +9,8 @@ public abstract class AbstractMonoDispatcher3<T extends Acceptor3<T, T1, T2, T3>
 
     @Override
     public final @NotNull R apply(@NotNull T arg1) {
-        return arg1.accept(definition3());
+        return arg1.accept(definition());
     }
 
-    protected abstract IMonoDefinition3<T, T1, T2, T3, R> definition3();
+    protected abstract IMonoDefinition3<T, T1, T2, T3, R> definition();
 }

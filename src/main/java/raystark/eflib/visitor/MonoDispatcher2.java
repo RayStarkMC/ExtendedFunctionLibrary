@@ -18,7 +18,7 @@ public final class MonoDispatcher2<T extends Acceptor2<T, T1, T2>, T1 extends T,
     }
 
     @Override
-    protected @NotNull MonoDefinition2<T, T1, T2, R> definition2() {
+    protected @NotNull MonoDefinition2<T, T1, T2, R> definition() {
         return definition2;
     }
 }
