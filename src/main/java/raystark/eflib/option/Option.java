@@ -369,11 +369,11 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
         return stream()::iterator;
     }
 
-    public static <T, R> MonoDispatcher2<Option<T>, Some<T>, None<T>, R> definedVisitor2(@NotNull NF1<MonoDefinition2.BuilderT1<Option<T>, Some<T>, None<T>, R>, MonoDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
+    public static <T, R> MonoDispatcher2<Option<T>, Some<T>, None<T>, R> monoDispatcher(@NotNull NF1<MonoDefinition2.BuilderT1<Option<T>, Some<T>, None<T>, R>, MonoDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
         return Acceptor2.definedVisitor2(buildProcess);
     }
 
-    public static <T, R> DiDispathcer2<Option<T>, Some<T>, None<T>, R> definedDiVisitor2(@NotNull NF1<DiDefinition2.BuilderT11<Option<T>, Some<T>, None<T>, R>, DiDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
+    public static <T, R> DiDispathcer2<Option<T>, Some<T>, None<T>, R> diDispatcher(@NotNull NF1<DiDefinition2.BuilderT11<Option<T>, Some<T>, None<T>, R>, DiDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
         return Acceptor2.definedDiVisitor2(buildProcess);
     }
 
