@@ -3,6 +3,6 @@ package raystark.eflib.type;
 import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
-public interface Type2<T> {
+public interface TypeVar1<T> {
     @NotNull T unwrap();
 }

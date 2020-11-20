@@ -14,7 +14,7 @@
  *  void someMethod(Type2<T2> t2);
  * }</pre>
  * この場合はそれぞれのメソッドの引数は|Type1|, |Type2|(パッケージ名略)
- * とそれぞれ異なるイレイジャを持つためオーバーロードが出来ます。
+ * とそれぞれ異なるイレイジャを持つようになるためオーバーロードが出来ます。
  *
  * <p>Type型は全て抽象メソッドunwrapを持つ関数型インターフェースなので、呼び出し側はsomeMethodを以下のように利用できます。
  * <pre>{@code
@@ -29,4 +29,4 @@
  *
  * <p>メソッドの定義側ではunwrapメソッドによりラップされた値を取り出すことができます。
  */
-package raystark.eflib.visitor.type;
+package raystark.eflib.type;

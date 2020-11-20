@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NF2;
 import raystark.eflib.visitor.acceptor.Acceptor2;
-import raystark.eflib.type.Type1;
-import raystark.eflib.type.Type2;
+import raystark.eflib.type.TypeVar1;
+import raystark.eflib.type.TypeVar2;
 
 public final class DiDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R> implements IDiDefinition2<T, T1, T2, R> {
     private final NF2<T1, T1, R> f11;
@@ -26,22 +26,22 @@ public final class DiDefinition2<T extends Acceptor2<T, T1, T2>, T1 extends T, T
     }
 
     @Override
-    public @NotNull R dispatch(@NotNull Type1<T1> arg1, @NotNull Type1<T1> arg2) {
+    public @NotNull R dispatch(@NotNull TypeVar1<T1> arg1, @NotNull TypeVar1<T1> arg2) {
         return f11.apply(arg1.unwrap(), arg2.unwrap());
     }
 
     @Override
-    public @NotNull R dispatch(@NotNull Type1<T1> arg1, @NotNull Type2<T2> arg2) {
+    public @NotNull R dispatch(@NotNull TypeVar1<T1> arg1, @NotNull TypeVar2<T2> arg2) {
         return f12.apply(arg1.unwrap(), arg2.unwrap());
     }
 
     @Override
-    public @NotNull R dispatch(@NotNull Type2<T2> arg1, @NotNull Type1<T1> arg2) {
+    public @NotNull R dispatch(@NotNull TypeVar2<T2> arg1, @NotNull TypeVar1<T1> arg2) {
         return f21.apply(arg1.unwrap(), arg2.unwrap());
     }
 
     @Override
-    public @NotNull R dispatch(@NotNull Type2<T2> arg1, @NotNull Type2<T2> arg2) {
+    public @NotNull R dispatch(@NotNull TypeVar2<T2> arg1, @NotNull TypeVar2<T2> arg2) {
         return f22.apply(arg1.unwrap(), arg2.unwrap());
     }
 
