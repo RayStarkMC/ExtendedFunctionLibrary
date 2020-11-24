@@ -369,12 +369,39 @@ public abstract class Option<T> implements Acceptor2<Option<T>, Option.Some<T>, 
         return stream()::iterator;
     }
 
-    public static <T, R> MonoDispatcher2<Option<T>, Some<T>, None<T>, R> monoDispatcher(@NotNull NF1<MonoDefinition2.BuilderT1<Option<T>, Some<T>, None<T>, R>, MonoDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
-        return Acceptor2.definedVisitor2(buildProcess);
+    /**
+     * Definitionを定義し、パターンマッチを行います。
+     *
+     * BuilderT1のtype1メソッドでは{@literal Some<T>}, type2メソッドでは{@literal None<T>}に対する処理を定義します。
+     *
+     * @param buildProcess パターンマッチの処理の定義
+     * @param <R> 戻り値の型
+     * @return 定義に基づく戻り値
+     */
+    public <R> R match(@NotNull NF1<MonoDefinition2.BuilderT1<Option<T>, Some<T>, None<T>, R>, MonoDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
+        return monoDispatcher(buildProcess).apply(this);
     }
 
+    /**
+     * Optionの単項演算を定義し、対応するDispatcherを実装します。
+     *
+     * @param buildProcess パターンマッチの処理の定義
+     * @param <R> 戻り値の型
+     * @return 定義に基づく戻り値
+     */
+    public static <T, R> @NotNull MonoDispatcher2<Option<T>, Some<T>, None<T>, R> monoDispatcher(@NotNull NF1<MonoDefinition2.BuilderT1<Option<T>, Some<T>, None<T>, R>, MonoDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
+        return Acceptor2.monoDispatcher2(buildProcess);
+    }
+
+    /**
+     * Optionの二項演算を定義し、対応するDispatcherを実装します。
+     *
+     * @param buildProcess パターンマッチの処理の定義
+     * @param <R> 戻り値の型
+     * @return 定義に基づく戻り値
+     */
     public static <T, R> DiDispathcer2<Option<T>, Some<T>, None<T>, R> diDispatcher(@NotNull NF1<DiDefinition2.BuilderT11<Option<T>, Some<T>, None<T>, R>, DiDefinition2<Option<T>, Some<T>, None<T>, R>> buildProcess) {
-        return Acceptor2.definedDiVisitor2(buildProcess);
+        return Acceptor2.diDispatcher2(buildProcess);
     }
 
     /**
