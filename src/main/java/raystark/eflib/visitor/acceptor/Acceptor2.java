@@ -12,12 +12,12 @@ public interface Acceptor2<T extends Acceptor2<T, T1, T2>, T1 extends T, T2 exte
     @NotNull <R> R accept(@NotNull IMonoDefinition2<T, T1, T2, R> definition2);
 
     static <T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R>
-    MonoDispatcher2<T, T1, T2, R> definedVisitor2(@NotNull NF1<MonoDefinition2.BuilderT1<T, T1, T2, R>, MonoDefinition2<T, T1, T2, R>> buildProcess) {
+    MonoDispatcher2<T, T1, T2, R> monoDispatcher2(@NotNull NF1<MonoDefinition2.BuilderT1<T, T1, T2, R>, MonoDefinition2<T, T1, T2, R>> buildProcess) {
         return MonoDispatcher2.build(buildProcess);
     }
 
     static <T extends Acceptor2<T, T1, T2>, T1 extends T, T2 extends T, R>
-    DiDispathcer2<T, T1, T2, R> definedDiVisitor2(@NotNull NF1<DiDefinition2.BuilderT11<T, T1, T2, R>, DiDefinition2<T, T1, T2, R>> buildProcess) {
+    DiDispathcer2<T, T1, T2, R> diDispatcher2(@NotNull NF1<DiDefinition2.BuilderT11<T, T1, T2, R>, DiDefinition2<T, T1, T2, R>> buildProcess) {
         return DiDispathcer2.build(buildProcess);
     }
 }
