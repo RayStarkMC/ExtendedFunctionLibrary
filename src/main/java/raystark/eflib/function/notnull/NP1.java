@@ -79,7 +79,7 @@ public interface NP1<T1> extends NF1<T1, Boolean> {
      */
     @NotNull
     default NP1<T1> or(@NotNull NP1<? super T1> other) {
-        return t1 -> test(t1) && other.test(t1);
+        return t1 -> test(t1) || other.test(t1);
     }
 
     /**
