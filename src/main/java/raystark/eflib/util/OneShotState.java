@@ -19,20 +19,22 @@ public interface OneShotState {
 
     boolean isFinished();
 
-    @NotNull
-    <R> Option<R> transition(@NotNull NS<? extends R> ifInit);
+    <R> @NotNull Option<R> transition(@NotNull NS<? extends R> ifInit);
 
     default void transition(@NotNull A ifInit) {
-        transition(() -> ifInit).orElse(() -> {}).run();
+        transition(() -> ifInit).orElse(A.doNothing()).run();
     }
 
-    @NotNull
-    default <R> R transition(@NotNull NS<? extends R> ifInit, @NotNull NS<? extends R> ifFinished) {
+    default <R> @NotNull R transition(@NotNull NS<? extends R> ifInit, @NotNull NS<? extends R> ifFinished) {
         return this.<R>transition(ifInit).orElse(ifFinished);
     }
 
     default void transition(@NotNull A ifInit, @NotNull A ifFinished) {
         transition(() -> ifInit, () -> ifFinished).run();
+    }
+
+    default <X extends Exception> void shouldBeInit(@NotNull NS<? extends X> throwing) throws X {
+        if (isFinished()) throw throwing.get();
     }
 
     default <R, X extends Exception>
@@ -43,6 +45,11 @@ public interface OneShotState {
     default <X extends Exception>
     void transitionThrowing(@NotNull A ifInit, @NotNull NS<? extends X> throwing) throws X {
         transition(() -> ifInit).orElseThrow(throwing).run();
+    }
+
+    default <X extends Exception>
+    void transitionThrowing(@NotNull NS<? extends X> throwing) throws X {
+        transitionThrowing(A.doNothing(), throwing);
     }
 
     static @NotNull OneShotState newInstance() {
