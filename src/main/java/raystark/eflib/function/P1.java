@@ -76,7 +76,7 @@ public interface P1<T1> extends F1<T1, Boolean> {
      */
     @NotNull
     default P1<T1> or(@NotNull P1<? super T1> other) {
-        return t1 -> test(t1) && other.test(t1);
+        return t1 -> test(t1) || other.test(t1);
     }
 
     /**
