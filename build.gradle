@@ -16,11 +16,11 @@ dependencies {
 }
 
 group 'raystark'
-version '1.4.1'
+version '1.4.2'
 
 ext {
     defaultEncoding = 'UTF-8'
-    javaVersion = JavaVersion.VERSION_11
+    javaVersion = JavaVersion.VERSION_15
     pathLicense = file "$projectDir/LICENSE"
 }
 
