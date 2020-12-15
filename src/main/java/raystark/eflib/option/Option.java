@@ -148,6 +148,33 @@ public abstract class Option<T> {
     public abstract <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper);
 
     /**
+     * 値が存在する場合、mapperを繰り返し適用した結果初めてNoneを返す直前の値を保持したOptionを返します。
+     *
+     * <p>値が存在しない場合に限りNoneを返します。
+     *
+     * @param mapper 繰り返し適用されるマッピング関数
+     * @return Optionの値をmapperに繰り返し適用した結果
+     */
+    @NotNull
+    public abstract Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper);
+
+    /**
+     * 値が存在する場合、mapperを繰り返し適用した結果初めてNoneを返す直前の値を保持したOptionを返します。
+     *
+     * <p>値が存在しない場合に限りNoneを返します。
+     * 各マッピングが成功するごとにマッピング直前の値をsideEffectに適用して副作用を生成します。
+     * マッピングが一度も成功しなかった場合を含め、最後にSomeが返される場合そのSomeが保持する値を用いた副作用の生成は行われません。
+     * 返されるSomeが保持する値を用いた副作用の生成を行いたい場合、このメソッドの呼び出し後に
+     * {@link Option#ifPresent(NC1)}や{@link Option#whenPresent(NC1)}を呼び出してください。
+     *
+     * @param mapper 繰り返し適用されるマッピング関数
+     * @param sideEffect マッピングが成功するたびに呼び出される副作用の生成器
+     * @return Optionの値をmapperに繰り返し適用した結果
+     */
+    @NotNull
+    public abstract Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect);
+
+    /**
      * このOptionの値にmapperを適用した結果を取り出します。
      *
      * <p>これは次の呼び出しと同等です。
@@ -434,6 +461,29 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
+        public @NotNull Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper) {
+            return repeatMapWithSideEffect(mapper, ignored -> {});
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public @NotNull Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
+            var lastSome = this;
+            var opt = lastSome.flatMap(mapper);
+            while(true) {
+                if (opt.isEmpty()) return lastSome;
+                lastSome.ifPresent(sideEffect);
+                lastSome = (Some<T>)opt;
+                opt = lastSome.flatMap(mapper);
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         public boolean flatMapOrElseTrue(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
             return flatMap(mapper).orElse(true);
         }
@@ -647,6 +697,22 @@ public abstract class Option<T> {
         @NotNull
         public <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
             return cast(this);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public @NotNull Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper) {
+            return this;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public @NotNull Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
+            return this;
         }
 
         /**
