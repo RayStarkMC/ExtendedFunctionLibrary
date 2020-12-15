@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.A;
 import raystark.eflib.function.P1;
+import raystark.eflib.function.S;
 import raystark.eflib.function.notnull.NC1;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NP1;
@@ -85,54 +86,24 @@ public abstract class Option<T> {
     public abstract <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper);
 
     /**
-     * このOptionの値にmapperを適用した結果を取り出します。
+     * 値が存在するならば値がtesterを満たす、が成立する場合trueを返します。
      *
-     * <p>これは次の呼び出しと同等ですが、ボクシングを挟まずに値を取り出します。
-     * <pre>{@code
-     * var bool = opt.map(mapper::test).orElse(true);
-     * }</pre>
-     *
-     * @param mapper boolean型へのマッピング関数
-     * @return 値が存在する場合それをmapperに適用した値、存在しない場合はtrue
-     */
-    public abstract boolean mapOrElseTrue(@NotNull NP1<? super T> mapper);
-
-    /**
-     * このOptionの値にmapperを適用した結果を取り出します。
-     *
-     * <p>これは次の呼び出しと同等ですが、ボクシングを挟まずに値を取り出します。
-     * <pre>{@code
-     * var bool = opt.map(mapper::test).orElse(false);
-     * }</pre>
-     *
-     * @param mapper boolean型へのマッピング関数
-     * @return 値が存在する場合それをmapperに適用した値、存在しない場合はfalse
-     */
-    public abstract boolean mapOrElseFalse(@NotNull NP1<? super T> mapper);
-
-    /**
-     * 値がtesterを満たす場合trueを返します。
-     *
-     * 値が存在しない場合はtrueを返します。
+     * <p>値が存在しない場合はtrueを返します。
      *
      * @param tester 条件
      * @return forall
      */
-    public boolean allMatch(@NotNull NP1<? super T> tester) {
-        return mapOrElseTrue(tester);
-    }
+    public abstract boolean allMatch(@NotNull NP1<? super T> tester);
 
     /**
-     * 値がtesterを満たす場合trueを返します。
+     * 値が存在し、かつその値がtesterを満たす、が成立する場合trueを返します。
      *
-     * 値が存在しない場合はfalseを返します。
+     * <p>値が存在しない場合はfalseを返します。
      *
      * @param tester 条件
      * @return exist
      */
-    public boolean anyMatch(@NotNull NP1<? super T> tester) {
-        return mapOrElseFalse(tester);
-    }
+    public abstract boolean anyMatch(@NotNull NP1<? super T> tester);
 
     /**
      * このOptionの値にmapperを適用した結果を返します。
@@ -148,30 +119,31 @@ public abstract class Option<T> {
     public abstract <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper);
 
     /**
-     * このOptionの値にmapperを適用した結果を取り出します。
+     * 値が存在する場合、mapperを繰り返し適用した結果初めてNoneを返す直前の値を保持したOptionを返します。
      *
-     * <p>これは次の呼び出しと同等です。
-     * <pre>{@code
-     * var bool = opt.flatMap(mapper).orElse(true);
-     * }</pre>
+     * <p>値が存在しない場合に限りNoneを返します。
      *
-     * @param mapper boolean型へのマッピング関数
-     * @return 値が存在し、かつその値をmapperに適用した値が存在する場合はその値、それ以外の場合true
+     * @param mapper 繰り返し適用されるマッピング関数
+     * @return Optionの値をmapperに繰り返し適用した結果
      */
-    public abstract boolean flatMapOrElseTrue(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper);
+    @NotNull
+    public abstract Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper);
 
     /**
-     * このOptionの値にmapperを適用した結果を取り出します。
+     * 値が存在する場合、mapperを繰り返し適用した結果初めてNoneを返す直前の値を保持したOptionを返します。
      *
-     * <p>これは次の呼び出しと同等です。
-     * <pre>{@code
-     * var bool = opt.flatMap(mapper).orElse(false);
-     * }</pre>
+     * <p>値が存在しない場合に限りNoneを返します。
+     * 各マッピングが成功するごとにマッピング直前の値をsideEffectに適用して副作用を生成します。
+     * マッピングが一度も成功しなかった場合を含め、最後にSomeが返される場合そのSomeが保持する値を用いた副作用の生成は行われません。
+     * 返されるSomeが保持する値を用いた副作用の生成を行いたい場合、このメソッドの呼び出し後に
+     * {@link Option#ifPresent(NC1)}や{@link Option#whenPresent(NC1)}を呼び出してください。
      *
-     * @param mapper boolean型へのマッピング関数
-     * @return 値が存在し、かつその値をmapperに適用した値が存在する場合はその値、それ以外の場合false
+     * @param mapper 繰り返し適用されるマッピング関数
+     * @param sideEffect マッピングが成功するたびに呼び出される副作用の生成器
+     * @return Optionの値をmapperに繰り返し適用した結果
      */
-    public abstract boolean flatMapOrElseFalse(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper);
+    @NotNull
+    public abstract Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect);
 
     /**
      * testerによりOptionを選別します。
@@ -233,6 +205,32 @@ public abstract class Option<T> {
      */
     @NotNull
     public abstract Option<T> or(@NotNull NS<Option<? extends T>> other);
+
+    /**
+     * このOptionがSomeの場合このOptionを、Noneの場合otherをOptionでラップした結果を返します。
+     *
+     * <p>otherにはnullを渡すことができます。
+     *
+     * @param other このOptionがNoneの場合に返すOptionでラップする値
+     * @return このOptionがSomeの場合このOption、Noneの場合otherをOptionでラップした結果
+     */
+    @NotNull
+    public Option<T> orNullable(@Nullable T other) {
+        return or(Option.ofNullable(other));
+    }
+
+    /**
+     * このOptionがSomeの場合このOptionを、Noneの場合otherから取り出した値をOptionでラップした結果を返します。
+     *
+     * <p>otherはnullを返すことができます。
+     *
+     * @param other このOptionがNoneの場合に返すOptionでラップする値のサプライヤ
+     * @return このOptionがSomeの場合このOptionを、Noneの場合otherから取り出した値をOptionでラップした結果
+     */
+    @NotNull
+    public Option<T> orNullable(@NotNull S<T> other) {
+        return or(() -> Option.ofNullable(other.get()));
+    }
 
     /**
      * 値が存在する場合その値を、そうでない場合otherを返します。
@@ -312,6 +310,8 @@ public abstract class Option<T> {
 
     /**
      * 値が存在しない場合、actionを実行します。
+     *
+     * <p>このメソッドは自分自身を返します。
      *
      * @param action 値が存在しない場合に実行するaction
      * @return this
@@ -409,16 +409,16 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean mapOrElseTrue(@NotNull NP1<? super T> mapper) {
-            return mapper.test(value);
+        public boolean allMatch(@NotNull NP1<? super T> tester) {
+            return tester.test(value);
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean mapOrElseFalse(@NotNull NP1<? super T> mapper) {
-            return mapper.test(value);
+        public boolean anyMatch(@NotNull NP1<? super T> tester) {
+            return tester.test(value);
         }
 
         /**
@@ -434,16 +434,23 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean flatMapOrElseTrue(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
-            return flatMap(mapper).orElse(true);
+        public @NotNull Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper) {
+            return repeatMapWithSideEffect(mapper, ignored -> {});
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean flatMapOrElseFalse(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
-            return flatMap(mapper).orElse(false);
+        public @NotNull Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
+            var lastSome = this;
+            var opt = lastSome.flatMap(mapper);
+            while(true) {
+                if (opt.isEmpty()) return lastSome;
+                lastSome.ifPresent(sideEffect);
+                lastSome = (Some<T>)opt;
+                opt = lastSome.flatMap(mapper);
+            }
         }
 
         /**
@@ -628,7 +635,7 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean mapOrElseTrue(@NotNull NP1<? super T> mapper) {
+        public boolean allMatch(@NotNull NP1<? super T> tester) {
             return true;
         }
 
@@ -636,7 +643,7 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean mapOrElseFalse(@NotNull NP1<? super T> mapper) {
+        public boolean anyMatch(@NotNull NP1<? super T> tester) {
             return false;
         }
 
@@ -653,16 +660,16 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public boolean flatMapOrElseTrue(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
-            return true;
+        public @NotNull Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper) {
+            return this;
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean flatMapOrElseFalse(@NotNull NF1<? super T, ? extends Option<Boolean>> mapper) {
-            return false;
+        public @NotNull Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
+            return this;
         }
 
         /**
