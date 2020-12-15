@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.A;
 import raystark.eflib.function.P1;
+import raystark.eflib.function.S;
 import raystark.eflib.function.notnull.NC1;
 import raystark.eflib.function.notnull.NF1;
 import raystark.eflib.function.notnull.NP1;
@@ -204,6 +205,32 @@ public abstract class Option<T> {
      */
     @NotNull
     public abstract Option<T> or(@NotNull NS<Option<? extends T>> other);
+
+    /**
+     * このOptionがSomeの場合このOptionを、Noneの場合otherをOptionでラップした結果を返します。
+     *
+     * <p>otherにはnullを渡すことができます。
+     *
+     * @param other このOptionがNoneの場合に返すOptionでラップする値
+     * @return このOptionがSomeの場合このOption、Noneの場合otherをOptionでラップした結果
+     */
+    @NotNull
+    public Option<T> orNullable(@Nullable T other) {
+        return or(Option.ofNullable(other));
+    }
+
+    /**
+     * このOptionがSomeの場合このOptionを、Noneの場合otherから取り出した値をOptionでラップした結果を返します。
+     *
+     * <p>otherはnullを返すことができます。
+     *
+     * @param other このOptionがNoneの場合に返すOptionでラップする値のサプライヤ
+     * @return このOptionがSomeの場合このOptionを、Noneの場合otherから取り出した値をOptionでラップした結果
+     */
+    @NotNull
+    public Option<T> orNullable(@NotNull S<T> other) {
+        return or(() -> Option.ofNullable(other.get()));
+    }
 
     /**
      * 値が存在する場合その値を、そうでない場合otherを返します。
