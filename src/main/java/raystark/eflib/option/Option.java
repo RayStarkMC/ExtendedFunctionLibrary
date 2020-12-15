@@ -340,6 +340,8 @@ public abstract class Option<T> {
     /**
      * 値が存在しない場合、actionを実行します。
      *
+     * <p>このメソッドは自分自身を返します。
+     *
      * @param action 値が存在しない場合に実行するaction
      * @return this
      */
