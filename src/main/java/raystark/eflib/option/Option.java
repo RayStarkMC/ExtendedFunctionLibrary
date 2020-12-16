@@ -96,6 +96,18 @@ public abstract class Option<T> {
     public abstract boolean allMatch(@NotNull NP1<? super T> tester);
 
     /**
+     * 値が存在するならば値がvalueと一致する、が成立する場合trueを返します。
+     *
+     * <p>値が存在しない場合はtrueを返します。同値性の検証には{@link Object#equals(Object)}が利用されます。
+     *
+     * @param value 同値か検証する値
+     * @return forall
+     */
+    public boolean allMatch(@NotNull T value) {
+        return allMatch(t -> t.equals(value));
+    }
+
+    /**
      * 値が存在し、かつその値がtesterを満たす、が成立する場合trueを返します。
      *
      * <p>値が存在しない場合はfalseを返します。
@@ -104,6 +116,18 @@ public abstract class Option<T> {
      * @return exist
      */
     public abstract boolean anyMatch(@NotNull NP1<? super T> tester);
+
+    /**
+     * 値が存在し、かつその値がvalueと一致する、が成立する場合trueを返します。
+     *
+     * <p>値が存在しない場合はfalseを返します。同値性の検証には{@link Object#equals(Object)}が利用されます。
+     *
+     * @param value 同値か検証する値
+     * @return exist
+     */
+    public boolean anyMatch(@NotNull T value) {
+        return anyMatch(t -> t.equals(value));
+    }
 
     /**
      * このOptionの値にmapperを適用した結果を返します。
