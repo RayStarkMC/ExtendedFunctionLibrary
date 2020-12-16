@@ -155,18 +155,18 @@ public abstract class Option<T> {
      * @return testerにより選別されたOption
      */
     @NotNull
-    public abstract Option<T> filter(@NotNull P1<T> tester);
+    public abstract Option<T> filter(@NotNull NP1<T> tester);
 
     /**
      * testerによりOptionを選別します。
      *
-     * <p>{@link Option#filter(P1)}と同様ですが、testerを満たさないSomeを通過させます。
+     * <p>{@link Option#filter(NP1)}と同様ですが、testerを満たさないSomeを通過させます。
      *
      * @param tester Optionを選別する述語
      * @return testerにより選別されたOption
      */
     @NotNull
-    public Option<T> filterNot(@NotNull P1<T> tester) {
+    public Option<T> filterNot(@NotNull NP1<T> tester) {
         return filter(tester.not());
     }
 
@@ -458,7 +458,7 @@ public abstract class Option<T> {
          */
         @Override
         @NotNull
-        public Option<T> filter(@NotNull P1<T> tester) {
+        public Option<T> filter(@NotNull NP1<T> tester) {
             return tester.test(value) ? this : None.of();
         }
 
@@ -677,7 +677,7 @@ public abstract class Option<T> {
          */
         @Override
         @NotNull
-        public Option<T> filter(@NotNull P1<T> tester) {
+        public Option<T> filter(@NotNull NP1<T> tester) {
             return this;
         }
 
