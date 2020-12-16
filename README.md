@@ -39,7 +39,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'raystark:extended_function_library:1.2.1'
+    implementation 'raystark:extended_function_library:1.4.3'
 }
 ```
 
