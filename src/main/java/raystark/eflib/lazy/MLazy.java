@@ -22,9 +22,11 @@ import java.util.Optional;
 public final class MLazy<T> {
     private volatile T value;
     private volatile NS<? extends T> initializer;
+    private final Object lock;
 
     private MLazy(NS<? extends T> initializer) {
         this.initializer = initializer;
+        lock = new Object();
     }
 
     private NS<T> asNS() {
@@ -64,7 +66,7 @@ public final class MLazy<T> {
         //二重チェックイディオム
         T result = value;
         if(result == null) {
-            synchronized (this) {
+            synchronized (lock) {
                 result = value;
                 if(result == null) {
                     value = result = initializer.get();
