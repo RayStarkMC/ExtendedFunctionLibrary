@@ -150,4 +150,15 @@ public interface C1<T1> {
     static <T1> C1<T1> of(@NotNull C1<T1> c1) {
         return c1;
     }
+
+    /**
+     * 何も行わないConsumerを返します。
+     *
+     * @param <T1> 第一引数の型
+     * @return 何も行わないConsumer
+     */
+    @NotNull
+    static <T1> C1<T1> doNothing() {
+        return FunctionSupport.doNothingC1();
+    }
 }

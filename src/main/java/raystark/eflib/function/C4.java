@@ -308,4 +308,18 @@ public interface C4<T1, T2, T3, T4> {
     static <T1, T2, T3, T4> C4<T1, T2, T3, T4> of(C4<T1, T2, T3, T4> c4) {
         return c4;
     }
+
+    /**
+     * 何も行わないConsumerを返します。
+     *
+     * @param <T1> 第一引数の型
+     * @param <T2> 第二引数の型
+     * @param <T3> 第三引数の型
+     * @param <T4> 第四引数の型
+     * @return 何も行わないConsumer
+     */
+    @NotNull
+    static <T1, T2, T3, T4> C4<T1, T2, T3, T4> doNothing() {
+        return FunctionSupport.doNothingC4();
+    }
 }
