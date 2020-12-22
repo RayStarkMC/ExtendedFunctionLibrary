@@ -76,19 +76,6 @@ public final class MLazy<T> {
     }
 
     /**
-     * このLazyをスレッドアンセーフなLazyに変換します。
-     *
-     * <p>既にMLazyとして作られたインスタンスがシングルスレッドのみで、かつ頻繁に参照される場合に
-     * パフォーマンスが改善される可能性があります。
-     *
-     * @return スレッドアンセーフなLazy
-     */
-    @NotNull
-    public SLazy<T> asSLazy() {
-        return SLazy.of(this::get);
-    }
-
-    /**
      * このLazyの値をmapperに適用した結果で遅延初期化されるLazyを返します。
      *
      * <p>mapperは遅延評価されます。

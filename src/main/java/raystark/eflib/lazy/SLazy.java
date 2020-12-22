@@ -73,16 +73,6 @@ public final class SLazy<T> {
     }
 
     /**
-     * このLazyをスレッドセーフなLazyに変換します。
-     *
-     * @return スレッドセーフなLazy
-     */
-    @NotNull
-    public MLazy<T> asMLazy() {
-        return MLazy.of(this::get);
-    }
-
-    /**
      * このLazyの値をmapperに適用した結果で遅延初期化されるLazyを返します。
      *
      * <p>mapperは遅延評価されます。
