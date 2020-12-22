@@ -68,7 +68,7 @@ public abstract class Option<T> {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @NotNull
     public static <T> Option<T> fromOptional(@NotNull Optional<? extends T> optional) {
-        return optional.isPresent() ? Some.of(optional.get()) : None.of();
+        return optional.<Option<T>>map(Some::of).orElseGet(None::of);
     }
 
     /**
@@ -141,41 +141,39 @@ public abstract class Option<T> {
      * @return Optionの値をmapperに適用した結果
      */
     @NotNull
-    public abstract <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper);
-
-    /**
-     * 値が存在する場合、mapperを繰り返し適用した結果初めてNoneを返す直前の値を保持したOptionを返します。
-     *
-     * <p>値が存在しない場合に限りNoneを返します。
-     *
-     * @param mapper 繰り返し適用されるマッピング関数
-     * @return Optionの値をmapperに繰り返し適用した結果
-     */
-    @NotNull
-    public final Option<T> repeatMap(@NotNull NF1<? super T, Option<? extends T>> mapper) {
-        return repeatMapWithSideEffect(mapper, ignored -> {});
+    public final <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
+        return isEmpty() ? None.of() : cast(mapper.apply(orElseThrow()));
     }
 
     /**
      * 値が存在する場合、mapperを繰り返し適用した結果初めてNoneを返す直前の値を保持したOptionを返します。
      *
-     * <p>値が存在しない場合に限りNoneを返します。
-     * 各マッピングが成功するごとにマッピング直前の値をsideEffectに適用して副作用を生成します。
-     * マッピングが一度も成功しなかった場合を含め、最後にSomeが返される場合そのSomeが保持する値を用いた副作用の生成は行われません。
-     * 返されるSomeが保持する値を用いた副作用の生成を行いたい場合、このメソッドの呼び出し後に
-     * {@link Option#ifPresent(NC1)}や{@link Option#whenPresent(NC1)}を呼び出してください。
+     * <p>このメソッドは再帰的なデータ構造の走査に適しています。値が存在しない場合に限りNoneを返します。
      *
      * @param mapper 繰り返し適用されるマッピング関数
-     * @param sideEffect マッピングが成功するたびに呼び出される副作用の生成器
      * @return Optionの値をmapperに繰り返し適用した結果
      */
     @NotNull
-    public final Option<T> repeatMapWithSideEffect(@NotNull NF1<? super T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
+    public final Option<T> repeatMap(@NotNull NF1<? super T, ? extends Option<? extends T>> mapper) {
         var current = this;
-        for(var next = current.flatMap(mapper); next.isPresent(); next = next.whenPresent(sideEffect).flatMap(mapper)) {
+        for(var next = current.flatMap(mapper); next.isPresent(); next = next.flatMap(mapper)) {
             current = next;
         }
         return current;
+    }
+
+    /**
+     * 値が存在する場合、mapperを繰り返し適用した結果初めてNoneを返す直前の値を保持したOptionを返します。
+     *
+     * <p>各マッピングの直前に保持する値をsideEffectに適用して副作用を生成します。値が存在しない場合に限りNoneを返します。
+     *
+     * @param mapper 繰り返し適用されるマッピング関数
+     * @param sideEffect マッピング毎に呼び出されるConsumer
+     * @return Optionの値をmapperに繰り返し適用した結果
+     */
+    @NotNull
+    public final Option<T> repeatMapWithSideEffect(@NotNull NF1<? super T, ? extends Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
+        return repeatMap(t -> { sideEffect.accept(t); return mapper.apply(t);});
     }
 
     /**
@@ -210,7 +208,9 @@ public abstract class Option<T> {
      *
      * @return このOptionがSomeの場合true
      */
-    public abstract boolean isPresent();
+    public final boolean isPresent() {
+        return !isEmpty();
+    }
 
     /**
      * このOptionがNoneの場合trueを、Someの場合falseを返します。
@@ -218,7 +218,7 @@ public abstract class Option<T> {
      * @return このOptionがNoneの場合true
      */
     public final boolean isEmpty() {
-        return !isPresent();
+        return this == None.of();
     }
 
     /**
@@ -327,7 +327,9 @@ public abstract class Option<T> {
      *
      * @param consumer 値が存在する場合にその値に適用するConsumer
      */
-    public abstract void ifPresent(@NotNull NC1<? super T> consumer);
+    public final void ifPresent(@NotNull NC1<? super T> consumer) {
+        flatMap(t -> {consumer.accept(t); return None.of();});
+    }
 
     /**
      * 値が存在しない場合、actionを実行します。
@@ -346,8 +348,7 @@ public abstract class Option<T> {
      */
     @NotNull
     public final Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
-        ifPresent(consumer);
-        return this;
+        return flatMap(t -> { consumer.accept(t); return this; });
     }
 
     /**
@@ -420,7 +421,7 @@ public abstract class Option<T> {
          * @return valueを保持したSome
          */
         @NotNull
-        public static <T> Some<T> of(@NotNull T value) {
+        public static <T> Option<T> of(@NotNull T value) {
             return new Some<>(value);
         }
 
@@ -454,23 +455,6 @@ public abstract class Option<T> {
         @Override
         public boolean anyMatch(@NotNull NP1<? super T> tester) {
             return allMatch(tester);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
-            return cast(mapper.apply(get()));
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean isPresent() {
-            return true;
         }
 
         /**
@@ -531,14 +515,6 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public void ifPresent(@NotNull NC1<? super T> consumer) {
-            consumer.accept(get());
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public void ifNotPresent(@NotNull A action) {}
 
         /**
@@ -570,7 +546,7 @@ public abstract class Option<T> {
          * @return シングルトン
          */
         @NotNull
-        public static <T> None<T> of() {
+        public static <T> Option<T> of() {
             return cast(INSTANCE);
         }
 
@@ -602,24 +578,6 @@ public abstract class Option<T> {
          */
         @Override
         public boolean anyMatch(@NotNull NP1<? super T> tester) {
-            return false;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
-            return cast(this);
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean isPresent() {
             return false;
         }
 
@@ -664,12 +622,6 @@ public abstract class Option<T> {
         public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X {
             throw exceptionSupplier.get();
         }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void ifPresent(@NotNull NC1<? super T> consumer) {}
 
         /**
          * {@inheritDoc}
