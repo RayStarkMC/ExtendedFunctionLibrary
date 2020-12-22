@@ -152,7 +152,7 @@ public abstract class Option<T> {
      * @return Optionの値をmapperに繰り返し適用した結果
      */
     @NotNull
-    public final Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper) {
+    public final Option<T> repeatMap(@NotNull NF1<? super T, Option<? extends T>> mapper) {
         return repeatMapWithSideEffect(mapper, ignored -> {});
     }
 
@@ -170,7 +170,7 @@ public abstract class Option<T> {
      * @return Optionの値をmapperに繰り返し適用した結果
      */
     @NotNull
-    public final Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
+    public final Option<T> repeatMapWithSideEffect(@NotNull NF1<? super T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
         var current = this;
         for(var next = current.flatMap(mapper); next.isPresent(); next = next.whenPresent(sideEffect).flatMap(mapper)) {
             current = next;
@@ -188,7 +188,7 @@ public abstract class Option<T> {
      * @return testerにより選別されたOption
      */
     @NotNull
-    public final Option<T> filter(@NotNull NP1<T> tester) {
+    public final Option<T> filter(@NotNull NP1<? super T> tester) {
         return flatMap(t -> tester.test(t) ? this : None.of());
     }
 
@@ -201,7 +201,7 @@ public abstract class Option<T> {
      * @return testerにより選別されたOption
      */
     @NotNull
-    public final Option<T> filterNot(@NotNull NP1<T> tester) {
+    public final Option<T> filterNot(@NotNull NP1<? super T> tester) {
         return filter(tester.not());
     }
 
@@ -265,7 +265,7 @@ public abstract class Option<T> {
      * @return このOptionがSomeの場合このOptionを、Noneの場合otherから取り出した値をOptionでラップした結果
      */
     @NotNull
-    public final Option<T> orNullable(@NotNull S<T> other) {
+    public final Option<T> orNullable(@NotNull S<? extends T> other) {
         return or(() -> Option.ofNullable(other.get()));
     }
 
