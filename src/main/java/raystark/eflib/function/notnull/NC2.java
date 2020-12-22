@@ -206,4 +206,16 @@ public interface NC2<T1, T2> {
     static <T1, T2> NC2<T1, T2> of(@NotNull NC2<T1, T2> c2) {
         return c2;
     }
+
+    /**
+     * 何も行わないConsumerを返します。
+     *
+     * @param <T1> 第一引数の型
+     * @param <T2> 第二引数の型
+     * @return 何も行わないConsumer
+     */
+    @NotNull
+    static <T1, T2> NC2<T1, T2> doNothing() {
+        return NFunctionSupport.doNothingC2();
+    }
 }

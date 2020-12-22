@@ -220,4 +220,15 @@ public interface NC1<T1> {
     static <T1> NC1<T1> of(@NotNull NC1<T1> c1) {
         return c1;
     }
+
+    /**
+     * 何も行わないConsumerを返します。
+     *
+     * @param <T1> 第一引数の型
+     * @return 何も行わないConsumer
+     */
+    @NotNull
+    static <T1> NC1<T1> doNothing() {
+        return NFunctionSupport.doNothingC1();
+    }
 }
