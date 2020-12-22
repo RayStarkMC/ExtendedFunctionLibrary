@@ -3,7 +3,6 @@ package raystark.eflib.option;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import raystark.eflib.function.A;
-import raystark.eflib.function.P1;
 import raystark.eflib.function.S;
 import raystark.eflib.function.notnull.NC1;
 import raystark.eflib.function.notnull.NF1;
@@ -73,19 +72,6 @@ public abstract class Option<T> {
     }
 
     /**
-     * このOptionの値にmapperを適用した値を保持するOptionを返します。
-     *
-     * <p>このOptionがNoneの場合はmapperが評価されず、Noneが返されます。
-     * Someの場合mapperが評価され、その結果を保持するSomeが返されます。
-     *
-     * @param mapper マッピング関数
-     * @param <V> マッピング後の型
-     * @return Optionの値をmapperに適用した結果を保持するOption
-     */
-    @NotNull
-    public abstract <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper);
-
-    /**
      * 値が存在するならば値がtesterを満たす、が成立する場合trueを返します。
      *
      * <p>値が存在しない場合はtrueを返します。
@@ -130,6 +116,21 @@ public abstract class Option<T> {
     }
 
     /**
+     * このOptionの値にmapperを適用した値を保持するOptionを返します。
+     *
+     * <p>このOptionがNoneの場合はmapperが評価されず、Noneが返されます。
+     * Someの場合mapperが評価され、その結果を保持するSomeが返されます。
+     *
+     * @param mapper マッピング関数
+     * @param <V> マッピング後の型
+     * @return Optionの値をmapperに適用した結果を保持するOption
+     */
+    @NotNull
+    public final <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
+        return flatMap(mapper.then1(Some::of));
+    }
+
+    /**
      * このOptionの値にmapperを適用した結果を返します。
      *
      * <p>このOptionがNoneの場合はmapperが評価されず、自身が返されます。
@@ -151,7 +152,9 @@ public abstract class Option<T> {
      * @return Optionの値をmapperに繰り返し適用した結果
      */
     @NotNull
-    public abstract Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper);
+    public final Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper) {
+        return repeatMapWithSideEffect(mapper, ignored -> {});
+    }
 
     /**
      * 値が存在する場合、mapperを繰り返し適用した結果初めてNoneを返す直前の値を保持したOptionを返します。
@@ -167,7 +170,13 @@ public abstract class Option<T> {
      * @return Optionの値をmapperに繰り返し適用した結果
      */
     @NotNull
-    public abstract Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect);
+    public final Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
+        var current = this;
+        for(var next = current.flatMap(mapper); next.isPresent(); next = next.whenPresent(sideEffect).flatMap(mapper)) {
+            current = next;
+        }
+        return current;
+    }
 
     /**
      * testerによりOptionを選別します。
@@ -179,7 +188,9 @@ public abstract class Option<T> {
      * @return testerにより選別されたOption
      */
     @NotNull
-    public abstract Option<T> filter(@NotNull NP1<T> tester);
+    public final Option<T> filter(@NotNull NP1<T> tester) {
+        return flatMap(t -> tester.test(t) ? this : None.of());
+    }
 
     /**
      * testerによりOptionを選別します。
@@ -190,7 +201,7 @@ public abstract class Option<T> {
      * @return testerにより選別されたOption
      */
     @NotNull
-    public Option<T> filterNot(@NotNull NP1<T> tester) {
+    public final Option<T> filterNot(@NotNull NP1<T> tester) {
         return filter(tester.not());
     }
 
@@ -217,7 +228,9 @@ public abstract class Option<T> {
      * @return このOptionがSomeの場合このOption、Noneの場合other
      */
     @NotNull
-    public abstract Option<T> or(@NotNull Option<? extends T> other);
+    public final Option<T> or(@NotNull Option<? extends T> other) {
+        return or(() -> other);
+    }
 
     /**
      * このOptionがSomeの場合このOptionを、Noneの場合otherの生成するOptionを返します。
@@ -239,7 +252,7 @@ public abstract class Option<T> {
      * @return このOptionがSomeの場合このOption、Noneの場合otherをOptionでラップした結果
      */
     @NotNull
-    public Option<T> orNullable(@Nullable T other) {
+    public final Option<T> orNullable(@Nullable T other) {
         return or(Option.ofNullable(other));
     }
 
@@ -252,7 +265,7 @@ public abstract class Option<T> {
      * @return このOptionがSomeの場合このOptionを、Noneの場合otherから取り出した値をOptionでラップした結果
      */
     @NotNull
-    public Option<T> orNullable(@NotNull S<T> other) {
+    public final Option<T> orNullable(@NotNull S<T> other) {
         return or(() -> Option.ofNullable(other.get()));
     }
 
@@ -263,7 +276,9 @@ public abstract class Option<T> {
      * @return 値が存在する場合その値、そうでない場合other
      */
     @NotNull
-    public abstract T orElse(@NotNull T other);
+    public final T orElse(@NotNull T other) {
+        return orElse(() -> other);
+    }
 
     /**
      * 値が存在する場合その値を、そうでない場合otherの生成する値を返します。
@@ -330,7 +345,10 @@ public abstract class Option<T> {
      * @return this
      */
     @NotNull
-    public abstract Option<T> whenPresent(@NotNull NC1<? super T> consumer);
+    public final Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
+        ifPresent(consumer);
+        return this;
+    }
 
     /**
      * 値が存在しない場合、actionを実行します。
@@ -341,7 +359,10 @@ public abstract class Option<T> {
      * @return this
      */
     @NotNull
-    public abstract Option<T> whenNotPresent(@NotNull A action);
+    public final Option<T> whenNotPresent(@NotNull A action) {
+        ifNotPresent(action);
+        return this;
+    }
 
     /**
      * このOptionをOptionalに変換します。
@@ -351,7 +372,7 @@ public abstract class Option<T> {
      * @return このOptionに対応するOptional
      */
     @NotNull
-    public Optional<T> optional() {
+    public final Optional<T> optional() {
         return Optional.ofNullable(orElseNull());
     }
 
@@ -419,16 +440,6 @@ public abstract class Option<T> {
             return (Some<T>) some;
         }
 
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
-            return Some.of(mapper.apply(value));
-        }
-
         /**
          * {@inheritDoc}
          */
@@ -458,38 +469,6 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        public @NotNull Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper) {
-            return repeatMapWithSideEffect(mapper, ignored -> {});
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public @NotNull Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
-            var lastSome = this;
-            var opt = lastSome.flatMap(mapper);
-            while(true) {
-                if (opt.isEmpty()) return lastSome;
-                lastSome.ifPresent(sideEffect);
-                lastSome = (Some<T>)opt;
-                opt = lastSome.flatMap(mapper);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Option<T> filter(@NotNull NP1<T> tester) {
-            return tester.test(value) ? this : None.of();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean isPresent() {
             return true;
         }
@@ -499,26 +478,8 @@ public abstract class Option<T> {
          */
         @Override
         @NotNull
-        public Option<T> or(@NotNull Option<? extends T> other) {
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
         public Option<T> or(@NotNull NS<Option<? extends T>> other) {
             return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public T orElse(@NotNull T other) {
-            return value;
         }
 
         /**
@@ -584,25 +545,6 @@ public abstract class Option<T> {
          */
         @Override
         @NotNull
-        public Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
-            consumer.accept(value);
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Option<T> whenNotPresent(@NotNull A action) {
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
         public Stream<T> stream() {
             return Stream.of(value);
         }
@@ -650,15 +592,6 @@ public abstract class Option<T> {
          * {@inheritDoc}
          */
         @Override
-        @NotNull
-        public <V> Option<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
-            return cast(this);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean allMatch(@NotNull NP1<? super T> tester) {
             return true;
         }
@@ -680,30 +613,6 @@ public abstract class Option<T> {
             return cast(this);
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public @NotNull Option<T> repeatMap(@NotNull NF1<T, Option<? extends T>> mapper) {
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public @NotNull Option<T> repeatMapWithSideEffect(@NotNull NF1<T, Option<? extends T>> mapper, @NotNull NC1<? super T> sideEffect) {
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Option<T> filter(@NotNull NP1<T> tester) {
-            return this;
-        }
 
         /**
          * {@inheritDoc}
@@ -718,26 +627,8 @@ public abstract class Option<T> {
          */
         @Override
         @NotNull
-        public Option<T> or(@NotNull Option<? extends T> other) {
-            return cast(other);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
         public Option<T> or(@NotNull NS<Option<? extends T>> other) {
             return cast(other.get());
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public T orElse(@NotNull T other) {
-            return other;
         }
 
         /**
@@ -785,25 +676,6 @@ public abstract class Option<T> {
         @Override
         public void ifNotPresent(@NotNull A action) {
             action.run();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Option<T> whenNotPresent(@NotNull A action) {
-            action.run();
-            return this;
         }
 
         /**
