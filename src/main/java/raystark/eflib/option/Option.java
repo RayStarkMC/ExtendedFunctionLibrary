@@ -67,7 +67,7 @@ public abstract class Option<T> {
      */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @NotNull
-    public static <T> Option<T> asOption(@NotNull Optional<? extends T> optional) {
+    public static <T> Option<T> fromOptional(@NotNull Optional<? extends T> optional) {
         return optional.isPresent() ? Some.of(optional.get()) : None.of();
     }
 
@@ -89,7 +89,7 @@ public abstract class Option<T> {
      * @param value 同値か検証する値
      * @return forall
      */
-    public boolean allMatch(@NotNull T value) {
+    public final boolean allMatch(@NotNull T value) {
         return allMatch(t -> t.equals(value));
     }
 
@@ -111,7 +111,7 @@ public abstract class Option<T> {
      * @param value 同値か検証する値
      * @return exist
      */
-    public boolean anyMatch(@NotNull T value) {
+    public final boolean anyMatch(@NotNull T value) {
         return anyMatch(t -> t.equals(value));
     }
 
@@ -217,7 +217,7 @@ public abstract class Option<T> {
      *
      * @return このOptionがNoneの場合true
      */
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
         return !isPresent();
     }
 
@@ -372,7 +372,7 @@ public abstract class Option<T> {
      * @return このOptionに対応するOptional
      */
     @NotNull
-    public final Optional<T> optional() {
+    public final Optional<T> asOptional() {
         return Optional.ofNullable(orElseNull());
     }
 
@@ -384,7 +384,7 @@ public abstract class Option<T> {
      * @return このOptionに対応するStream
      */
     @NotNull
-    public abstract Stream<T> stream();
+    public abstract Stream<T> asStream();
 
     /**
      * このOptionをIterableに変換します。
@@ -394,8 +394,8 @@ public abstract class Option<T> {
      * @return このOptionに対応するIterable
      */
     @NotNull
-    public Iterable<T> iterable() {
-        return stream()::iterator;
+    public final Iterable<T> asIterable() {
+        return asStream()::iterator;
     }
 
     /**
@@ -445,7 +445,7 @@ public abstract class Option<T> {
          */
         @Override
         public boolean allMatch(@NotNull NP1<? super T> tester) {
-            return tester.test(value);
+            return tester.test(get());
         }
 
         /**
@@ -453,7 +453,7 @@ public abstract class Option<T> {
          */
         @Override
         public boolean anyMatch(@NotNull NP1<? super T> tester) {
-            return tester.test(value);
+            return allMatch(tester);
         }
 
         /**
@@ -462,7 +462,7 @@ public abstract class Option<T> {
         @Override
         @NotNull
         public <V> Option<V> flatMap(@NotNull NF1<? super T, ? extends Option<? extends V>> mapper) {
-            return cast(mapper.apply(value));
+            return cast(mapper.apply(get()));
         }
 
         /**
@@ -488,7 +488,7 @@ public abstract class Option<T> {
         @Override
         @NotNull
         public T orElse(@NotNull NS<? extends T> other) {
-            return value;
+            return get();
         }
 
         @Override
@@ -503,7 +503,7 @@ public abstract class Option<T> {
         @Override
         @NotNull
         public T orElseThrow() {
-            return value;
+            return get();
         }
 
         /**
@@ -512,7 +512,7 @@ public abstract class Option<T> {
         @Override
         @NotNull
         public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) {
-            return value;
+            return get();
         }
 
         /**
@@ -522,6 +522,7 @@ public abstract class Option<T> {
          *
          * @return このSomeが保持する値
          */
+        @NotNull
         public T get() {
             return value;
         }
@@ -531,7 +532,7 @@ public abstract class Option<T> {
          */
         @Override
         public void ifPresent(@NotNull NC1<? super T> consumer) {
-            consumer.accept(value);
+            consumer.accept(get());
         }
 
         /**
@@ -545,8 +546,8 @@ public abstract class Option<T> {
          */
         @Override
         @NotNull
-        public Stream<T> stream() {
-            return Stream.of(value);
+        public Stream<T> asStream() {
+            return Stream.of(get());
         }
     }
 
@@ -683,7 +684,7 @@ public abstract class Option<T> {
          */
         @Override
         @NotNull
-        public Stream<T> stream() {
+        public Stream<T> asStream() {
             return Stream.of();
         }
     }
