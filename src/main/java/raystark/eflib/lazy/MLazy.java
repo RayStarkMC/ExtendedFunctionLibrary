@@ -104,4 +104,17 @@ public final class MLazy<T> {
     public static <T> MLazy<T> of(@NotNull NS<? extends T> initializer) {
         return new MLazy<>(initializer);
     }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param mLazy サブタイプのmLazy
+     * @param <T> キャスト後のmLazyの型
+     * @return 引数の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <T> MLazy<T> cast(@NotNull MLazy<? extends T> mLazy) {
+        return (MLazy<T>) mLazy;
+    }
 }

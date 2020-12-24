@@ -99,4 +99,17 @@ public final class SLazy<T> {
     public static <T> SLazy<T> of(@NotNull NS<? extends T> initializer) {
         return new SLazy<>(initializer);
     }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param sLazy サブタイプのsLazy
+     * @param <T> キャスト後のsLazyの型
+     * @return 引数の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <T> SLazy<T> cast(@NotNull SLazy<? extends T> sLazy) {
+        return (SLazy<T>) sLazy;
+    }
 }
