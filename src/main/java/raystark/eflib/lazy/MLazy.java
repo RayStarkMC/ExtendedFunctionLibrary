@@ -70,7 +70,7 @@ public final class MLazy<T> {
      */
     @NotNull
     public <V> MLazy<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
-        return MLazy.of(this.asNS().then(mapper));
+        return MLazy.of(() -> mapper.apply(get()));
     }
 
     /**
@@ -84,7 +84,7 @@ public final class MLazy<T> {
      */
     @NotNull
     public <V> MLazy<V> flatMap(@NotNull NF1<? super T, MLazy<? extends V>> mapper) {
-        return this.map(mapper.then1(MLazy::get));
+        return MLazy.of(() -> mapper.apply(get()).get());
     }
 
     /**
