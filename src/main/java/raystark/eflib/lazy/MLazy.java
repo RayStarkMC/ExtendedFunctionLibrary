@@ -34,24 +34,6 @@ public final class MLazy<T> {
     }
 
     /**
-     * 値を算出するSupplierを指定してLazyを生成します。
-     *
-     * <p>initializerにnullを返すSupplierを指定する事は禁止されています。
-     * そのような場合は{@link Optional}を返すサプライヤを利用するか、空コンテナに対応するオブジェクトの使用を検討してください。
-     *
-     * <p>渡されたinitializerの評価はLazy生成後に初めて{@link MLazy#get()}が呼ばれるまで遅延されます。
-     * 値の初期化後はinitializerへの参照は破棄されます。
-     *
-     * @param initializer 値を算出するSupplier
-     * @param <T> 生成する値の型
-     * @return initializerにより遅延初期化される値を表すMLazyのインスタンス
-     */
-    @NotNull
-    public static <T> MLazy<T> of(@NotNull NS<? extends T> initializer) {
-        return new MLazy<>(initializer);
-    }
-
-    /**
      * initializerによって生成された値を取得します。
      *
      * <p>このメソッドが複数回呼び出された場合、必ず最初の一回目に返した値を返します。
@@ -103,5 +85,23 @@ public final class MLazy<T> {
     @NotNull
     public <V> MLazy<V> flatMap(@NotNull NF1<? super T, MLazy<? extends V>> mapper) {
         return this.map(mapper.then1(MLazy::get));
+    }
+
+    /**
+     * 値を算出するSupplierを指定してLazyを生成します。
+     *
+     * <p>initializerにnullを返すSupplierを指定する事は禁止されています。
+     * そのような場合は{@link Optional}を返すサプライヤを利用するか、空コンテナに対応するオブジェクトの使用を検討してください。
+     *
+     * <p>渡されたinitializerの評価はLazy生成後に初めて{@link MLazy#get()}が呼ばれるまで遅延されます。
+     * 値の初期化後はinitializerへの参照は破棄されます。
+     *
+     * @param initializer 値を算出するSupplier
+     * @param <T> 生成する値の型
+     * @return initializerにより遅延初期化される値を表すMLazyのインスタンス
+     */
+    @NotNull
+    public static <T> MLazy<T> of(@NotNull NS<? extends T> initializer) {
+        return new MLazy<>(initializer);
     }
 }
