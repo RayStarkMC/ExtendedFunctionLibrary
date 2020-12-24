@@ -189,4 +189,19 @@ public interface P3<T1, T2, T3> extends F3<T1, T2, T3, Boolean> {
     static <T1, T2, T3> P3<T1, T2, T3> of(@NotNull P3<T1, T2, T3> p3) {
         return p3;
     }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param p3 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <T2> キャスト後第二引数の型
+     * @param <T3> キャスト後第三引数の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, T2, T3> P3<T1, T2, T3> cast(@NotNull P3<? super T1, ? super T2, ? super T3> p3) {
+        return (P3<T1, T2, T3>) p3;
+    }
 }
