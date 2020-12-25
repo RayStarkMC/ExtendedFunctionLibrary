@@ -208,6 +208,20 @@ public interface NC2<T1, T2> {
     }
 
     /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param c2 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <T2> キャスト後第二引数の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, T2> NC2<T1, T2> cast(@NotNull NC2<? super T1, ? super T2> c2) {
+        return (NC2<T1, T2>) c2;
+    }
+
+    /**
      * 何も行わないConsumerを返します。
      *
      * @param <T1> 第一引数の型

@@ -1,8 +1,6 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
-import raystark.eflib.function.F1;
-import raystark.eflib.function.S;
 
 /**
  * 型T1, 型T2, 型T3から型Rへの三変数関数です。
@@ -202,5 +200,21 @@ public interface NF3<T1, T2, T3, R> extends NF2<T1, T2, NF1<T3, R>> {
     @NotNull
     static <T1, T2, T3, R> NF3<T1, T2, T3, R> of(@NotNull NF3<T1, T2, T3, R> f3) {
         return f3;
+    }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param f3 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <T2> キャスト後第二引数の型
+     * @param <T3> キャスト後第三引数の型
+     * @param <R> キャスト後の戻り値の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, T2, T3, R> NF3<T1, T2, T3, R> cast(@NotNull NF3<? super T1, ? super T2, ? super T3, ? extends R> f3) {
+        return (NF3<T1, T2, T3, R>) f3;
     }
 }
