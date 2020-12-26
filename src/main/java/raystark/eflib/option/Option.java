@@ -28,7 +28,11 @@ import java.util.stream.Stream;
  * @param <T> 値の型
  */
 public abstract class Option<T> {
-    Option() {}
+    @Nullable private final T t;
+
+    Option(@Nullable T t) {
+        this.t = t;
+    }
 
     /**
      * この型の変性を表すキャストメソッド。
@@ -79,7 +83,10 @@ public abstract class Option<T> {
      * @param tester 条件
      * @return forall
      */
-    public abstract boolean allMatch(@NotNull NP1<? super T> tester);
+    public final boolean allMatch(@NotNull NP1<? super T> tester) {
+        //noinspection ConstantConditions
+        return isEmpty() || tester.test(orElseNull());
+    }
 
     /**
      * 値が存在するならば値がvalueと一致する、が成立する場合trueを返します。
@@ -101,7 +108,10 @@ public abstract class Option<T> {
      * @param tester 条件
      * @return exist
      */
-    public abstract boolean anyMatch(@NotNull NP1<? super T> tester);
+    public final boolean anyMatch(@NotNull NP1<? super T> tester) {
+        //noinspection ConstantConditions
+        return isPresent() && tester.test(orElseNull());
+    }
 
     /**
      * 値が存在し、かつその値がvalueと一致する、が成立する場合trueを返します。
@@ -229,7 +239,7 @@ public abstract class Option<T> {
      */
     @NotNull
     public final Option<T> or(@NotNull Option<? extends T> other) {
-        return or(() -> other);
+        return isEmpty() ? cast(other) : this;
     }
 
     /**
@@ -241,7 +251,12 @@ public abstract class Option<T> {
      * @return このOptionがSomeの場合このOption、Noneの場合otherの生成するOption
      */
     @NotNull
-    public abstract Option<T> or(@NotNull NS<Option<? extends T>> other);
+    public final Option<T> or(@NotNull NS<Option<? extends T>> other) {
+        if(isEmpty()) {
+            return cast(other.get());
+        }
+        return this;
+    }
 
     /**
      * このOptionがSomeの場合このOptionを、Noneの場合otherをOptionでラップした結果を返します。
@@ -289,7 +304,13 @@ public abstract class Option<T> {
      * @return 値が存在する場合その値、そうでない場合otherの生成する値
      */
     @NotNull
-    public abstract T orElse(@NotNull NS<? extends T> other);
+    public final T orElse(@NotNull NS<? extends T> other) {
+        if(isEmpty()) {
+            return other.get();
+        }
+        //noinspection ConstantConditions
+        return t;
+    }
 
     /**
      * 値が存在する場合その値を、そうでない場合nullを返します。
@@ -297,7 +318,9 @@ public abstract class Option<T> {
      * @return 値が存在する場合その値、そうでない場合null
      */
     @Nullable
-    public abstract T orElseNull();
+    public final T orElseNull() {
+        return t;
+    }
 
     /**
      * 値が存在する場合その値を返し、そうでない場合例外をスローします。
@@ -306,7 +329,11 @@ public abstract class Option<T> {
      * @return 値が存在する場合その値
      */
     @NotNull
-    public abstract T orElseThrow();
+    public final T orElseThrow() {
+        if (isEmpty()) throw new NoSuchElementException();
+        //noinspection ConstantConditions
+        return t;
+    }
 
 
     /**
@@ -320,7 +347,11 @@ public abstract class Option<T> {
      * @throws X 値が存在しない場合
      */
     @NotNull
-    public abstract <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X;
+    public final <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X {
+        if(isEmpty()) throw exceptionSupplier.get();
+        //noinspection ConstantConditions
+        return t;
+    }
 
     /**
      * 値が存在する場合、その値にconsumerを適用します。
@@ -328,7 +359,8 @@ public abstract class Option<T> {
      * @param consumer 値が存在する場合にその値に適用するConsumer
      */
     public final void ifPresent(@NotNull NC1<? super T> consumer) {
-        flatMap(t -> {consumer.accept(t); return None.of();});
+        if (isPresent()) //noinspection ConstantConditions
+            consumer.accept(orElseNull());
     }
 
     /**
@@ -336,7 +368,9 @@ public abstract class Option<T> {
      *
      * @param action 値が存在しない場合に実行するaction
      */
-    public abstract void ifNotPresent(@NotNull A action);
+    public final void ifNotPresent(@NotNull A action) {
+        if(isEmpty()) action.run();
+    }
 
     /**
      * 値が存在する場合、その値にconsumerを適用します。
@@ -348,7 +382,8 @@ public abstract class Option<T> {
      */
     @NotNull
     public final Option<T> whenPresent(@NotNull NC1<? super T> consumer) {
-        return flatMap(t -> { consumer.accept(t); return this; });
+        ifPresent(consumer);
+        return this;
     }
 
     /**
@@ -385,7 +420,9 @@ public abstract class Option<T> {
      * @return このOptionに対応するStream
      */
     @NotNull
-    public abstract Stream<T> asStream();
+    public final Stream<T> asStream() {
+        return Stream.ofNullable(orElseNull());
+    }
 
     /**
      * このOptionをIterableに変換します。
@@ -407,10 +444,8 @@ public abstract class Option<T> {
      * @param <T> 値の型
      */
     public static class Some<T> extends Option<T> {
-        private final T value;
-
-        private Some(T value) {
-            this.value = value;
+        private Some(T t) {
+            super(t);
         }
 
         /**
@@ -442,64 +477,6 @@ public abstract class Option<T> {
         }
 
         /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean allMatch(@NotNull NP1<? super T> tester) {
-            return tester.test(get());
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean anyMatch(@NotNull NP1<? super T> tester) {
-            return allMatch(tester);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Option<T> or(@NotNull NS<Option<? extends T>> other) {
-            return this;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public T orElse(@NotNull NS<? extends T> other) {
-            return get();
-        }
-
-        @Override
-        @NotNull
-        public T orElseNull() {
-            return get();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public T orElseThrow() {
-            return get();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) {
-            return get();
-        }
-
-        /**
          * このSomeが保持する値を返します。
          *
          * <p>{@link Some#orElseThrow()}と違い例外をスローしません。
@@ -508,22 +485,8 @@ public abstract class Option<T> {
          */
         @NotNull
         public T get() {
-            return value;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void ifNotPresent(@NotNull A action) {}
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Stream<T> asStream() {
-            return Stream.of(get());
+            //noinspection ConstantConditions
+            return orElseNull();
         }
     }
 
@@ -537,7 +500,9 @@ public abstract class Option<T> {
     public static class None<T> extends Option<T> {
         private static final None<?> INSTANCE = new None<>();
 
-        private None() {}
+        private None() {
+            super(null);
+        }
 
         /**
          * シングルトンを返します。
@@ -563,81 +528,6 @@ public abstract class Option<T> {
         @SuppressWarnings("unchecked")
         public static <T> None<T> cast(None<?> none) {
             return (None<T>) none;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean allMatch(@NotNull NP1<? super T> tester) {
-            return true;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean anyMatch(@NotNull NP1<? super T> tester) {
-            return false;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Option<T> or(@NotNull NS<Option<? extends T>> other) {
-            return cast(other.get());
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public T orElse(@NotNull NS<? extends T> other) {
-            return other.get();
-        }
-
-        @Override
-        @Nullable
-        public T orElseNull() {
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public T orElseThrow() {
-            throw new NoSuchElementException();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public <X extends Throwable> T orElseThrow(@NotNull NS<? extends X> exceptionSupplier) throws X {
-            throw exceptionSupplier.get();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void ifNotPresent(@NotNull A action) {
-            action.run();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        @NotNull
-        public Stream<T> asStream() {
-            return Stream.of();
         }
     }
 }
