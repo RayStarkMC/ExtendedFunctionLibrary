@@ -149,4 +149,17 @@ public interface NS<T> {
     static <T> NS<T> of(@NotNull NS<T> s) {
         return s;
     }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param s キャスト対象
+     * @param <T> キャスト後のT型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T> NS<T> cast(@NotNull NS<? extends T> s) {
+        return (NS<T>) s;
+    }
 }

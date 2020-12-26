@@ -68,6 +68,11 @@ public interface A {
         return a;
     }
 
+    /**
+     * 何も行わないActionを返します。
+     *
+     * @return 何も行わないAction
+     */
     @NotNull
     static A doNothing() {
         return FunctionSupport.doNothing();

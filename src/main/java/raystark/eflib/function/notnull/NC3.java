@@ -252,4 +252,32 @@ public interface NC3<T1, T2, T3> {
     static <T1, T2, T3> NC3<T1, T2, T3> of(@NotNull NC3<T1, T2, T3> c3) {
         return c3;
     }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param c3 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <T2> キャスト後第二引数の型
+     * @param <T3> キャスト後第三引数の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, T2, T3> NC3<T1, T2, T3> cast(@NotNull NC3<? super T1, ? super T2, ? super T3> c3) {
+        return (NC3<T1, T2, T3>) c3;
+    }
+
+    /**
+     * 何も行わないConsumerを返します。
+     *
+     * @param <T1> 第一引数の型
+     * @param <T2> 第二引数の型
+     * @param <T3> 第三引数の型
+     * @return 何も行わないConsumer
+     */
+    @NotNull
+    static <T1, T2, T3> NC3<T1, T2, T3> doNothing() {
+        return NFunctionSupport.doNothingC3();
+    }
 }

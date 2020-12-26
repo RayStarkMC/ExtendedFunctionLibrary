@@ -1,8 +1,6 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
-import raystark.eflib.function.F1;
-import raystark.eflib.function.S;
 
 /**
  * 型T1, 型T2, 型T3, 型T4から型Rへの四変数関数です。
@@ -227,5 +225,22 @@ public interface NF4<T1, T2, T3, T4, R> extends NF3<T1, T2, T3, NF1<T4, R>> {
     @NotNull
     static <T1, T2, T3, T4, R> NF4<T1, T2, T3, T4, R> of(@NotNull NF4<T1, T2, T3, T4, R> f4) {
         return f4;
+    }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param f4 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <T2> キャスト後第二引数の型
+     * @param <T3> キャスト後第三引数の型
+     * @param <T4> キャスト後第四引数の型
+     * @param <R> キャスト後の戻り値の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, T2, T3, T4, R> NF4<T1, T2, T3, T4, R> cast(@NotNull NF4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> f4) {
+        return (NF4<T1, T2, T3, T4, R>) f4;
     }
 }

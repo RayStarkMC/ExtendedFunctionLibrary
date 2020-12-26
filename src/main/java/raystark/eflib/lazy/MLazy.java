@@ -22,13 +22,69 @@ import java.util.Optional;
 public final class MLazy<T> {
     private volatile T value;
     private volatile NS<? extends T> initializer;
+    private final Object lock;
 
     private MLazy(NS<? extends T> initializer) {
         this.initializer = initializer;
+        lock = new Object();
     }
 
     private NS<T> asNS() {
         return NS.of(this::get);
+    }
+
+    /**
+     * initializerによって生成された値を取得します。
+     *
+     * <p>このメソッドが複数回呼び出された場合、必ず最初の一回目に返した値を返します。
+     *　initializerへの参照はこのメソッドの初回実行後に破棄されます。
+     *
+     * <p>このメソッドはスレッドセーフです。
+     *
+     * @return 遅延初期化された値
+     */
+    @NotNull
+    public T get() {
+        //二重チェックイディオム
+        T result = value;
+        if(result == null) {
+            synchronized (lock) {
+                result = value;
+                if(result == null) {
+                    value = result = initializer.get();
+                    initializer = null; //初期化以降不要なinitializerをGC対象にするためのnull代入
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * このLazyの値をmapperに適用した結果で遅延初期化されるLazyを返します。
+     *
+     * <p>mapperは遅延評価されます。
+     *
+     * @param mapper 値に適用するマッピング関数
+     * @param <V> mapperが返す値の型
+     * @return このLazyの値をmapperに適用した結果で遅延初期化されるLazy
+     */
+    @NotNull
+    public <V> MLazy<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
+        return MLazy.of(() -> mapper.apply(get()));
+    }
+
+    /**
+     * このLazyの値をmapperに適用した結果で遅延初期化されるLazyを返します。
+     *
+     * <p>mapperは遅延評価されます。ネストしたLazyの値を遅延して取り出すLazyを返します。
+     *
+     * @param mapper 値に適用するマッピング関数
+     * @param <V> mapperが返す値の型
+     * @return このLazyの値をmapperに適用した結果で遅延初期化されるLazy
+     */
+    @NotNull
+    public <V> MLazy<V> flatMap(@NotNull NF1<? super T, MLazy<? extends V>> mapper) {
+        return MLazy.of(() -> mapper.apply(get()).get());
     }
 
     /**
@@ -50,69 +106,15 @@ public final class MLazy<T> {
     }
 
     /**
-     * initializerによって生成された値を取得します。
+     * 型変数の変性を表すキャストメソッド。
      *
-     * <p>このメソッドが複数回呼び出された場合、必ず最初の一回目に返した値を返します。
-     *　initializerへの参照はこのメソッドの初回実行後に破棄されます。
-     *
-     * <p>このメソッドはスレッドセーフです。
-     *
-     * @return 遅延初期化された値
+     * @param mLazy サブタイプのmLazy
+     * @param <T> キャスト後のmLazyの型
+     * @return 引数の参照
      */
+    @SuppressWarnings("unchecked")
     @NotNull
-    public T get() {
-        //二重チェックイディオム
-        T result = value;
-        if(result == null) {
-            synchronized (this) {
-                result = value;
-                if(result == null) {
-                    value = result = initializer.get();
-                    initializer = null; //初期化以降不要なinitializerをGC対象にするためのnull代入
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * このLazyをスレッドアンセーフなLazyに変換します。
-     *
-     * <p>既にMLazyとして作られたインスタンスがシングルスレッドのみで、かつ頻繁に参照される場合に
-     * パフォーマンスが改善される可能性があります。
-     *
-     * @return スレッドアンセーフなLazy
-     */
-    @NotNull
-    public SLazy<T> asSLazy() {
-        return SLazy.of(this::get);
-    }
-
-    /**
-     * このLazyの値をmapperに適用した結果で遅延初期化されるLazyを返します。
-     *
-     * <p>mapperは遅延評価されます。
-     *
-     * @param mapper 値に適用するマッピング関数
-     * @param <V> mapperが返す値の型
-     * @return このLazyの値をmapperに適用した結果で遅延初期化されるLazy
-     */
-    @NotNull
-    public <V> MLazy<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
-        return MLazy.of(this.asNS().then(mapper));
-    }
-
-    /**
-     * このLazyの値をmapperに適用した結果で遅延初期化されるLazyを返します。
-     *
-     * <p>mapperは遅延評価されます。ネストしたLazyの値を遅延して取り出すLazyを返します。
-     *
-     * @param mapper 値に適用するマッピング関数
-     * @param <V> mapperが返す値の型
-     * @return このLazyの値をmapperに適用した結果で遅延初期化されるLazy
-     */
-    @NotNull
-    public <V> MLazy<V> flatMap(@NotNull NF1<? super T, MLazy<? extends V>> mapper) {
-        return this.map(mapper.then1(MLazy::get));
+    public static <T> MLazy<T> cast(@NotNull MLazy<? extends T> mLazy) {
+        return (MLazy<T>) mLazy;
     }
 }

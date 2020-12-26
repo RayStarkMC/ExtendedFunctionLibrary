@@ -158,4 +158,18 @@ public interface NP2<T1, T2> extends NF2<T1, T2, Boolean> {
     static <T1, T2> NP2<T1, T2> of(@NotNull NP2<T1, T2> p2) {
         return p2;
     }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param p2 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <T2> キャスト後第二引数の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, T2> NP2<T1, T2> cast(@NotNull NP2<? super T1, ? super T2> p2) {
+        return (NP2<T1, T2>) p2;
+    }
 }
