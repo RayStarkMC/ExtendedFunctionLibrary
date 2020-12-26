@@ -310,6 +310,22 @@ public interface C4<T1, T2, T3, T4> {
     }
 
     /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param c4 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <T2> キャスト後第二引数の型
+     * @param <T3> キャスト後第三引数の型
+     * @param <T4> キャスト後第四引数の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, T2, T3, T4> C4<T1, T2, T3, T4> cast(@NotNull C4<? super T1, ? super T2, ? super T3, ? super T4> c4) {
+        return (C4<T1, T2, T3, T4>) c4;
+    }
+
+    /**
      * 何も行わないConsumerを返します。
      *
      * @param <T1> 第一引数の型

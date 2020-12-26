@@ -118,4 +118,17 @@ public interface P1<T1> extends F1<T1, Boolean> {
     static <T1> P1<T1> of(@NotNull P1<T1> p1) {
         return p1;
     }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param p1 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1> P1<T1> cast(@NotNull P1<? super T1> p1) {
+        return (P1<T1>) p1;
+    }
 }

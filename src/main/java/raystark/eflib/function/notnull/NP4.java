@@ -1,10 +1,6 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
-import raystark.eflib.function.P1;
-import raystark.eflib.function.P2;
-import raystark.eflib.function.P3;
-import raystark.eflib.function.S;
 
 /**
  * 型T1, 型T2, 型T3, 型T4の述語です。またBoolean型を返す関数です。
@@ -233,5 +229,21 @@ public interface NP4<T1, T2, T3, T4> extends NF4<T1, T2, T3, T4, Boolean> {
     @NotNull
     static <T1, T2, T3, T4> NP4<T1, T2, T3, T4> of(@NotNull NP4<T1, T2, T3, T4> p4) {
         return p4;
+    }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param p4 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <T2> キャスト後第二引数の型
+     * @param <T3> キャスト後第三引数の型
+     * @param <T4> キャスト後第四引数の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, T2, T3, T4> NP4<T1, T2, T3, T4> cast(@NotNull NP4<? super T1, ? super T2, ? super T3, ? super T4> p4) {
+        return (NP4<T1, T2, T3, T4>) p4;
     }
 }

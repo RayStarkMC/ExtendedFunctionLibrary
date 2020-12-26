@@ -33,24 +33,6 @@ public final class SLazy<T> {
     }
 
     /**
-     * 値を算出するSupplierを指定してLazyを生成します。
-     *
-     * <p>initializerにnullを返すSupplierを指定する事は禁止されています。
-     * そのような場合は{@link Optional}を返すサプライヤを利用するか、空コンテナに対応するオブジェクトの使用を検討してください。
-     *
-     * <p>渡されたinitializerの評価はLazy生成後に初めて{@link SLazy#get()}が呼ばれるまで遅延されます。
-     * 値の初期化後はinitializerへの参照は破棄されます。
-     *
-     * @param initializer 値を算出するSupplier
-     * @param <T> 生成する値の型
-     * @return initializerにより遅延初期化される値を表すSLazyのインスタンス
-     */
-    @NotNull
-    public static <T> SLazy<T> of(@NotNull NS<? extends T> initializer) {
-        return new SLazy<>(initializer);
-    }
-
-    /**
      * initializerによって生成された値を取得します。
      *
      * <p>このメソッドが複数回呼び出された場合、必ず最初の一回目に返した値を返します。
@@ -83,7 +65,7 @@ public final class SLazy<T> {
      */
     @NotNull
     public <V> SLazy<V> map(@NotNull NF1<? super T, ? extends V> mapper) {
-        return SLazy.of(this.asNS().then(mapper));
+        return SLazy.of(() -> mapper.apply(get()));
     }
 
     /**
@@ -97,6 +79,37 @@ public final class SLazy<T> {
      */
     @NotNull
     public <V> SLazy<V> flatMap(@NotNull NF1<? super T, SLazy<? extends V>> mapper) {
-        return this.map(mapper.then1(SLazy::get));
+        return SLazy.of(() -> mapper.apply(get()).get());
+    }
+
+    /**
+     * 値を算出するSupplierを指定してLazyを生成します。
+     *
+     * <p>initializerにnullを返すSupplierを指定する事は禁止されています。
+     * そのような場合は{@link Optional}を返すサプライヤを利用するか、空コンテナに対応するオブジェクトの使用を検討してください。
+     *
+     * <p>渡されたinitializerの評価はLazy生成後に初めて{@link SLazy#get()}が呼ばれるまで遅延されます。
+     * 値の初期化後はinitializerへの参照は破棄されます。
+     *
+     * @param initializer 値を算出するSupplier
+     * @param <T> 生成する値の型
+     * @return initializerにより遅延初期化される値を表すSLazyのインスタンス
+     */
+    @NotNull
+    public static <T> SLazy<T> of(@NotNull NS<? extends T> initializer) {
+        return new SLazy<>(initializer);
+    }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param sLazy サブタイプのsLazy
+     * @param <T> キャスト後のsLazyの型
+     * @return 引数の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <T> SLazy<T> cast(@NotNull SLazy<? extends T> sLazy) {
+        return (SLazy<T>) sLazy;
     }
 }

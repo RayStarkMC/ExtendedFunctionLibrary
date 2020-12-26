@@ -102,4 +102,17 @@ public interface S<T> {
     static <T> S<T> of(@NotNull S<T> s) {
         return s;
     }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param s キャスト対象
+     * @param <T> キャスト後のT型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T> S<T> cast(@NotNull S<? extends T> s) {
+        return (S<T>) s;
+    }
 }

@@ -138,6 +138,20 @@ public interface F1<T1, R> {
     }
 
     /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param f1 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @param <R> キャスト後の戻り値の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1, R> F1<T1, R> cast(@NotNull F1<? super T1, ? extends R> f1) {
+        return (F1<T1, R>) f1;
+    }
+
+    /**
      * 恒等関数を返します。
      *
      * @param <T1> 恒等関数の型

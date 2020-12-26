@@ -1,8 +1,6 @@
 package raystark.eflib.function.notnull;
 
 import org.jetbrains.annotations.NotNull;
-import raystark.eflib.lazy.MLazy;
-import raystark.eflib.lazy.SLazy;
 import raystark.eflib.option.Option;
 
 import java.util.function.Predicate;
@@ -164,5 +162,18 @@ public interface NP1<T1> extends NF1<T1, Boolean> {
     @NotNull
     static <T1> NP1<T1> of(@NotNull NP1<T1> p1) {
         return p1;
+    }
+
+    /**
+     * 型変数の変性を表すキャストメソッド。
+     *
+     * @param p1 キャスト対象
+     * @param <T1> キャスト後第一引数の型
+     * @return キャスト対象の参照
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    static <T1> NP1<T1> cast(@NotNull NP1<? super T1> p1) {
+        return (NP1<T1>) p1;
     }
 }
