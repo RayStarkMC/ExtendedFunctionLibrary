@@ -29,6 +29,7 @@ Extended Function Libraryは関数型プログラミングをサポートする�
 
 ```groovy
 repositories {
+    mavenCentral()
     maven {
         url = 'https://maven.pkg.github.com/raystarkmc/ExtendedFunctionLibrary'
         credentials {
@@ -39,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'raystark:extended_function_library:1.4.5'
+    implementation 'raystark:extended_function_library:1.4.6'
 }
 ```
 
