@@ -71,8 +71,7 @@ public abstract class Option<T> {
      */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @NotNull
-    public static <T> Option<T> fromOptional(@NotNull Optional<? extends T> optional) {
-        return optional.<Option<T>>map(Some::of).orElseGet(None::of);
+    public static <T> Option<T> fromOptional(@NotNull Optional<? extends T> optional) { return ofNullable(optional.orElse(null));
     }
 
     /**
@@ -252,10 +251,7 @@ public abstract class Option<T> {
      */
     @NotNull
     public final Option<T> or(@NotNull NS<Option<? extends T>> other) {
-        if(isEmpty()) {
-            return cast(other.get());
-        }
-        return this;
+        return isEmpty() ? cast(other.get()) : this;
     }
 
     /**
@@ -268,7 +264,7 @@ public abstract class Option<T> {
      */
     @NotNull
     public final Option<T> orNullable(@Nullable T other) {
-        return or(Option.ofNullable(other));
+        return or(() -> ofNullable(other));
     }
 
     /**
@@ -281,7 +277,7 @@ public abstract class Option<T> {
      */
     @NotNull
     public final Option<T> orNullable(@NotNull S<? extends T> other) {
-        return or(() -> Option.ofNullable(other.get()));
+        return or(() -> ofNullable(other.get()));
     }
 
     /**
@@ -305,11 +301,8 @@ public abstract class Option<T> {
      */
     @NotNull
     public final T orElse(@NotNull NS<? extends T> other) {
-        if(isEmpty()) {
-            return other.get();
-        }
         //noinspection ConstantConditions
-        return t;
+        return isEmpty() ? other.get() : orElseNull();
     }
 
     /**
